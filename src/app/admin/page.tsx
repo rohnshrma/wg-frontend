@@ -1,16 +1,21 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Users, UserPlus, CreditCard, BookOpen, TrendingUp, ArrowUpRight, BarChart3, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { formatCurrency } from "@/lib/utils";
 
-const stats = [
-  { label: "Total Students", value: "0", icon: Users, change: "+0%", color: "from-primary to-primary-dark", href: "/admin/students" },
-  { label: "Active Leads", value: "0", icon: UserPlus, change: "+0%", color: "from-accent to-accent-warm", href: "/admin/leads" },
-  { label: "Revenue", value: formatCurrency(0), icon: CreditCard, change: "+0%", color: "from-success to-emerald-600", href: "/admin/payments" },
-  { label: "Courses", value: "0", icon: BookOpen, change: "Active", color: "from-secondary to-secondary-dark", href: "/admin/courses" },
-];
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
+
+type Overview = {
+  totalStudents: number;
+  totalLeads: number;
+  pendingAdmissions: number;
+  totalCourses: number;
+  totalRevenue: number;
+  pendingFees: number;
+};
 
 const recentActions = [
   { text: "System initialized — add your first course", time: "Just now", type: "info" },
@@ -19,6 +24,32 @@ const recentActions = [
 ];
 
 export default function AdminDashboard() {
+  const [overview, setOverview] = useState<Overview | null>(null);
+
+  useEffect(() => {
+    const fetchOverview = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(`${API_URL}/analytics/overview`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+        if (res.ok) setOverview(data.data);
+      } catch {
+        // Stats stay at their loading placeholders if this fails.
+      }
+    };
+
+    fetchOverview();
+  }, []);
+
+  const stats = [
+    { label: "Total Students", value: overview ? String(overview.totalStudents) : "—", icon: Users, change: overview ? `${overview.pendingAdmissions} pending` : "", color: "from-primary to-primary-dark", href: "/admin/students" },
+    { label: "Active Leads", value: overview ? String(overview.totalLeads) : "—", icon: UserPlus, change: "", color: "from-accent to-accent-warm", href: "/admin/leads" },
+    { label: "Revenue", value: formatCurrency(overview?.totalRevenue || 0), icon: CreditCard, change: overview ? `${formatCurrency(overview.pendingFees)} pending` : "", color: "from-success to-emerald-600", href: "/admin/payments" },
+    { label: "Courses", value: overview ? String(overview.totalCourses) : "—", icon: BookOpen, change: "Active", color: "from-secondary to-secondary-dark", href: "/admin/courses" },
+  ];
+
   return (
     <div className="space-y-6">
       {/* Welcome */}
@@ -45,9 +76,11 @@ export default function AdminDashboard() {
                 <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${stat.color} flex items-center justify-center`}>
                   <stat.icon className="w-5 h-5 text-white" />
                 </div>
-                <span className="flex items-center gap-1 text-xs font-medium text-success">
-                  <TrendingUp className="w-3 h-3" /> {stat.change}
-                </span>
+                {stat.change && (
+                  <span className="flex items-center gap-1 text-xs font-medium text-success">
+                    <TrendingUp className="w-3 h-3" /> {stat.change}
+                  </span>
+                )}
               </div>
               <p className="text-2xl font-extrabold text-text-primary">{stat.value}</p>
               <p className="text-xs text-text-muted mt-1">{stat.label}</p>
