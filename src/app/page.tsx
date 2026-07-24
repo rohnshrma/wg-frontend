@@ -9,8 +9,11 @@ import TestimonialsCarousel from "@/components/home/TestimonialsCarousel";
 import PlacementSection from "@/components/home/PlacementSection";
 import InquiryPopup from "@/components/popups/InquiryPopup";
 import ExitIntentPopup from "@/components/popups/ExitIntentPopup";
+import { getCourses } from "@/lib/courses";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const featuredCourses = await getCourses({ featured: true });
+
   return (
     <>
       <Navbar />
@@ -18,7 +21,7 @@ export default function HomePage() {
         <HeroSection />
         <WhyChooseUs />
         <StatsCounter />
-        <FeaturedCourses />
+        <FeaturedCourses courses={featuredCourses} />
         <TestimonialsCarousel />
         <PlacementSection />
       </main>

@@ -1,17 +1,22 @@
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
-import FloatingButtons from "@/components/layout/FloatingButtons";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import CourseDetailContent from "./CourseDetailContent";
+import { getCourseBySlug } from "@/lib/courses";
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
   const { slug } = await params;
-  const title = slug
-    .split("-")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
+  const course = await getCourseBySlug(slug);
+  if (!course) return { title: "Course Not Found" };
+
   return {
-    title: `${title} Course`,
-    description: `Learn ${title} with 100% practical, AI-integrated training at WebiGeeks. Industry projects, placement assistance, and flexible timings.`,
+    title: course.metaTitle || `${course.title} Course`,
+    description:
+      course.metaDescription ||
+      `Learn ${course.title} with 100% practical, AI-integrated training at WebiGeeks. Industry projects, placement assistance, and flexible timings.`,
   };
 }
 
@@ -21,14 +26,11 @@ export default async function CourseDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  return (
-    <>
-      <Navbar />
-      <main>
-        <CourseDetailContent slug={slug} />
-      </main>
-      <Footer />
-      <FloatingButtons />
-    </>
-  );
+  const course = await getCourseBySlug(slug);
+
+  if (!course) {
+    notFound();
+  }
+
+  return <CourseDetailContent course={course} />;
 }

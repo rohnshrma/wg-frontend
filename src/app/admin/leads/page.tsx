@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, Search, UserPlus } from "lucide-react";
+import api from "@/lib/api";
 
 type Lead = {
   _id: string;
@@ -15,8 +16,6 @@ type Lead = {
   message?: string;
   createdAt?: string;
 };
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
 
 const sourceLabels: Record<string, string> = {
   hero_form: "Hero Form",
@@ -54,15 +53,10 @@ export default function AdminLeadsPage() {
       setIsLoading(true);
       setError("");
       try {
-        const token = localStorage.getItem("token");
-        const res = await fetch(`${API_URL}/leads?limit=100`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || "Could not load enquiries");
-        setLeads(data.data || []);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Could not load enquiries");
+        const res = await api.get("/leads?limit=100");
+        setLeads(res.data.data || []);
+      } catch (err: any) {
+        setError(err.response?.data?.message || "Could not load enquiries");
       } finally {
         setIsLoading(false);
       }

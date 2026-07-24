@@ -3,57 +3,43 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { GraduationCap, Mail, Lock, Eye, EyeOff, ArrowRight, AlertCircle, CheckCircle2 } from "lucide-react";
+import { GraduationCap, Mail, Lock, ArrowRight, CheckCircle2 } from "lucide-react";
+import api from "@/lib/api";
+import FormInput from "@/components/ui/FormInput";
+import FormError from "@/components/ui/FormError";
+import { registerSchema, type RegisterFormValues } from "@/lib/validations/auth";
 
 export default function RegisterContent() {
   const router = useRouter();
-  const [formData, setFormData] = useState({ email: "", password: "", confirmPassword: "" });
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [serverError, setServerError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterFormValues>({ resolver: zodResolver(registerSchema) });
 
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-    if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters");
-      return;
-    }
+  const password = watch("password") || "";
+  const confirmPassword = watch("confirmPassword") || "";
 
-    setIsLoading(true);
+  const onSubmit = async (values: RegisterFormValues) => {
+    setServerError("");
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api"}/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: formData.email, password: formData.password }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.message || "Registration failed");
-        return;
-      }
-
-      localStorage.setItem("token", data.data.token);
-      localStorage.setItem("user", JSON.stringify(data.data.user));
+      await api.post("/auth/register", { email: values.email, password: values.password });
       router.push("/dashboard");
-    } catch {
-      setError("Network error. Please try again.");
-    } finally {
-      setIsLoading(false);
+    } catch (err: any) {
+      setServerError(err.response?.data?.message || "Registration failed. Please try again.");
     }
   };
 
   const passwordChecks = [
-    { label: "At least 6 characters", met: formData.password.length >= 6 },
-    { label: "Contains a number", met: /\d/.test(formData.password) },
-    { label: "Passwords match", met: formData.password === formData.confirmPassword && formData.confirmPassword.length > 0 },
+    { label: "At least 6 characters", met: password.length >= 6 },
+    { label: "Contains a number", met: /\d/.test(password) },
+    { label: "Passwords match", met: password === confirmPassword && confirmPassword.length > 0 },
   ];
 
   return (
@@ -94,42 +80,38 @@ export default function RegisterContent() {
           <h1 className="text-2xl font-extrabold text-text-primary mb-1">Create Account</h1>
           <p className="text-text-secondary text-sm mb-8">Fill in your details to get started.</p>
 
-          {error && (
-            <div className="mb-6 flex items-center gap-2 px-4 py-3 rounded-lg bg-destructive-light text-destructive text-sm">
-              <AlertCircle className="w-4 h-4 shrink-0" />{error}
-            </div>
-          )}
+          <FormError message={serverError} />
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-text-primary mb-1.5">Email</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-text-muted" />
-                <input type="email" placeholder="your@email.com" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full pl-10 pr-4 py-3 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" />
-              </div>
-            </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+            <FormInput
+              label="Email"
+              icon={Mail}
+              type="email"
+              placeholder="your@email.com"
+              error={errors.email?.message}
+              {...register("email")}
+            />
 
-            <div>
-              <label className="block text-sm font-medium text-text-primary mb-1.5">Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-text-muted" />
-                <input type={showPassword ? "text" : "password"} placeholder="Create a password" required value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} className="w-full pl-10 pr-12 py-3 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" />
-                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted">
-                  {showPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
-                </button>
-              </div>
-            </div>
+            <FormInput
+              label="Password"
+              icon={Lock}
+              type="password"
+              placeholder="Create a password"
+              error={errors.password?.message}
+              {...register("password")}
+            />
 
-            <div>
-              <label className="block text-sm font-medium text-text-primary mb-1.5">Confirm Password</label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-text-muted" />
-                <input type="password" placeholder="Confirm your password" required value={formData.confirmPassword} onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })} className="w-full pl-10 pr-4 py-3 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" />
-              </div>
-            </div>
+            <FormInput
+              label="Confirm Password"
+              icon={Lock}
+              type="password"
+              placeholder="Confirm your password"
+              error={errors.confirmPassword?.message}
+              {...register("confirmPassword")}
+            />
 
             {/* Password checks */}
-            {formData.password.length > 0 && (
+            {password.length > 0 && (
               <div className="space-y-1.5">
                 {passwordChecks.map((check) => (
                   <div key={check.label} className={`flex items-center gap-2 text-xs ${check.met ? "text-success" : "text-text-muted"}`}>
@@ -140,8 +122,8 @@ export default function RegisterContent() {
               </div>
             )}
 
-            <button type="submit" disabled={isLoading} className="w-full py-3.5 rounded-xl gradient-primary text-white font-bold shadow-md hover:shadow-glow transition-all disabled:opacity-50 flex items-center justify-center gap-2">
-              {isLoading ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><ArrowRight className="w-4 h-4" />Create Account</>}
+            <button type="submit" disabled={isSubmitting} className="w-full py-3.5 rounded-xl gradient-primary text-white font-bold shadow-md hover:shadow-glow transition-all disabled:opacity-50 flex items-center justify-center gap-2">
+              {isSubmitting ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><ArrowRight className="w-4 h-4" />Create Account</>}
             </button>
           </form>
 

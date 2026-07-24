@@ -1,7 +1,4 @@
 import type { Metadata } from "next";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
-import FloatingButtons from "@/components/layout/FloatingButtons";
 import AboutContent from "./AboutContent";
 
 export const metadata: Metadata = {
@@ -11,14 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  return (
-    <>
-      <Navbar />
-      <main>
-        <AboutContent />
-      </main>
-      <Footer />
-      <FloatingButtons />
-    </>
-  );
+  return <AboutContent />;
 }

@@ -2,29 +2,34 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { GraduationCap, Mail, ArrowRight, ArrowLeft, CheckCircle2 } from "lucide-react";
+import api from "@/lib/api";
+import FormInput from "@/components/ui/FormInput";
+import FormError from "@/components/ui/FormError";
+import { forgotPasswordSchema, type ForgotPasswordFormValues } from "@/lib/validations/auth";
 
 export default function ForgotPasswordContent() {
-  const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [isSent, setIsSent] = useState(false);
+  const [serverError, setServerError] = useState("");
+  const [submittedEmail, setSubmittedEmail] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<ForgotPasswordFormValues>({ resolver: zodResolver(forgotPasswordSchema) });
+
+  const onSubmit = async (values: ForgotPasswordFormValues) => {
+    setServerError("");
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api"}/auth/forgot-password`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
+      await api.post("/auth/forgot-password", values);
+      setSubmittedEmail(values.email);
       setIsSent(true);
-    } catch {
-      // Show success regardless for security
-      setIsSent(true);
-    } finally {
-      setIsLoading(false);
+    } catch (err: any) {
+      setServerError(err.response?.data?.message || "Something went wrong. Please try again.");
     }
   };
 
@@ -45,7 +50,7 @@ export default function ForgotPasswordContent() {
             </div>
             <h1 className="text-2xl font-extrabold text-text-primary mb-2">Check Your Email</h1>
             <p className="text-text-secondary text-sm mb-6">
-              If an account with <strong>{email}</strong> exists, we&apos;ve sent a password reset link.
+              If an account with <strong>{submittedEmail}</strong> exists, we&apos;ve sent a password reset link.
             </p>
             <Link href="/login" className="inline-flex items-center gap-2 text-primary font-semibold text-sm hover:underline">
               <ArrowLeft className="w-4 h-4" /> Back to Login
@@ -58,17 +63,20 @@ export default function ForgotPasswordContent() {
               No worries! Enter your email and we&apos;ll send you a reset link.
             </p>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-text-primary mb-1.5">Email Address</label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-text-muted" />
-                  <input type="email" placeholder="your@email.com" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full pl-10 pr-4 py-3 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" />
-                </div>
-              </div>
+            <FormError message={serverError} />
 
-              <button type="submit" disabled={isLoading} className="w-full py-3.5 rounded-xl gradient-primary text-white font-bold shadow-md hover:shadow-glow transition-all disabled:opacity-50 flex items-center justify-center gap-2">
-                {isLoading ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>Send Reset Link <ArrowRight className="w-4 h-4" /></>}
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+              <FormInput
+                label="Email Address"
+                icon={Mail}
+                type="email"
+                placeholder="your@email.com"
+                error={errors.email?.message}
+                {...register("email")}
+              />
+
+              <button type="submit" disabled={isSubmitting} className="w-full py-3.5 rounded-xl gradient-primary text-white font-bold shadow-md hover:shadow-glow transition-all disabled:opacity-50 flex items-center justify-center gap-2">
+                {isSubmitting ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <>Send Reset Link <ArrowRight className="w-4 h-4" /></>}
               </button>
             </form>
 

@@ -14,20 +14,26 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { formatCurrency } from "@/lib/utils";
-import { allCourses } from "@/data/courses";
+import { courseGradient } from "@/lib/courseColors";
+import type { Course } from "@/types/course";
 
-const levels = ["All", "Beginner", "Intermediate", "Advanced"];
+const levels = ["All", "beginner", "intermediate", "advanced"] as const;
+const levelLabels: Record<(typeof levels)[number], string> = {
+  All: "All",
+  beginner: "Beginner",
+  intermediate: "Intermediate",
+  advanced: "Advanced",
+};
 
-export default function CoursesContent() {
+export default function CoursesContent({ courses }: { courses: Course[] }) {
   const [search, setSearch] = useState("");
-  const [selectedLevel, setSelectedLevel] = useState("All");
+  const [selectedLevel, setSelectedLevel] = useState<(typeof levels)[number]>("All");
 
-  const filtered = allCourses.filter((c) => {
+  const filtered = courses.filter((c) => {
     const matchesSearch =
       c.title.toLowerCase().includes(search.toLowerCase()) ||
-      c.tags.some((t) => t.toLowerCase().includes(search.toLowerCase()));
-    const matchesLevel =
-      selectedLevel === "All" || c.level === selectedLevel;
+      c.technologies.some((t) => t.toLowerCase().includes(search.toLowerCase()));
+    const matchesLevel = selectedLevel === "All" || c.level === selectedLevel;
     return matchesSearch && matchesLevel;
   });
 
@@ -40,7 +46,7 @@ export default function CoursesContent() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-medium mb-6">
               <Sparkles className="w-4 h-4 text-accent" />
-              {allCourses.length}+ Industry-Ready Courses
+              {courses.length}+ Industry-Ready Courses
             </span>
             <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
               Explore Our{" "}
@@ -84,7 +90,7 @@ export default function CoursesContent() {
                       : "bg-gray-100 text-text-secondary hover:bg-gray-200"
                   }`}
                 >
-                  {level}
+                  {levelLabels[level]}
                 </button>
               ))}
             </div>
@@ -113,12 +119,12 @@ export default function CoursesContent() {
                   className="group bg-white rounded-xl border border-border overflow-hidden card-hover"
                 >
                   {/* Top bar */}
-                  <div className={`h-1.5 bg-gradient-to-r ${course.color}`} />
+                  <div className={`h-1.5 bg-gradient-to-r ${courseGradient(course.slug)}`} />
 
                   <div className="p-6">
                     {/* Tags */}
                     <div className="flex flex-wrap gap-1.5 mb-3">
-                      {course.tags.slice(0, 3).map((tag) => (
+                      {course.technologies.slice(0, 3).map((tag) => (
                         <span
                           key={tag}
                           className="px-2 py-0.5 rounded-md bg-primary-50 text-primary text-xs font-semibold"
@@ -126,9 +132,9 @@ export default function CoursesContent() {
                           {tag}
                         </span>
                       ))}
-                      {course.tags.length > 3 && (
+                      {course.technologies.length > 3 && (
                         <span className="px-2 py-0.5 rounded-md bg-gray-100 text-text-muted text-xs">
-                          +{course.tags.length - 3}
+                          +{course.technologies.length - 3}
                         </span>
                       )}
                     </div>
@@ -156,20 +162,8 @@ export default function CoursesContent() {
 
                     {/* Description */}
                     <p className="text-sm text-text-secondary leading-relaxed mb-4">
-                      {course.description}
+                      {course.shortDescription}
                     </p>
-
-                    {/* Highlights */}
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {course.highlights.map((h) => (
-                        <span
-                          key={h}
-                          className="text-xs font-medium text-success bg-success-light px-2 py-1 rounded-md"
-                        >
-                          ✓ {h}
-                        </span>
-                      ))}
-                    </div>
 
                     {/* Price + CTA */}
                     <div className="flex items-center justify-between pt-4 border-t border-border">

@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
   LayoutDashboard, Users, UserPlus, BookOpen, CreditCard, MessageSquare,
   Image, PenSquare, Bell, Settings, LogOut, Menu, X, GraduationCap, ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
 
 const iconMap: Record<string, any> = {
   LayoutDashboard, Users, UserPlus, BookOpen, CreditCard, MessageSquare, Image, PenSquare, Bell, Settings,
@@ -27,27 +28,11 @@ const sidebarLinks = [
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const { user, isLoading, logout } = useAuth({ requireAuth: true, requireRole: "admin" });
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const userData = localStorage.getItem("user");
-    if (!token || !userData) { router.push("/login"); return; }
-    const parsed = JSON.parse(userData);
-    if (parsed.role !== "admin") { router.push("/dashboard"); return; }
-    setUser(parsed);
-  }, [router]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    router.push("/login");
-  };
-
-  if (!user) return null;
+  if (isLoading || !user) return null;
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -96,7 +81,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <p className="text-xs text-white/40">Admin</p>
             </div>
           </div>
-          <button onClick={handleLogout} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-400 hover:bg-red-500/10 transition-colors">
+          <button onClick={logout} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-400 hover:bg-red-500/10 transition-colors">
             <LogOut className="w-5 h-5" /> Logout
           </button>
         </div>

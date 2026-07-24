@@ -2,50 +2,40 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { GraduationCap, Mail, Lock, Eye, EyeOff, ArrowRight, AlertCircle } from "lucide-react";
+import { GraduationCap, Mail, Lock, ArrowRight } from "lucide-react";
+import api from "@/lib/api";
+import FormInput from "@/components/ui/FormInput";
+import FormError from "@/components/ui/FormError";
+import { loginSchema, type LoginFormValues } from "@/lib/validations/auth";
 
 export default function LoginContent() {
   const router = useRouter();
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const searchParams = useSearchParams();
+  const [serverError, setServerError] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormValues>({ resolver: zodResolver(loginSchema) });
 
+  const onSubmit = async (values: LoginFormValues) => {
+    setServerError("");
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api"}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.message || "Login failed");
-        return;
-      }
-
-      // Store token and user
-      localStorage.setItem("token", data.data.token);
-      localStorage.setItem("user", JSON.stringify(data.data.user));
-
-      // Redirect based on role
-      if (data.data.user.role === "admin") {
-        router.push("/admin");
+      const res = await api.post("/auth/login", values);
+      const role = res.data.data.user.role;
+      const redirect = searchParams.get("redirect");
+      if (redirect && (role === "admin" ? redirect.startsWith("/admin") : redirect.startsWith("/dashboard"))) {
+        router.push(redirect);
       } else {
-        router.push("/dashboard");
+        router.push(role === "admin" ? "/admin" : "/dashboard");
       }
-    } catch {
-      setError("Network error. Please try again.");
-    } finally {
-      setIsLoading(false);
+    } catch (err: any) {
+      setServerError(err.response?.data?.message || "Login failed. Please try again.");
     }
   };
 
@@ -90,28 +80,17 @@ export default function LoginContent() {
             Enter your credentials to access your account.
           </p>
 
-          {error && (
-            <div className="mb-6 flex items-center gap-2 px-4 py-3 rounded-lg bg-destructive-light text-destructive text-sm">
-              <AlertCircle className="w-4 h-4 shrink-0" />
-              {error}
-            </div>
-          )}
+          <FormError message={serverError} />
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-text-primary mb-1.5">Email</label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-text-muted" />
-                <input
-                  type="email"
-                  placeholder="your@email.com"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                />
-              </div>
-            </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
+            <FormInput
+              label="Email"
+              icon={Mail}
+              type="email"
+              placeholder="your@email.com"
+              error={errors.email?.message}
+              {...register("email")}
+            />
 
             <div>
               <div className="flex items-center justify-between mb-1.5">
@@ -120,32 +99,21 @@ export default function LoginContent() {
                   Forgot password?
                 </Link>
               </div>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-text-muted" />
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter password"
-                  required
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full pl-10 pr-12 py-3 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text-secondary"
-                >
-                  {showPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
-                </button>
-              </div>
+              <FormInput
+                type="password"
+                placeholder="Enter password"
+                icon={Lock}
+                error={errors.password?.message}
+                {...register("password")}
+              />
             </div>
 
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isSubmitting}
               className="w-full py-3.5 rounded-xl gradient-primary text-white font-bold shadow-md hover:shadow-glow transition-all disabled:opacity-50 flex items-center justify-center gap-2"
             >
-              {isLoading ? (
+              {isSubmitting ? (
                 <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               ) : (
                 <>

@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { AlertCircle, CheckCircle2, GraduationCap, MapPin, Save, User } from "lucide-react";
+import { AlertCircle, CheckCircle2, FileCheck, GraduationCap, MapPin, Save, User } from "lucide-react";
+import api from "@/lib/api";
+import { useAuth } from "@/hooks/useAuth";
+import DocumentUploadField from "@/components/forms/DocumentUploadField";
 
 type Course = {
   _id: string;
@@ -27,9 +30,9 @@ type FormData = {
   parentPhone: string;
   courseId: string;
   paymentMode: "emi" | "full";
+  photoUrl: string;
+  aadhaarUrl: string;
 };
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
 
 const initialForm: FormData = {
   fullName: "",
@@ -47,9 +50,12 @@ const initialForm: FormData = {
   parentPhone: "",
   courseId: "",
   paymentMode: "emi",
+  photoUrl: "",
+  aadhaarUrl: "",
 };
 
 export default function ProfilePage() {
+  const { user } = useAuth();
   const [isSaving, setIsSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState("");
@@ -58,28 +64,28 @@ export default function ProfilePage() {
   const [formData, setFormData] = useState<FormData>(initialForm);
 
   useEffect(() => {
+    if (user?.email) {
+      setFormData((current) => ({ ...current, email: current.email || user.email }));
+    }
+  }, [user]);
+
+  useEffect(() => {
     const loadProfile = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const user = JSON.parse(localStorage.getItem("user") || "{}");
-        setFormData((current) => ({ ...current, email: user.email || "" }));
-
         const [coursesRes, dashboardRes] = await Promise.all([
-          fetch(`${API_URL}/courses`),
-          fetch(`${API_URL}/students/me/dashboard`, { headers: { Authorization: `Bearer ${token}` } }),
+          api.get("/courses"),
+          api.get("/students/me/dashboard"),
         ]);
 
-        const coursesData = await coursesRes.json();
-        if (coursesRes.ok) setCourses(coursesData.data || []);
+        setCourses(coursesRes.data.data || []);
 
-        const dashboardData = await dashboardRes.json();
-        const student = dashboardData.data?.student;
-        if (dashboardRes.ok && student) {
+        const student = dashboardRes.data.data?.student;
+        if (student) {
           setIsLocked(Boolean(student.isProfileLocked));
           setFormData({
             fullName: student.fullName || "",
             phone: student.studentContactNumber || "",
-            email: student.email || user.email || "",
+            email: student.email || user?.email || "",
             dateOfBirth: student.dateOfBirth ? student.dateOfBirth.slice(0, 10) : "",
             gender: student.gender || "",
             address: student.address?.street || "",
@@ -92,6 +98,8 @@ export default function ProfilePage() {
             parentPhone: student.parentContactNumber || "",
             courseId: student.courseId?._id || student.courseId || "",
             paymentMode: student.paymentMode || "emi",
+            photoUrl: student.photoUrl || "",
+            aadhaarUrl: student.aadhaarUrl || "",
           });
         }
       } catch {
@@ -100,6 +108,7 @@ export default function ProfilePage() {
     };
 
     loadProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -110,39 +119,34 @@ export default function ProfilePage() {
 
     try {
       const selectedCourse = courses.find((course) => course._id === formData.courseId);
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${API_URL}/students/profile`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          fullName: formData.fullName,
-          studentContactNumber: formData.phone,
-          email: formData.email,
-          dateOfBirth: formData.dateOfBirth,
-          gender: formData.gender,
-          address: {
-            street: formData.address,
-            city: formData.city,
-            state: formData.state,
-            pincode: formData.pincode,
-          },
-          qualification: formData.qualification,
-          fatherName: formData.fatherName,
-          motherName: formData.motherName,
-          parentContactNumber: formData.parentPhone,
-          courseId: formData.courseId,
-          courseFees: selectedCourse?.fees || 0,
-          joiningDate: new Date().toISOString(),
-          paymentMode: formData.paymentMode,
-        }),
+      const res = await api.put("/students/profile", {
+        fullName: formData.fullName,
+        studentContactNumber: formData.phone,
+        email: formData.email,
+        dateOfBirth: formData.dateOfBirth,
+        gender: formData.gender,
+        address: {
+          street: formData.address,
+          city: formData.city,
+          state: formData.state,
+          pincode: formData.pincode,
+        },
+        qualification: formData.qualification,
+        fatherName: formData.fatherName,
+        motherName: formData.motherName,
+        parentContactNumber: formData.parentPhone,
+        courseId: formData.courseId,
+        courseFees: selectedCourse?.fees || 0,
+        joiningDate: new Date().toISOString(),
+        paymentMode: formData.paymentMode,
+        photoUrl: formData.photoUrl,
+        aadhaarUrl: formData.aadhaarUrl,
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Could not save profile");
       setSaved(true);
-      setIsLocked(Boolean(data.data?.isProfileLocked));
+      setIsLocked(Boolean(res.data.data?.isProfileLocked));
       setTimeout(() => setSaved(false), 3000);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not save profile");
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Could not save profile");
     } finally {
       setIsSaving(false);
     }
@@ -173,6 +177,30 @@ export default function ProfilePage() {
                 <option value="">Select</option><option value="male">Male</option><option value="female">Female</option><option value="other">Other</option>
               </select>
             </Field>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl border border-border p-6">
+          <h3 className="font-bold text-text-primary mb-4 flex items-center gap-2"><FileCheck className="w-5 h-5 text-success" /> Documents</h3>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <DocumentUploadField
+              label="Passport Photo"
+              value={formData.photoUrl}
+              onChange={(url) => updateField("photoUrl", url)}
+              uploadType="image"
+              folder="webigeeks/students/photos"
+              disabled={isLocked}
+              accept="image/jpeg,image/png,image/webp"
+            />
+            <DocumentUploadField
+              label="Aadhaar Card"
+              value={formData.aadhaarUrl}
+              onChange={(url) => updateField("aadhaarUrl", url)}
+              uploadType="document"
+              folder="webigeeks/students/aadhaar"
+              disabled={isLocked}
+              accept="image/jpeg,image/png,application/pdf"
+            />
           </div>
         </div>
 

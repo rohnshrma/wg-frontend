@@ -10,6 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://webigeeks.com"),
   title: {
     default: "WebiGeeks — Training & Development | AI-Integrated Courses",
     template: "%s | WebiGeeks",

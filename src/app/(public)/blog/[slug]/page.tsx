@@ -1,6 +1,3 @@
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
-import FloatingButtons from "@/components/layout/FloatingButtons";
 import BlogDetailContent from "./BlogDetailContent";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
@@ -14,12 +11,5 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  return (
-    <>
-      <Navbar />
-      <main><BlogDetailContent slug={slug} /></main>
-      <Footer />
-      <FloatingButtons />
-    </>
-  );
+  return <BlogDetailContent slug={slug} />;
 }

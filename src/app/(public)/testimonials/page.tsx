@@ -1,7 +1,4 @@
 import type { Metadata } from "next";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
-import FloatingButtons from "@/components/layout/FloatingButtons";
 import TestimonialsContent from "./TestimonialsContent";
 
 export const metadata: Metadata = {
@@ -10,12 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function TestimonialsPage() {
-  return (
-    <>
-      <Navbar />
-      <main><TestimonialsContent /></main>
-      <Footer />
-      <FloatingButtons />
-    </>
-  );
+  return <TestimonialsContent />;
 }

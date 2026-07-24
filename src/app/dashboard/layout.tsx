@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
   LayoutDashboard,
@@ -16,6 +16,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
 
 const sidebarLinks = [
   { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
@@ -31,33 +32,11 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const { user, isLoading, logout } = useAuth({ requireAuth: true, requireRole: "student" });
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const userData = localStorage.getItem("user");
-    if (!token || !userData) {
-      router.push("/login");
-      return;
-    }
-    const parsed = JSON.parse(userData);
-    if (parsed.role === "admin") {
-      router.push("/admin");
-      return;
-    }
-    setUser(parsed);
-  }, [router]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    router.push("/login");
-  };
-
-  if (!user) return null;
+  if (isLoading || !user) return null;
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -120,7 +99,7 @@ export default function DashboardLayout({
             </div>
           </div>
           <button
-            onClick={handleLogout}
+            onClick={logout}
             className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-destructive hover:bg-destructive-light transition-colors"
           >
             <LogOut className="w-5 h-5" />

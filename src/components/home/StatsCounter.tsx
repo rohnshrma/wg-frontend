@@ -3,12 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Users, GraduationCap, BookOpen, Award } from "lucide-react";
+import { siteConfig } from "@/config/site";
 
 const stats = [
-  { icon: Users, value: 500, suffix: "+", label: "Students Placed", color: "text-primary" },
-  { icon: GraduationCap, value: 100, suffix: "+", label: "Batches Completed", color: "text-secondary" },
-  { icon: BookOpen, value: 10, suffix: "+", label: "Courses Offered", color: "text-accent" },
-  { icon: Award, value: 6, suffix: "+", label: "Years Experience", color: "text-success" },
+  { icon: Users, value: siteConfig.stats.studentsPlaced, suffix: "+", label: "Students Placed" },
+  { icon: GraduationCap, value: siteConfig.stats.batchesCompleted, suffix: "+", label: "Batches Completed" },
+  { icon: BookOpen, value: siteConfig.stats.courses, suffix: "+", label: "Courses Offered" },
+  { icon: Award, value: siteConfig.stats.yearsExperience, suffix: "+", label: "Years Experience" },
 ];
 
 function AnimatedNumber({ value, suffix }: { value: number; suffix: string }) {

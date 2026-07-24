@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Navbar from "@/components/layout/Navbar";
 import LoginContent from "./LoginContent";
 
@@ -8,7 +9,11 @@ export default function LoginPage() {
   return (
     <>
       <Navbar />
-      <main><LoginContent /></main>
+      <main>
+        <Suspense fallback={null}>
+          <LoginContent />
+        </Suspense>
+      </main>
     </>
   );
 }

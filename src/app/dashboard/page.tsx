@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { AlertCircle, Bell, BookOpen, CheckCircle2, Clock, CreditCard, FileText } from "lucide-react";
 import Link from "next/link";
+import api from "@/lib/api";
 
 type DashboardStudent = {
   fullName: string;
@@ -19,8 +20,6 @@ type DashboardData = {
   student: DashboardStudent | null;
   unreadNotifications: number;
 };
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
 
 const statusCopy = {
   pending: {
@@ -56,15 +55,10 @@ export default function DashboardOverview() {
       setIsLoading(true);
       setError("");
       try {
-        const token = localStorage.getItem("token");
-        const res = await fetch(`${API_URL}/students/me/dashboard`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message || "Could not load dashboard");
-        setDashboard(data.data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Could not load dashboard");
+        const res = await api.get("/students/me/dashboard");
+        setDashboard(res.data.data);
+      } catch (err: any) {
+        setError(err.response?.data?.message || "Could not load dashboard");
       } finally {
         setIsLoading(false);
       }

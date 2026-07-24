@@ -9,57 +9,8 @@ import {
   ChevronRight,
   Sparkles,
 } from "lucide-react";
-
-const courses = [
-  {
-    title: "Data Science",
-    slug: "data-science",
-    duration: "4 Months",
-    description: "Master Python, Machine Learning, Deep Learning, NLP, and deploy AI models.",
-    color: "from-violet-500 to-purple-600",
-    tags: ["Python", "ML", "AI"],
-  },
-  {
-    title: "Data Analytics",
-    slug: "data-analytics",
-    duration: "3 Months",
-    description: "Learn SQL, Power BI, Excel, Tableau, and become a data-driven decision maker.",
-    color: "from-sky-500 to-blue-600",
-    tags: ["SQL", "Power BI", "Excel"],
-  },
-  {
-    title: "Artificial Intelligence",
-    slug: "artificial-intelligence",
-    duration: "5 Months",
-    description: "Deep dive into Neural Networks, Computer Vision, NLP, and GenAI applications.",
-    color: "from-emerald-500 to-teal-600",
-    tags: ["Deep Learning", "NLP", "GenAI"],
-  },
-  {
-    title: "MERN Stack",
-    slug: "mern-stack-development",
-    duration: "4 Months",
-    description: "Build full-stack web apps with MongoDB, Express, React, and Node.js.",
-    color: "from-amber-500 to-orange-600",
-    tags: ["React", "Node.js", "MongoDB"],
-  },
-  {
-    title: "Python Programming",
-    slug: "python-programming",
-    duration: "2 Months",
-    description: "From basics to advanced — OOP, file handling, APIs, and automation scripts.",
-    color: "from-blue-500 to-indigo-600",
-    tags: ["Python", "OOP", "APIs"],
-  },
-  {
-    title: "Power BI",
-    slug: "power-bi",
-    duration: "2 Months",
-    description: "Create stunning dashboards and reports for business intelligence.",
-    color: "from-yellow-500 to-amber-600",
-    tags: ["DAX", "Dashboards", "ETL"],
-  },
-];
+import { courseGradient } from "@/lib/courseColors";
+import type { Course } from "@/types/course";
 
 const containerVariants = {
   hidden: {},
@@ -74,7 +25,7 @@ const cardVariants = {
   },
 };
 
-export default function FeaturedCourses() {
+export default function FeaturedCourses({ courses }: { courses: Course[] }) {
   return (
     <section className="section-padding relative overflow-hidden">
       <div className="absolute top-1/2 left-0 w-80 h-80 bg-primary/5 rounded-full blur-[100px] -translate-y-1/2" />
@@ -116,13 +67,13 @@ export default function FeaturedCourses() {
             >
               {/* Top gradient bar */}
               <div
-                className={`h-1.5 bg-gradient-to-r ${course.color}`}
+                className={`h-1.5 bg-gradient-to-r ${courseGradient(course.slug)}`}
               />
 
               <div className="p-6">
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {course.tags.map((tag) => (
+                  {course.technologies.slice(0, 3).map((tag) => (
                     <span
                       key={tag}
                       className="px-2.5 py-1 rounded-md bg-primary-50 text-primary text-xs font-semibold"
@@ -145,7 +96,7 @@ export default function FeaturedCourses() {
 
                 {/* Description */}
                 <p className="text-sm text-text-secondary leading-relaxed mb-5">
-                  {course.description}
+                  {course.shortDescription}
                 </p>
 
                 {/* Actions */}
