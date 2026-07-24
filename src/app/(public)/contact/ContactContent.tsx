@@ -14,6 +14,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
+import Hero3DBackground from "@/components/three/Hero3DBackground";
 
 const contactInfo = [
   {
@@ -91,6 +92,7 @@ export default function ContactContent() {
       {/* Hero */}
       <section className="gradient-hero text-white py-16 md:py-20 relative overflow-hidden">
         <div className="absolute top-10 right-20 w-72 h-72 bg-primary/20 rounded-full blur-[100px]" />
+        <Hero3DBackground variant="compact" />
         <div className="container-custom relative text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

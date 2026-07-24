@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Clock, ArrowRight, PenSquare, Tag, Search } from "lucide-react";
 import { useState } from "react";
+import Hero3DBackground from "@/components/three/Hero3DBackground";
 
 const blogs = [
   { slug: "why-data-science-is-best-career-2025", title: "Why Data Science is the Best Career Choice in 2025", excerpt: "Data Science continues to dominate the job market. Learn why it's the #1 career choice and how to get started.", category: "Career", readTime: "5 min", date: "Dec 15, 2024", gradient: "from-violet-500 to-purple-600" },
@@ -31,6 +32,7 @@ export default function BlogContent() {
       {/* Hero */}
       <section className="gradient-hero text-white py-16 md:py-20 relative overflow-hidden">
         <div className="absolute top-10 right-20 w-72 h-72 bg-primary/20 rounded-full blur-[100px]" />
+        <Hero3DBackground variant="compact" />
         <div className="container-custom relative text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-medium mb-6">

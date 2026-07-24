@@ -22,6 +22,7 @@ import { formatCurrency } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
 import { courseGradient } from "@/lib/courseColors";
 import type { Course } from "@/types/course";
+import Hero3DBackground from "@/components/three/Hero3DBackground";
 
 export default function CourseDetailContent({ course }: { course: Course }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -62,6 +63,7 @@ export default function CourseDetailContent({ course }: { course: Course }) {
       {/* Hero */}
       <section className="gradient-hero text-white py-14 md:py-20 relative overflow-hidden">
         <div className="absolute top-10 right-20 w-72 h-72 bg-primary/20 rounded-full blur-[100px]" />
+        <Hero3DBackground variant="compact" />
         <div className="container-custom relative">
           <div className="grid lg:grid-cols-3 gap-10 items-start">
             <div className="lg:col-span-2">

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowLeft, Clock, Tag, User, Share2, PenSquare, ArrowRight } from "lucide-react";
+import Hero3DBackground from "@/components/three/Hero3DBackground";
 
 export default function BlogDetailContent({ slug }: { slug: string }) {
   const title = slug.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
@@ -12,6 +13,7 @@ export default function BlogDetailContent({ slug }: { slug: string }) {
       {/* Hero */}
       <section className="gradient-hero text-white py-14 md:py-20 relative overflow-hidden">
         <div className="absolute top-10 right-20 w-72 h-72 bg-primary/20 rounded-full blur-[100px]" />
+        <Hero3DBackground variant="compact" />
         <div className="container-custom relative">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
             <Link href="/blog" className="inline-flex items-center gap-1 text-white/60 hover:text-white text-sm mb-6 transition-colors">

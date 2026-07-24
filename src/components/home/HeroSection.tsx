@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
+import Hero3DBackground from "@/components/three/Hero3DBackground";
 
 const techBadges = [
   "Data Science",
@@ -87,6 +88,9 @@ export default function HeroSection() {
           }}
         />
       </div>
+
+      {/* 3D neural network + floating shapes */}
+      <Hero3DBackground variant="full" />
 
       <div className="container-custom relative z-10 py-12 lg:py-20">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">

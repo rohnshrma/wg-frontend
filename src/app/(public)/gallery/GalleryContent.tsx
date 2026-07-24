@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Camera, X, ChevronLeft, ChevronRight } from "lucide-react";
+import Hero3DBackground from "@/components/three/Hero3DBackground";
 
 const categories = ["All", "Classroom", "Events", "Activities", "Campus", "Placements"];
 
@@ -44,6 +45,7 @@ export default function GalleryContent() {
       {/* Hero */}
       <section className="gradient-hero text-white py-16 md:py-20 relative overflow-hidden">
         <div className="absolute top-10 right-20 w-72 h-72 bg-primary/20 rounded-full blur-[100px]" />
+        <Hero3DBackground variant="compact" />
         <div className="container-custom relative text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-medium mb-6">

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Star, Award, ArrowRight, GraduationCap } from "lucide-react";
 import Link from "next/link";
+import Hero3DBackground from "@/components/three/Hero3DBackground";
 
 const testimonials = [
   { id: 1, name: "Priya Sharma", course: "Data Science", company: "TCS", role: "Data Analyst", pkg: "6.5 LPA", rating: 5, text: "WebiGeeks transformed my career completely. The hands-on projects and AI-integrated curriculum prepared me for real-world challenges. I got placed at TCS within 2 months!" },
@@ -22,6 +23,7 @@ export default function TestimonialsContent() {
       {/* Hero */}
       <section className="gradient-hero text-white py-16 md:py-20 relative overflow-hidden">
         <div className="absolute top-10 right-20 w-72 h-72 bg-primary/20 rounded-full blur-[100px]" />
+        <Hero3DBackground variant="compact" />
         <div className="container-custom relative text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-medium mb-6">

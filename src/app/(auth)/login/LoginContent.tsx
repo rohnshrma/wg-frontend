@@ -11,6 +11,7 @@ import api from "@/lib/api";
 import FormInput from "@/components/ui/FormInput";
 import FormError from "@/components/ui/FormError";
 import { loginSchema, type LoginFormValues } from "@/lib/validations/auth";
+import Hero3DBackground from "@/components/three/Hero3DBackground";
 
 export default function LoginContent() {
   const router = useRouter();
@@ -45,6 +46,7 @@ export default function LoginContent() {
       <div className="hidden lg:flex lg:w-1/2 gradient-hero items-center justify-center relative overflow-hidden">
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-[100px]" />
         <div className="absolute bottom-20 right-10 w-60 h-60 bg-secondary/15 rounded-full blur-[80px]" />
+        <Hero3DBackground variant="compact" />
         <div className="relative text-center px-12">
           <div className="w-20 h-20 mx-auto rounded-2xl gradient-primary flex items-center justify-center mb-6 shadow-2xl">
             <GraduationCap className="w-10 h-10 text-white" />

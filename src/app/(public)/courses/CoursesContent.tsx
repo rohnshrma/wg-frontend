@@ -16,6 +16,7 @@ import { useState } from "react";
 import { formatCurrency } from "@/lib/utils";
 import { courseGradient } from "@/lib/courseColors";
 import type { Course } from "@/types/course";
+import Hero3DBackground from "@/components/three/Hero3DBackground";
 
 const levels = ["All", "beginner", "intermediate", "advanced"] as const;
 const levelLabels: Record<(typeof levels)[number], string> = {
@@ -42,6 +43,7 @@ export default function CoursesContent({ courses }: { courses: Course[] }) {
       {/* Hero */}
       <section className="gradient-hero text-white py-16 md:py-20 relative overflow-hidden">
         <div className="absolute top-10 right-20 w-72 h-72 bg-primary/20 rounded-full blur-[100px]" />
+        <Hero3DBackground variant="compact" />
         <div className="container-custom relative text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-medium mb-6">

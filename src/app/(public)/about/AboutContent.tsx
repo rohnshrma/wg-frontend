@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import StatsCounter from "@/components/home/StatsCounter";
+import Hero3DBackground from "@/components/three/Hero3DBackground";
 
 const values = [
   {
@@ -71,6 +72,7 @@ export default function AboutContent() {
           <div className="absolute top-10 right-20 w-72 h-72 bg-primary/20 rounded-full blur-[100px]" />
           <div className="absolute bottom-10 left-20 w-60 h-60 bg-secondary/15 rounded-full blur-[80px]" />
         </div>
+        <Hero3DBackground variant="compact" />
         <div className="container-custom relative text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
