@@ -5,17 +5,18 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import {
   LayoutDashboard, Users, UserPlus, BookOpen, CreditCard, MessageSquare,
-  Image, PenSquare, Bell, Settings, LogOut, Menu, X, GraduationCap, ChevronRight,
+  Image, PenSquare, Bell, Settings, LogOut, Menu, X, GraduationCap, ChevronRight, BarChart3,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 
 const iconMap: Record<string, any> = {
-  LayoutDashboard, Users, UserPlus, BookOpen, CreditCard, MessageSquare, Image, PenSquare, Bell, Settings,
+  LayoutDashboard, Users, UserPlus, BookOpen, CreditCard, MessageSquare, Image, PenSquare, Bell, Settings, BarChart3,
 };
 
 const sidebarLinks = [
   { label: "Dashboard", href: "/admin", icon: "LayoutDashboard" },
+  { label: "Analytics", href: "/admin/analytics", icon: "BarChart3" },
   { label: "Students", href: "/admin/students", icon: "Users" },
   { label: "Leads", href: "/admin/leads", icon: "UserPlus" },
   { label: "Courses", href: "/admin/courses", icon: "BookOpen" },
