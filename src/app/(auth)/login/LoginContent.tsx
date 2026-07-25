@@ -6,7 +6,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { GraduationCap, Mail, Lock, ArrowRight } from "lucide-react";
+import { Mail, Lock, ArrowRight } from "lucide-react";
+import Image from "next/image";
 import api from "@/lib/api";
 import FormInput from "@/components/ui/FormInput";
 import FormError from "@/components/ui/FormError";
@@ -48,8 +49,8 @@ export default function LoginContent() {
         <div className="absolute bottom-20 right-10 w-60 h-60 bg-secondary/15 rounded-full blur-[80px]" />
         <Hero3DBackground variant="compact" />
         <div className="relative text-center px-12">
-          <div className="w-20 h-20 mx-auto rounded-2xl gradient-primary flex items-center justify-center mb-6 shadow-2xl">
-            <GraduationCap className="w-10 h-10 text-white" />
+          <div className="w-24 h-24 mx-auto rounded-2xl bg-white/95 flex items-center justify-center mb-6 shadow-2xl p-3">
+            <Image src="/images/logo-mark.png" alt="WebiGeeks" width={116} height={72} className="w-full h-full object-contain" />
           </div>
           <h2 className="text-3xl font-extrabold text-white mb-3">Welcome Back!</h2>
           <p className="text-white/50 text-lg leading-relaxed max-w-sm mx-auto">
@@ -71,9 +72,7 @@ export default function LoginContent() {
           className="w-full max-w-md"
         >
           <div className="lg:hidden flex items-center gap-2 mb-8">
-            <div className="w-9 h-9 rounded-lg gradient-primary flex items-center justify-center">
-              <GraduationCap className="w-5 h-5 text-white" />
-            </div>
+            <Image src="/images/logo-mark.png" alt="WebiGeeks" width={58} height={36} className="h-9 w-auto" />
             <span className="text-lg font-extrabold">Webi<span className="text-primary">Geeks</span></span>
           </div>
 

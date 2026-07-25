@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { GraduationCap, Lock, ArrowRight, ArrowLeft, CheckCircle2 } from "lucide-react";
+import { Lock, ArrowRight, ArrowLeft, CheckCircle2 } from "lucide-react";
+import Image from "next/image";
 import api from "@/lib/api";
 import FormInput from "@/components/ui/FormInput";
 import FormError from "@/components/ui/FormError";
@@ -39,9 +40,7 @@ export default function ResetPasswordContent({ token }: { token: string }) {
     <div className="min-h-[calc(100vh-72px)] flex items-center justify-center px-6 py-12 bg-background">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md">
         <div className="flex items-center gap-2 mb-8">
-          <div className="w-9 h-9 rounded-lg gradient-primary flex items-center justify-center">
-            <GraduationCap className="w-5 h-5 text-white" />
-          </div>
+          <Image src="/images/logo-mark.png" alt="WebiGeeks" width={58} height={36} className="h-9 w-auto" />
           <span className="text-lg font-extrabold">Webi<span className="text-primary">Geeks</span></span>
         </div>
 

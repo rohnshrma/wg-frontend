@@ -21,7 +21,7 @@ function makeGlowTexture() {
   return texture;
 }
 
-const NODE_COLORS = ["#6C3CE1", "#0EA5E9", "#F97316"];
+const NODE_COLORS = ["#1672B8", "#8FBFE0", "#F97316"];
 
 interface NeuralNetworkSceneProps {
   nodeCount?: number;
@@ -94,7 +94,7 @@ export default function NeuralNetworkScene({
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[linePositions, 3]} />
         </bufferGeometry>
-        <lineBasicMaterial color="#8B6CF1" transparent opacity={0.18} />
+        <lineBasicMaterial color="#4FA3D8" transparent opacity={0.18} />
       </lineSegments>
 
       <points>

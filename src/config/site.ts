@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "WebiGeeks",
-  tagline: "Training & Development",
+  tagline: "Your AI Skill Partner",
   description:
     "Become industry-ready with AI-integrated courses in Data Science, Data Analytics, MERN Stack, Python, Power BI, and more. 100% practical training with placement assistance.",
   url: "https://webigeeks.com",

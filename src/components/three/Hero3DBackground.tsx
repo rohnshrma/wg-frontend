@@ -37,8 +37,8 @@ export default function Hero3DBackground({ variant = "full", className = "" }: H
         camera={{ position: [0, 0, 10], fov: 50 }}
       >
         <ambientLight intensity={0.6} />
-        <pointLight position={[6, 4, 6]} intensity={40} color="#8B6CF1" />
-        <pointLight position={[-6, -4, 4]} intensity={30} color="#0EA5E9" />
+        <pointLight position={[6, 4, 6]} intensity={40} color="#1672B8" />
+        <pointLight position={[-6, -4, 4]} intensity={30} color="#8FBFE0" />
 
         <NeuralNetworkScene
           nodeCount={isFull ? 30 : 18}

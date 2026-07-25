@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import NextImage from "next/image";
 import {
   LayoutDashboard, Users, UserPlus, BookOpen, CreditCard, MessageSquare,
-  Image, PenSquare, Bell, Settings, LogOut, Menu, X, GraduationCap, ChevronRight, BarChart3,
+  Image, PenSquare, Bell, Settings, LogOut, Menu, X, ChevronRight, BarChart3,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
@@ -44,8 +45,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       )}>
         <div className="flex items-center justify-between px-5 h-16 border-b border-white/10">
           <Link href="/admin" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
-              <GraduationCap className="w-4 h-4 text-white" />
+            <div className="w-8 h-8 rounded-lg bg-white/95 flex items-center justify-center p-1">
+              <NextImage src="/images/logo-mark.png" alt="WebiGeeks" width={58} height={36} className="w-full h-full object-contain" />
             </div>
             <div>
               <span className="font-extrabold text-white text-sm">WebiGeeks</span>

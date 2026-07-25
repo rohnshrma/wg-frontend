@@ -13,8 +13,8 @@ import { formatCurrency } from "@/lib/utils";
 const MONTH_LABELS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 const COLORS = {
-  primary: "#6C3CE1",
-  secondary: "#0EA5E9",
+  primary: "#1672B8",
+  secondary: "#606062",
   accent: "#F97316",
   accentWarm: "#EAB308",
   success: "#22C55E",

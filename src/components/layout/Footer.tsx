@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import {
-  GraduationCap,
   Phone,
   Mail,
   MapPin,
@@ -67,15 +67,15 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2.5 mb-5 group">
-              <div className="w-10 h-10 rounded-xl gradient-primary flex items-center justify-center shadow-lg group-hover:shadow-glow transition-shadow">
-                <GraduationCap className="w-5 h-5 text-white" />
+              <div className="w-10 h-10 rounded-xl bg-white/95 flex items-center justify-center shadow-lg group-hover:shadow-glow transition-shadow p-1.5">
+                <Image src="/images/logo-mark.png" alt="WebiGeeks" width={58} height={36} className="w-full h-full object-contain" />
               </div>
               <div>
                 <span className="text-xl font-extrabold text-white">
                   Webi<span className="text-primary-200">Geeks</span>
                 </span>
                 <p className="text-[10px] text-white/40 uppercase tracking-widest">
-                  Training & Development
+                  Your AI Skill Partner
                 </p>
               </div>
             </Link>

@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu,
   X,
   Phone,
-  GraduationCap,
   ChevronRight,
   Sparkles,
 } from "lucide-react";
@@ -86,15 +86,13 @@ export default function Navbar() {
           <nav className="flex items-center justify-between h-16 lg:h-[72px]">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-9 h-9 rounded-lg gradient-primary flex items-center justify-center shadow-md group-hover:shadow-glow transition-shadow duration-300">
-                <GraduationCap className="w-5 h-5 text-white" />
-              </div>
+              <Image src="/images/logo-mark.png" alt="WebiGeeks" width={58} height={36} className="h-9 w-auto" priority />
               <div className="flex flex-col">
                 <span className="text-lg font-extrabold tracking-tight text-text-primary leading-tight">
                   Webi<span className="text-primary">Geeks</span>
                 </span>
                 <span className="text-[10px] font-medium text-text-muted tracking-wider uppercase leading-tight">
-                  Training & Development
+                  Your AI Skill Partner
                 </span>
               </div>
             </Link>
@@ -194,9 +192,7 @@ export default function Navbar() {
                   className="flex items-center gap-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
-                    <GraduationCap className="w-4.5 h-4.5 text-white" />
-                  </div>
+                  <Image src="/images/logo-mark.png" alt="WebiGeeks" width={52} height={32} className="h-8 w-auto" />
                   <span className="font-bold text-text-primary">
                     Webi<span className="text-primary">Geeks</span>
                   </span>

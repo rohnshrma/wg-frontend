@@ -1,22 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  /* Colors - Primary Purple */
-  --color-primary: #6C3CE1;
-  --color-primary-dark: #5228C0;
-  --color-primary-light: #EDE5FF;
-  --color-primary-50: #F5F0FF;
-  --color-primary-100: #EDE5FF;
-  --color-primary-200: #D4C5FF;
-  --color-primary-500: #6C3CE1;
-  --color-primary-600: #5228C0;
-  --color-primary-700: #4020A0;
-  --color-primary-900: #1E0A5C;
+  /* Colors - Primary Blue (brand) */
+  --color-primary: #1672B8;
+  --color-primary-dark: #105284;
+  --color-primary-light: #E3EEF6;
+  --color-primary-50: #F1F7FB;
+  --color-primary-100: #E3EEF6;
+  --color-primary-200: #B4D2E8;
+  --color-primary-500: #1672B8;
+  --color-primary-600: #105284;
+  --color-primary-700: #0B395C;
+  --color-primary-900: #051928;
 
-  /* Colors - Secondary Sky Blue */
-  --color-secondary: #0EA5E9;
-  --color-secondary-dark: #0284C7;
-  --color-secondary-light: #E0F2FE;
+  /* Colors - Secondary Gray (brand) */
+  --color-secondary: #606062;
+  --color-secondary-dark: #3E3E40;
+  --color-secondary-light: #ECECEC;
 
   /* Colors - Accent Orange */
   --color-accent: #F97316;
@@ -46,7 +46,7 @@
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
   --shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.15);
-  --shadow-glow: 0 0 32px rgba(108, 60, 225, 0.2);
+  --shadow-glow: 0 0 32px rgba(22, 114, 184, 0.25);
   --shadow-glow-accent: 0 0 32px rgba(249, 115, 22, 0.2);
 
   /* Border Radius */
@@ -181,7 +181,7 @@ body {
 }
 
 .gradient-hero {
-  background: linear-gradient(135deg, #0F172A 0%, #1E0A5C 40%, #6C3CE1 100%);
+  background: linear-gradient(135deg, #0F172A 0%, #0B395C 40%, #1672B8 100%);
 }
 
 /* Glass effect */

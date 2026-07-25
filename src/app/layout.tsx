@@ -12,7 +12,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://webigeeks.com"),
   title: {
-    default: "WebiGeeks — Training & Development | AI-Integrated Courses",
+    default: "WebiGeeks — Your AI Skill Partner",
     template: "%s | WebiGeeks",
   },
   description:
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: "https://webigeeks.com",
-    siteName: "WebiGeeks — Training & Development",
+    siteName: "WebiGeeks — Your AI Skill Partner",
     title: "WebiGeeks — Become Industry Ready With AI Integrated Courses",
     description:
       "100% practical training in Data Science, AI, MERN Stack, Python, and more. Join 500+ placed students.",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "WebiGeeks — Training & Development",
+    title: "WebiGeeks — Your AI Skill Partner",
     description: "AI-Integrated Courses for Industry-Ready Careers",
   },
   robots: {
@@ -62,7 +62,7 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" />
-        <meta name="theme-color" content="#6C3CE1" />
+        <meta name="theme-color" content="#1672B8" />
       </head>
       <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
         {children}
