@@ -13,6 +13,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
+import { API_BASE_URL } from "@/lib/apiBaseUrl";
 
 export default function InquiryPopup() {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,7 +51,7 @@ export default function InquiryPopup() {
     setIsSubmitting(true);
     try {
       await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api"}/leads`,
+        `${API_BASE_URL}/leads`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -1,6 +1,6 @@
 import type { Blog } from "@/types/blog";
+import { API_BASE_URL } from "./apiBaseUrl";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
 const REVALIDATE_SECONDS = 60;
 
 export async function getBlogs(params?: { category?: string; search?: string }): Promise<Blog[]> {

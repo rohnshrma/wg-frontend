@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Gift, ArrowRight, Phone, User } from "lucide-react";
+import { API_BASE_URL } from "@/lib/apiBaseUrl";
 
 export default function ExitIntentPopup() {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +31,7 @@ export default function ExitIntentPopup() {
     setIsSubmitting(true);
     try {
       await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api"}/leads`,
+        `${API_BASE_URL}/leads`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { API_BASE_URL } from "@/lib/apiBaseUrl";
 import {
   Clock,
   Monitor,
@@ -41,7 +42,7 @@ export default function CourseDetailContent({ course }: { course: Course }) {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api"}/leads`, {
+      await fetch(`${API_BASE_URL}/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

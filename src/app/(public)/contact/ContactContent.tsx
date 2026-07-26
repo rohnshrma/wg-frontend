@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { API_BASE_URL } from "@/lib/apiBaseUrl";
 import { motion } from "framer-motion";
 import {
   Send,
@@ -71,7 +72,7 @@ export default function ContactContent() {
     setIsSubmitting(true);
     try {
       await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api"}/leads`,
+        `${API_BASE_URL}/leads`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -1,6 +1,5 @@
 import type { Course } from "@/types/course";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
+import { API_BASE_URL } from "./apiBaseUrl";
 
 // Server-side fetch helpers (used from Server Components) — revalidated
 // periodically rather than on every request, since the public catalogue
