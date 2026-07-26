@@ -13,6 +13,7 @@ import FormInput from "@/components/ui/FormInput";
 import FormError from "@/components/ui/FormError";
 import { registerSchema, type RegisterFormValues } from "@/lib/validations/auth";
 import Hero3DBackground from "@/components/three/Hero3DBackground";
+import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
 
 export default function RegisterContent() {
   const router = useRouter();
@@ -122,6 +123,14 @@ export default function RegisterContent() {
               {isSubmitting ? <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><ArrowRight className="w-4 h-4" />Create Account</>}
             </button>
           </form>
+
+          <div className="flex items-center gap-3 my-6">
+            <div className="flex-1 h-px bg-border" />
+            <span className="text-xs text-text-muted">OR</span>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+
+          <GoogleSignInButton label="Continue with Google" />
 
           <p className="text-center text-sm text-text-secondary mt-6">
             Already have an account?{" "}

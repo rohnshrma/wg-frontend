@@ -13,6 +13,7 @@ import FormInput from "@/components/ui/FormInput";
 import FormError from "@/components/ui/FormError";
 import { loginSchema, type LoginFormValues } from "@/lib/validations/auth";
 import Hero3DBackground from "@/components/three/Hero3DBackground";
+import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
 
 export default function LoginContent() {
   const router = useRouter();
@@ -119,6 +120,14 @@ export default function LoginContent() {
               )}
             </button>
           </form>
+
+          <div className="flex items-center gap-3 my-6">
+            <div className="flex-1 h-px bg-border" />
+            <span className="text-xs text-text-muted">OR</span>
+            <div className="flex-1 h-px bg-border" />
+          </div>
+
+          <GoogleSignInButton label="Continue with Google" />
 
           <p className="text-center text-sm text-text-secondary mt-6">
             Don&apos;t have an account?{" "}
