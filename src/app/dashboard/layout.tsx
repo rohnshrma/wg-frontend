@@ -65,7 +65,7 @@ export default function DashboardLayout({
         </div>
 
         {/* Nav Links */}
-        <nav className="flex-1 overflow-y-auto py-4 px-3">
+        <nav className="flex-1 overflow-y-auto py-4 px-3 sidebar-nav sidebar-nav-light">
           {sidebarLinks.map((link) => (
             <Link
               key={link.href}

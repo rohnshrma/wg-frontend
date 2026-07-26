@@ -86,7 +86,7 @@ export default function Navbar() {
           <nav className="flex items-center justify-between h-16 lg:h-[72px]">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2.5 group">
-              <Image src="/images/logo-mark.png" alt="WebiGeeks" width={58} height={36} className="h-9 w-auto" priority />
+              <Image src="/images/logo-mark.png" alt="WebiGeeks" width={58} height={36} className="h-9 w-auto" loading="eager" />
               <div className="flex flex-col">
                 <span className="text-lg font-extrabold tracking-tight text-text-primary leading-tight">
                   Webi<span className="text-primary">Geeks</span>

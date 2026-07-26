@@ -1,35 +1,24 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Camera, X, ChevronLeft, ChevronRight } from "lucide-react";
 import Hero3DBackground from "@/components/three/Hero3DBackground";
+import type { GalleryImage } from "@/types/gallery";
 
 const categories = ["All", "Classroom", "Events", "Activities", "Campus", "Placements"];
 
-// Placeholder gallery data with gradient-based placeholders
-const galleryItems = [
-  { id: 1, category: "Classroom", caption: "Data Science Batch in Session", gradient: "from-violet-400 to-purple-600" },
-  { id: 2, category: "Events", caption: "Annual Tech Fest 2024", gradient: "from-amber-400 to-orange-600" },
-  { id: 3, category: "Placements", caption: "Campus Placement Drive", gradient: "from-emerald-400 to-teal-600" },
-  { id: 4, category: "Campus", caption: "Modern Computer Lab", gradient: "from-sky-400 to-blue-600" },
-  { id: 5, category: "Activities", caption: "Hackathon Competition", gradient: "from-rose-400 to-pink-600" },
-  { id: 6, category: "Classroom", caption: "Python Workshop", gradient: "from-blue-400 to-indigo-600" },
-  { id: 7, category: "Events", caption: "Guest Lecture by Industry Expert", gradient: "from-cyan-400 to-teal-600" },
-  { id: 8, category: "Placements", caption: "Students with Offer Letters", gradient: "from-green-400 to-emerald-600" },
-  { id: 9, category: "Campus", caption: "Student Lounge Area", gradient: "from-purple-400 to-violet-600" },
-  { id: 10, category: "Activities", caption: "Team Building Workshop", gradient: "from-orange-400 to-red-600" },
-  { id: 11, category: "Classroom", caption: "MERN Stack Live Project", gradient: "from-teal-400 to-cyan-600" },
-  { id: 12, category: "Events", caption: "Certificate Distribution Ceremony", gradient: "from-yellow-400 to-amber-600" },
-];
+const toCategoryLabel = (category: string) =>
+  category.charAt(0).toUpperCase() + category.slice(1);
 
-export default function GalleryContent() {
+export default function GalleryContent({ images }: { images: GalleryImage[] }) {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const filtered = selectedCategory === "All"
-    ? galleryItems
-    : galleryItems.filter((item) => item.category === selectedCategory);
+    ? images
+    : images.filter((item) => toCategoryLabel(item.category) === selectedCategory);
 
   const openLightbox = (index: number) => setLightboxIndex(index);
   const closeLightbox = () => setLightboxIndex(null);
@@ -86,47 +75,57 @@ export default function GalleryContent() {
       {/* Gallery Grid */}
       <section className="section-padding">
         <div className="container-custom">
-          <motion.div layout className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            <AnimatePresence>
-              {filtered.map((item, i) => (
-                <motion.div
-                  key={item.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ delay: i * 0.03 }}
-                  onClick={() => openLightbox(i)}
-                  className="relative aspect-square rounded-xl overflow-hidden cursor-pointer group"
-                >
-                  {/* Gradient placeholder */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient}`} />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Camera className="w-10 h-10 text-white/30" />
-                  </div>
+          {filtered.length === 0 ? (
+            <div className="text-center py-20">
+              <Camera className="w-12 h-12 text-text-muted mx-auto mb-4 opacity-30" />
+              <h3 className="text-xl font-bold text-text-primary">No Photos Yet</h3>
+              <p className="text-text-secondary">Check back soon for photos from our campus and events.</p>
+            </div>
+          ) : (
+            <motion.div layout className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <AnimatePresence>
+                {filtered.map((item, i) => (
+                  <motion.div
+                    key={item._id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ delay: i * 0.03 }}
+                    onClick={() => openLightbox(i)}
+                    className="relative aspect-square rounded-xl overflow-hidden cursor-pointer group"
+                  >
+                    <Image
+                      src={item.thumbnailUrl || item.imageUrl}
+                      alt={item.caption || toCategoryLabel(item.category)}
+                      fill
+                      sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      className="object-cover"
+                    />
 
-                  {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end">
-                    <div className="w-full p-3 translate-y-full group-hover:translate-y-0 transition-transform">
-                      <p className="text-white text-sm font-semibold">{item.caption}</p>
-                      <p className="text-white/70 text-xs">{item.category}</p>
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end">
+                      <div className="w-full p-3 translate-y-full group-hover:translate-y-0 transition-transform">
+                        <p className="text-white text-sm font-semibold">{item.caption}</p>
+                        <p className="text-white/70 text-xs">{toCategoryLabel(item.category)}</p>
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          )}
         </div>
       </section>
 
       {/* Lightbox */}
       <AnimatePresence>
-        {lightboxIndex !== null && (
+        {lightboxIndex !== null && filtered[lightboxIndex] && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
+            className="fixed inset-0 z-[60] bg-black/90 flex items-center justify-center"
             onClick={closeLightbox}
           >
             <button onClick={closeLightbox} className="absolute top-4 right-4 text-white/80 hover:text-white z-10">
@@ -139,8 +138,14 @@ export default function GalleryContent() {
               <ChevronRight className="w-10 h-10" />
             </button>
             <div onClick={(e) => e.stopPropagation()} className="max-w-3xl w-full mx-4">
-              <div className={`aspect-video rounded-2xl bg-gradient-to-br ${filtered[lightboxIndex].gradient} flex items-center justify-center`}>
-                <Camera className="w-20 h-20 text-white/30" />
+              <div className="relative aspect-video rounded-2xl overflow-hidden">
+                <Image
+                  src={filtered[lightboxIndex].imageUrl}
+                  alt={filtered[lightboxIndex].caption || toCategoryLabel(filtered[lightboxIndex].category)}
+                  fill
+                  sizes="768px"
+                  className="object-contain bg-black"
+                />
               </div>
               <p className="text-white text-center mt-4 font-semibold">
                 {filtered[lightboxIndex].caption}

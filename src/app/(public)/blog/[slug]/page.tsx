@@ -1,15 +1,25 @@
+import { notFound } from "next/navigation";
 import BlogDetailContent from "./BlogDetailContent";
+import { getBlogBySlug } from "@/lib/blog";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const title = slug.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+  const blog = await getBlogBySlug(slug);
+  if (!blog) return { title: "Article Not Found" };
+
   return {
-    title,
-    description: `Read "${title}" on the WebiGeeks blog — insights on tech, career tips, and industry trends.`,
+    title: blog.metaTitle || blog.title,
+    description: blog.metaDescription || blog.excerpt,
   };
 }
 
 export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  return <BlogDetailContent slug={slug} />;
+  const blog = await getBlogBySlug(slug);
+
+  if (!blog) {
+    notFound();
+  }
+
+  return <BlogDetailContent blog={blog} />;
 }

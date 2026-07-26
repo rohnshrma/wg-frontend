@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import NextImage from "next/image";
@@ -33,6 +33,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user, isLoading, logout } = useAuth({ requireAuth: true, requireRole: "admin" });
+  const activeLinkRef = useRef<HTMLAnchorElement | null>(null);
+
+  // With 11 links the nav overflows on short viewports, which left the link for
+  // the current page clipped in half at the edge of the scroll area. Nudge it
+  // into view ("nearest" is a no-op when it is already fully visible).
+  // `isLoading` is in the deps because the sidebar isn't rendered on the first
+  // pass (the auth gate returns null), so the ref is still empty back then.
+  useEffect(() => {
+    activeLinkRef.current?.scrollIntoView({ block: "nearest" });
+  }, [pathname, isLoading]);
 
   if (isLoading || !user) return null;
 
@@ -58,13 +68,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto py-4 px-3">
+        <nav className="flex-1 overflow-y-auto py-4 px-3 sidebar-nav sidebar-nav-dark">
           {sidebarLinks.map((link) => {
             const Icon = iconMap[link.icon];
+            const isActive = pathname === link.href;
             return (
-              <Link key={link.href} href={link.href} onClick={() => setIsSidebarOpen(false)} className={cn(
+              <Link key={link.href} href={link.href} ref={isActive ? activeLinkRef : undefined} onClick={() => setIsSidebarOpen(false)} className={cn(
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg mb-1 text-sm font-medium transition-colors",
-                pathname === link.href
+                isActive
                   ? "bg-white/10 text-white"
                   : "text-white/50 hover:bg-white/5 hover:text-white/80"
               )}>

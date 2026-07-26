@@ -163,6 +163,51 @@ body {
   background: var(--color-text-muted);
 }
 
+/* Sidebar nav scroll areas.
+   The global scrollbar track above uses a light background colour, which
+   renders as a bright stripe down the dark admin sidebar whenever the nav
+   overflows (short viewports / many links). These variants keep the track
+   transparent and the thumb tinted to match its own surface. */
+.sidebar-nav {
+  scrollbar-width: thin;
+  /* Leave room so the final link isn't flush against the clipped edge. */
+  padding-bottom: 0.5rem;
+}
+
+.sidebar-nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-nav-dark {
+  scrollbar-color: rgb(255 255 255 / 0.25) transparent;
+}
+
+.sidebar-nav-dark::-webkit-scrollbar-thumb {
+  background: rgb(255 255 255 / 0.2);
+  border-radius: var(--radius-full);
+}
+
+.sidebar-nav-dark::-webkit-scrollbar-thumb:hover {
+  background: rgb(255 255 255 / 0.35);
+}
+
+.sidebar-nav-light {
+  scrollbar-color: var(--color-border-dark) transparent;
+}
+
+.sidebar-nav-light::-webkit-scrollbar-thumb {
+  background: var(--color-border-dark);
+  border-radius: var(--radius-full);
+}
+
+.sidebar-nav-light::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
 /* Gradient text utility */
 .gradient-text {
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);

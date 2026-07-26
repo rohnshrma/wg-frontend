@@ -1,25 +1,24 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
-import { Clock, ArrowRight, PenSquare, Tag, Search } from "lucide-react";
-import { useState } from "react";
+import { ArrowRight, PenSquare, Tag, Search } from "lucide-react";
+import { useMemo, useState } from "react";
 import Hero3DBackground from "@/components/three/Hero3DBackground";
+import type { Blog } from "@/types/blog";
 
-const blogs = [
-  { slug: "why-data-science-is-best-career-2025", title: "Why Data Science is the Best Career Choice in 2025", excerpt: "Data Science continues to dominate the job market. Learn why it's the #1 career choice and how to get started.", category: "Career", readTime: "5 min", date: "Dec 15, 2024", gradient: "from-violet-500 to-purple-600" },
-  { slug: "top-10-python-libraries-data-science", title: "Top 10 Python Libraries Every Data Scientist Should Know", excerpt: "From NumPy to TensorFlow — explore the essential Python libraries that power modern data science.", category: "Tech", readTime: "7 min", date: "Dec 10, 2024", gradient: "from-blue-500 to-indigo-600" },
-  { slug: "mern-stack-vs-mean-stack", title: "MERN Stack vs MEAN Stack — Which Should You Learn?", excerpt: "A detailed comparison of React vs Angular in the context of full-stack web development.", category: "Web Dev", readTime: "6 min", date: "Dec 5, 2024", gradient: "from-amber-500 to-orange-600" },
-  { slug: "power-bi-dashboard-best-practices", title: "Power BI Dashboard Design: Best Practices & Tips", excerpt: "Create stunning Power BI dashboards with these professional design tips and best practices.", category: "Analytics", readTime: "4 min", date: "Nov 28, 2024", gradient: "from-yellow-500 to-amber-600" },
-  { slug: "how-to-crack-data-analyst-interview", title: "How to Crack a Data Analyst Interview in 2025", excerpt: "Comprehensive guide with top interview questions, preparation strategies, and tips from industry experts.", category: "Career", readTime: "8 min", date: "Nov 20, 2024", gradient: "from-emerald-500 to-teal-600" },
-  { slug: "introduction-to-generative-ai", title: "Introduction to Generative AI: What You Need to Know", excerpt: "Understanding GenAI, large language models, and how they're reshaping the tech industry.", category: "AI", readTime: "6 min", date: "Nov 15, 2024", gradient: "from-rose-500 to-pink-600" },
-];
+const formatDate = (value?: string) =>
+  value ? new Date(value).toLocaleDateString("en-IN", { month: "short", day: "numeric", year: "numeric" }) : "";
 
-const categories = ["All", "Career", "Tech", "Web Dev", "Analytics", "AI"];
-
-export default function BlogContent() {
+export default function BlogContent({ blogs }: { blogs: Blog[] }) {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const categories = useMemo(
+    () => ["All", ...Array.from(new Set(blogs.map((b) => b.category)))],
+    [blogs]
+  );
 
   const filtered = blogs.filter((b) => {
     const matchesSearch = b.title.toLowerCase().includes(search.toLowerCase());
@@ -72,22 +71,30 @@ export default function BlogContent() {
           {filtered.length === 0 ? (
             <div className="text-center py-20">
               <PenSquare className="w-12 h-12 text-text-muted mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-text-primary">No Articles Found</h3>
-              <p className="text-text-secondary">Try a different search or category.</p>
+              <h3 className="text-xl font-bold text-text-primary">
+                {blogs.length === 0 ? "No Articles Yet" : "No Articles Found"}
+              </h3>
+              <p className="text-text-secondary">
+                {blogs.length === 0 ? "Check back soon for new posts." : "Try a different search or category."}
+              </p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filtered.map((blog, i) => (
                 <motion.div key={blog.slug} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} className="group bg-white rounded-xl border border-border overflow-hidden card-hover">
-                  {/* Cover placeholder */}
-                  <div className={`h-48 bg-gradient-to-br ${blog.gradient} flex items-center justify-center`}>
-                    <PenSquare className="w-10 h-10 text-white/30" />
+                  <div className="relative h-48">
+                    <Image
+                      src={blog.coverImageUrl}
+                      alt={blog.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover"
+                    />
                   </div>
                   <div className="p-5">
                     <div className="flex items-center gap-3 text-xs text-text-muted mb-3">
                       <span className="flex items-center gap-1"><Tag className="w-3 h-3" />{blog.category}</span>
-                      <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{blog.readTime}</span>
-                      <span>{blog.date}</span>
+                      <span>{formatDate(blog.publishedAt || blog.createdAt)}</span>
                     </div>
                     <h3 className="font-bold text-text-primary mb-2 group-hover:text-primary transition-colors line-clamp-2">
                       {blog.title}

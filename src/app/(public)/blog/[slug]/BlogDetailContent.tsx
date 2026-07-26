@@ -1,13 +1,20 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Clock, Tag, User, Share2, PenSquare, ArrowRight } from "lucide-react";
 import Hero3DBackground from "@/components/three/Hero3DBackground";
+import type { Blog } from "@/types/blog";
 
-export default function BlogDetailContent({ slug }: { slug: string }) {
-  const title = slug.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+const readTime = (content: string) => `${Math.max(1, Math.round(content.split(/\s+/).length / 200))} min`;
 
+const formatDate = (value?: string) =>
+  value
+    ? new Date(value).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
+    : "";
+
+export default function BlogDetailContent({ blog }: { blog: Blog }) {
   return (
     <>
       {/* Hero */}
@@ -20,11 +27,11 @@ export default function BlogDetailContent({ slug }: { slug: string }) {
               <ArrowLeft className="w-4 h-4" /> Back to Blog
             </Link>
             <div className="flex items-center gap-3 text-sm text-white/50 mb-4">
-              <span className="flex items-center gap-1"><Tag className="w-3.5 h-3.5" />Tech</span>
-              <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />6 min read</span>
+              <span className="flex items-center gap-1"><Tag className="w-3.5 h-3.5" />{blog.category}</span>
+              <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{readTime(blog.content)} read</span>
               <span className="flex items-center gap-1"><User className="w-3.5 h-3.5" />WebiGeeks Team</span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold leading-tight">{title}</h1>
+            <h1 className="text-3xl md:text-4xl font-extrabold leading-tight">{blog.title}</h1>
           </motion.div>
         </div>
       </section>
@@ -34,40 +41,37 @@ export default function BlogDetailContent({ slug }: { slug: string }) {
         <div className="container-custom">
           <div className="max-w-3xl mx-auto">
             <motion.article initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="prose prose-lg max-w-none">
-              <div className="bg-white rounded-2xl border border-border p-8 md:p-10 shadow-sm">
-                <p className="text-text-secondary leading-relaxed text-lg mb-6">
-                  This article is coming soon! Our team is working on creating high-quality content
-                  about <strong>{title.toLowerCase()}</strong>. Stay tuned for in-depth insights,
-                  practical tips, and expert perspectives.
-                </p>
-
-                <div className="my-8 p-6 rounded-xl bg-primary-50 border border-primary/10">
-                  <h3 className="text-lg font-bold text-text-primary mb-2">What You&apos;ll Learn</h3>
-                  <ul className="space-y-2">
-                    <li className="text-text-secondary text-sm">✅ Core concepts and fundamentals</li>
-                    <li className="text-text-secondary text-sm">✅ Real-world applications and use cases</li>
-                    <li className="text-text-secondary text-sm">✅ Step-by-step implementation guide</li>
-                    <li className="text-text-secondary text-sm">✅ Best practices and common pitfalls</li>
-                    <li className="text-text-secondary text-sm">✅ Resources for further learning</li>
-                  </ul>
+              <div className="bg-white rounded-2xl border border-border overflow-hidden shadow-sm">
+                <div className="relative h-64 md:h-80">
+                  <Image src={blog.coverImageUrl} alt={blog.title} fill sizes="768px" className="object-cover" />
                 </div>
-
-                <p className="text-text-secondary leading-relaxed mb-6">
-                  In the meantime, check out our courses to learn these concepts hands-on with
-                  real-world projects and expert mentorship.
-                </p>
-
-                <div className="flex items-center justify-between pt-6 border-t border-border">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center text-white font-bold">W</div>
-                    <div>
-                      <p className="font-bold text-text-primary text-sm">WebiGeeks Team</p>
-                      <p className="text-xs text-text-muted">Published Dec 2024</p>
-                    </div>
+                <div className="p-8 md:p-10">
+                  <div className="whitespace-pre-line text-text-secondary leading-relaxed text-lg mb-6">
+                    {blog.content}
                   </div>
-                  <button className="flex items-center gap-1.5 text-text-muted hover:text-primary text-sm transition-colors">
-                    <Share2 className="w-4 h-4" /> Share
-                  </button>
+
+                  {blog.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {blog.tags.map((tag) => (
+                        <span key={tag} className="px-3 py-1 rounded-full bg-primary-50 text-primary text-xs font-medium">
+                          #{tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="flex items-center justify-between pt-6 border-t border-border">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center text-white font-bold">W</div>
+                      <div>
+                        <p className="font-bold text-text-primary text-sm">WebiGeeks Team</p>
+                        <p className="text-xs text-text-muted">Published {formatDate(blog.publishedAt || blog.createdAt)}</p>
+                      </div>
+                    </div>
+                    <button className="flex items-center gap-1.5 text-text-muted hover:text-primary text-sm transition-colors">
+                      <Share2 className="w-4 h-4" /> Share
+                    </button>
+                  </div>
                 </div>
               </div>
             </motion.article>
