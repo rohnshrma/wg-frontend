@@ -53,7 +53,7 @@ const timeline = [
 ];
 
 const advantages = [
-  "6+ years of trusted training experience",
+  "Hands-on mentorship from an experienced instructor",
   "100% practical, project-based learning",
   "AI tools integrated in every course",
   "Small batch sizes (max 15 students)",

@@ -13,7 +13,6 @@ import {
   Search,
 } from "lucide-react";
 import { useState } from "react";
-import { formatCurrency } from "@/lib/utils";
 import { courseGradient } from "@/lib/courseColors";
 import type { Course } from "@/types/course";
 import Hero3DBackground from "@/components/three/Hero3DBackground";
@@ -167,12 +166,12 @@ export default function CoursesContent({ courses }: { courses: Course[] }) {
                       {course.shortDescription}
                     </p>
 
-                    {/* Price + CTA */}
+                    {/* Fee on enquiry + CTA */}
                     <div className="flex items-center justify-between pt-4 border-t border-border">
                       <div>
-                        <p className="text-xs text-text-muted">Starting from</p>
-                        <p className="text-xl font-extrabold text-text-primary">
-                          {formatCurrency(course.fees)}
+                        <p className="text-xs text-text-muted">Course Fee</p>
+                        <p className="text-sm font-semibold text-text-primary">
+                          On Enquiry
                         </p>
                       </div>
                       <Link

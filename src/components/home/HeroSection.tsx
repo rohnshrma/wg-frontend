@@ -109,7 +109,7 @@ export default function HeroSection() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-white/90 text-sm font-medium mb-6"
             >
               <Sparkles className="w-4 h-4 text-accent" />
-              <span>6+ Years of Excellence</span>
+              <span>Your AI Skill Partner</span>
               <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
             </motion.div>
 

@@ -15,8 +15,8 @@ import {
 const features = [
   {
     icon: Award,
-    title: "6+ Years Experience",
-    description: "Trusted by hundreds of students with a proven track record of success.",
+    title: "Personal Mentorship",
+    description: "Direct access to your trainer for personalised feedback and career guidance — not a call centre.",
     color: "from-primary to-primary-dark",
   },
   {

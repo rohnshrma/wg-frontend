@@ -19,7 +19,6 @@ import {
   Mail,
   Send,
 } from "lucide-react";
-import { formatCurrency } from "@/lib/utils";
 import { siteConfig } from "@/config/site";
 import { courseGradient } from "@/lib/courseColors";
 import type { Course } from "@/types/course";
@@ -119,8 +118,8 @@ export default function CourseDetailContent({ course }: { course: Course }) {
               className="bg-white rounded-2xl p-6 text-text-primary shadow-2xl"
             >
               <p className="text-sm text-text-muted mb-1">Course Fees</p>
-              <p className="text-3xl font-extrabold mb-1">{formatCurrency(course.fees)}</p>
-              <p className="text-xs text-success font-medium mb-5">EMI options available</p>
+              <p className="text-2xl font-extrabold mb-1">On Enquiry</p>
+              <p className="text-xs text-success font-medium mb-5">EMI options available &middot; Talk to us for pricing</p>
 
               {isSubmitted ? (
                 <div className="text-center py-4">

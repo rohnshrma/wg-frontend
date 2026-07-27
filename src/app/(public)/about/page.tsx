@@ -4,7 +4,7 @@ import AboutContent from "./AboutContent";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Learn about WebiGeeks, your AI skill partner — 6+ years of excellence in practical, AI-integrated training for Data Science, MERN Stack, Python, and more.",
+    "Learn about WebiGeeks, your AI skill partner in practical, AI-integrated training for Data Science, MERN Stack, Python, and more.",
 };
 
 export default function AboutPage() {
