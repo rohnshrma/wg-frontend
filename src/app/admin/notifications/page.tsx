@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { AlertCircle, Bell, CheckCircle2, Send } from "lucide-react";
+import { AlertCircle, CheckCircle2, Send } from "lucide-react";
 import api from "@/lib/api";
+import NotificationsList from "@/components/shared/NotificationsList";
 
 export default function AdminNotificationsPage() {
   const [title, setTitle] = useState("");
@@ -30,8 +31,13 @@ export default function AdminNotificationsPage() {
   };
 
   return (
-    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-      <p className="text-text-secondary text-sm">Send an announcement to every active student.</p>
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+      <NotificationsList />
+
+      <div>
+        <h3 className="font-bold text-text-primary mb-1">Broadcast to Students</h3>
+        <p className="text-text-secondary text-sm">Send an announcement to every active student.</p>
+      </div>
 
       {result && <div className="flex items-center gap-2 px-4 py-3 rounded-lg bg-success-light text-success text-sm"><CheckCircle2 className="w-4 h-4" /> {result}</div>}
       {error && <div className="flex items-center gap-2 px-4 py-3 rounded-lg bg-destructive-light text-destructive text-sm"><AlertCircle className="w-4 h-4" /> {error}</div>}
@@ -67,13 +73,6 @@ export default function AdminNotificationsPage() {
           Broadcast to All Students
         </button>
       </form>
-
-      <div className="bg-white rounded-xl border border-border p-6 text-center py-10">
-        <Bell className="w-10 h-10 mx-auto mb-3 text-text-muted opacity-30" />
-        <p className="text-xs text-text-muted">
-          Broadcasts are delivered instantly as in-app notifications to every active student. A sent-history log isn&apos;t tracked yet.
-        </p>
-      </div>
     </motion.div>
   );
 }

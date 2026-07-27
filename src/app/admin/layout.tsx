@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
+import { useUnreadNotifications } from "@/hooks/useUnreadNotifications";
 
 const iconMap: Record<string, any> = {
   LayoutDashboard, Users, UserPlus, BookOpen, CreditCard, MessageSquare, Image, PenSquare, Bell, Settings, BarChart3,
@@ -34,6 +35,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user, isLoading, logout } = useAuth({ requireAuth: true, requireRole: "admin" });
   const activeLinkRef = useRef<HTMLAnchorElement | null>(null);
+  const unreadCount = useUnreadNotifications();
 
   // With 11 links the nav overflows on short viewports, which left the link for
   // the current page clipped in half at the edge of the scroll area. Nudge it
@@ -74,12 +76,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             const isActive = pathname === link.href;
             return (
               <Link key={link.href} href={link.href} ref={isActive ? activeLinkRef : undefined} onClick={() => setIsSidebarOpen(false)} className={cn(
-                "flex items-center gap-3 px-3 py-2.5 rounded-lg mb-1 text-sm font-medium transition-colors",
+                "relative flex items-center gap-3 px-3 py-2.5 rounded-lg mb-1 text-sm font-medium transition-colors",
                 isActive
                   ? "bg-white/10 text-white"
                   : "text-white/50 hover:bg-white/5 hover:text-white/80"
               )}>
-                {Icon && <Icon className="w-5 h-5" />}
+                <span className="relative">
+                  {Icon && <Icon className="w-5 h-5" />}
+                  {link.href === "/admin/notifications" && unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-destructive" />
+                  )}
+                </span>
                 {link.label}
               </Link>
             );

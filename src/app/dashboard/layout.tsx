@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
+import { useUnreadNotifications } from "@/hooks/useUnreadNotifications";
 
 const sidebarLinks = [
   { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
@@ -36,6 +37,7 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user, isLoading, logout } = useAuth({ requireAuth: true, requireRole: "student" });
+  const unreadCount = useUnreadNotifications();
 
   if (isLoading || !user) return null;
 
@@ -78,7 +80,12 @@ export default function DashboardLayout({
                   : "text-text-secondary hover:bg-gray-50 hover:text-text-primary"
               )}
             >
-              <link.icon className="w-5 h-5" />
+              <span className="relative">
+                <link.icon className="w-5 h-5" />
+                {link.href === "/dashboard/notifications" && unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-destructive" />
+                )}
+              </span>
               {link.label}
             </Link>
           ))}
