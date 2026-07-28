@@ -59,7 +59,8 @@ export default function AdminBlogsPage() {
       {error && <div className="px-4 py-3 rounded-lg bg-destructive-light text-destructive text-sm">{error}</div>}
 
       <div className="bg-white rounded-xl border border-border overflow-hidden">
-        <table className="w-full text-sm">
+        <div className="scroll-x">
+          <table className="w-full text-sm min-w-[720px]">
           <thead>
             <tr className="border-b border-border bg-gray-50/50">
               <th className="text-left px-4 py-3 font-semibold text-text-secondary">Title</th>
@@ -103,7 +104,8 @@ export default function AdminBlogsPage() {
               </tr>
             ))}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
 
       {deleteTarget && (

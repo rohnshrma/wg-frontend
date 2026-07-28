@@ -41,7 +41,7 @@ export default function GalleryContent({ images }: { images: GalleryImage[] }) {
               <Camera className="w-4 h-4 text-accent" />
               Our Gallery
             </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+            <h1 className="heading-hero mb-4">
               Life at <span className="bg-gradient-to-r from-accent to-accent-warm bg-clip-text text-transparent">WebiGeeks</span>
             </h1>
             <p className="text-white/60 text-lg max-w-xl mx-auto">

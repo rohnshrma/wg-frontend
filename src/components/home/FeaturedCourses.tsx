@@ -42,7 +42,7 @@ export default function FeaturedCourses({ courses }: { courses: Course[] }) {
             <Sparkles className="w-4 h-4" />
             Industry-Ready Courses
           </span>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-text-primary mb-4">
+          <h2 className="heading-section text-text-primary mb-4">
             Our <span className="gradient-text">Featured Courses</span>
           </h2>
           <p className="text-text-secondary text-lg max-w-2xl mx-auto">

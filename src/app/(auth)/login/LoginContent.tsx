@@ -12,6 +12,7 @@ import api from "@/lib/api";
 import FormInput from "@/components/ui/FormInput";
 import FormError from "@/components/ui/FormError";
 import { loginSchema, type LoginFormValues } from "@/lib/validations/auth";
+import { isRedirectAllowedForRole, roleHomeRoute } from "@/lib/roles";
 import Hero3DBackground from "@/components/three/Hero3DBackground";
 import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
 
@@ -32,11 +33,9 @@ export default function LoginContent() {
       const res = await api.post("/auth/login", values);
       const role = res.data.data.user.role;
       const redirect = searchParams.get("redirect");
-      if (redirect && (role === "admin" ? redirect.startsWith("/admin") : redirect.startsWith("/dashboard"))) {
-        router.push(redirect);
-      } else {
-        router.push(role === "admin" ? "/admin" : "/dashboard");
-      }
+      router.push(
+        redirect && isRedirectAllowedForRole(redirect, role) ? redirect : roleHomeRoute(role)
+      );
     } catch (err: any) {
       setServerError(err.response?.data?.message || "Login failed. Please try again.");
     }

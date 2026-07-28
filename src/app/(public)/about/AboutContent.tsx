@@ -83,7 +83,7 @@ export default function AboutContent() {
               <GraduationCap className="w-4 h-4" />
               About WebiGeeks
             </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+            <h1 className="heading-hero mb-4">
               Empowering Careers Through
               <br />
               <span className="bg-gradient-to-r from-accent to-accent-warm bg-clip-text text-transparent">
@@ -111,7 +111,7 @@ export default function AboutContent() {
                 <BookOpen className="w-4 h-4" />
                 Our Story
               </span>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-text-primary mb-6">
+              <h2 className="heading-section text-text-primary mb-6">
                 From a Small Classroom to{" "}
                 <span className="gradient-text">500+ Placed Students</span>
               </h2>
@@ -171,7 +171,7 @@ export default function AboutContent() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-extrabold text-text-primary mb-4">
+            <h2 className="heading-section text-text-primary mb-4">
               Our <span className="gradient-text">Core Values</span>
             </h2>
             <p className="text-text-secondary text-lg max-w-xl mx-auto">
@@ -210,7 +210,7 @@ export default function AboutContent() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-extrabold text-text-primary mb-4">
+            <h2 className="heading-section text-text-primary mb-4">
               Our <span className="gradient-text">Journey</span>
             </h2>
           </motion.div>
@@ -257,7 +257,7 @@ export default function AboutContent() {
         </div>
         <div className="container-custom relative">
           <Users className="w-12 h-12 mx-auto mb-4 opacity-80" />
-          <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
+          <h2 className="heading-section mb-4">
             Ready to Start Your Journey?
           </h2>
           <p className="text-white/60 text-lg mb-8 max-w-lg mx-auto">

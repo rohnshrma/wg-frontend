@@ -59,6 +59,10 @@
   /* Font Family */
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
 
+  /* Extra-small breakpoint for the 320–400px band, where the default `sm`
+     (640px) is far too late to make layout decisions. */
+  --breakpoint-xs: 400px;
+
   /* Animations */
   --animate-fade-in: fade-in 0.6s ease-out;
   --animate-fade-in-up: fade-in-up 0.6s ease-out;
@@ -131,12 +135,29 @@
 /* Base styles */
 html {
   scroll-behavior: smooth;
+  /* Decorative blurred orbs are absolutely positioned and deliberately spill
+     past their section. Without this, that spill becomes a horizontal scrollbar
+     on narrow viewports even though nothing meaningful is off-screen. */
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background-color: var(--color-background);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
+  overflow-x: hidden;
+  /* Belt-and-braces against a single wide child (tables, code blocks, kanban
+     rows) forcing the whole page sideways. */
+  max-width: 100%;
+}
+
+/* Media should never be the thing that widens a layout. */
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
 }
 
 /* Selection color */
@@ -265,13 +286,17 @@ body {
   }
 }
 
-/* Container max-width */
+/* Container max-width.
+   1400px stretched line lengths uncomfortably wide on large monitors, which is
+   what made some pages read as "zoomed out" next to the narrower ones. 1280px
+   keeps body copy in a readable measure while still feeling full-width. */
 .container-custom {
-  max-width: 1400px;
+  max-width: 1280px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1rem;
   padding-right: 1rem;
+  width: 100%;
 }
 
 @media (min-width: 640px) {
@@ -285,6 +310,72 @@ body {
   .container-custom {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+}
+
+/* Shared page-heading scale.
+   Headings were previously hand-tuned per page (text-4xl here, text-3xl there,
+   some with no mobile step-down), which is what made pages look inconsistently
+   scaled relative to each other. These three classes are the single source of
+   truth for heading size. */
+.heading-hero {
+  font-size: clamp(2rem, 1.35rem + 2.6vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.heading-section {
+  font-size: clamp(1.6rem, 1.2rem + 1.6vw, 2.25rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.heading-panel {
+  font-size: clamp(1.125rem, 1.05rem + 0.35vw, 1.375rem);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+/* Horizontally scrollable regions (wide tables, the CRM kanban) should scroll
+   inside their own box rather than pushing the page sideways. */
+.scroll-x {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+/* Touch targets.
+   Compact icon buttons (a 20px glyph inside p-1/p-1.5) land at roughly 28–32px,
+   under the ~44px a finger reliably hits. Rather than re-padding every button —
+   which would loosen the dense admin tables on desktop — grow the hit area only
+   where the pointer is actually coarse. */
+@media (pointer: coarse) {
+  button,
+  a[role="button"],
+  [type="button"],
+  [type="submit"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Inline text links inside prose are exempt — they're read, not tapped as
+     discrete controls, and stretching them would break the line rhythm. */
+  p button,
+  p a[role="button"] {
+    min-height: 0;
+    min-width: 0;
+  }
+}
+
+/* iOS zooms the page in when a focused input's font-size is under 16px, which
+   is exactly the "page appears zoomed in" symptom on phones. */
+@media (max-width: 640px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
   }
 }
 

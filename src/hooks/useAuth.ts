@@ -3,13 +3,14 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
-import type { User } from "@/types/user";
+import { roleHomeRoute } from "@/lib/roles";
+import type { User, UserRole } from "@/types/user";
 
 interface UseAuthOptions {
   /** Redirect to /login if no authenticated user is found. */
   requireAuth?: boolean;
   /** If set, redirect away when the logged-in user's role doesn't match. */
-  requireRole?: "student" | "admin";
+  requireRole?: UserRole;
 }
 
 export function useAuth(options: UseAuthOptions = {}) {
@@ -25,6 +26,7 @@ export function useAuth(options: UseAuthOptions = {}) {
         id: res.data.data.user._id ?? res.data.data.user.id,
         email: res.data.data.user.email,
         role: res.data.data.user.role,
+        name: res.data.data.user.name,
         isActive: res.data.data.user.isActive,
         isEmailVerified: res.data.data.user.isEmailVerified,
         lastLogin: res.data.data.user.lastLogin,
@@ -46,7 +48,7 @@ export function useAuth(options: UseAuthOptions = {}) {
         return;
       }
       if (requireRole && fetched.role !== requireRole) {
-        router.push(fetched.role === "admin" ? "/admin" : "/dashboard");
+        router.push(roleHomeRoute(fetched.role));
       }
     });
   }, [fetchUser, requireAuth, requireRole, router]);

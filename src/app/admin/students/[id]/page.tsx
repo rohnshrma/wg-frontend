@@ -207,7 +207,7 @@ export default function AdminStudentDetailPage() {
       {/* Payment Summary */}
       <div className="bg-white rounded-xl border border-border p-6">
         <h3 className="font-bold text-text-primary mb-4">Payment Summary</h3>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="rounded-lg border border-border p-4">
             <p className="text-xs text-text-muted mb-1">Course Fees</p>
             <p className="font-bold text-text-primary">{formatCurrency(student.courseFees)}</p>

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -51,6 +51,17 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
+};
+
+// Set explicitly rather than relying on the framework default: `initialScale: 1`
+// with a device-width viewport is what stops phones rendering the desktop layout
+// scaled down. `maximumScale`/`userScalable` are deliberately left alone — pinch
+// zoom is an accessibility affordance and should never be disabled.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#1672B8",
 };
 
 export default function RootLayout({

@@ -76,7 +76,7 @@ export default function CourseDetailContent({ course }: { course: Course }) {
                     {course.mode}
                   </span>
                 </div>
-                <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+                <h1 className="heading-hero mb-4">
                   {course.title}
                 </h1>
                 <p className="text-white/60 text-lg mb-6 max-w-2xl leading-relaxed">

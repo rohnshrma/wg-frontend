@@ -49,7 +49,7 @@ export default function CoursesContent({ courses }: { courses: Course[] }) {
               <Sparkles className="w-4 h-4 text-accent" />
               {courses.length}+ Industry-Ready Courses
             </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+            <h1 className="heading-hero mb-4">
               Explore Our{" "}
               <span className="bg-gradient-to-r from-accent to-accent-warm bg-clip-text text-transparent">
                 Courses

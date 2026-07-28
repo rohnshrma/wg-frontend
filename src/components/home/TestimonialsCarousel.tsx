@@ -72,7 +72,7 @@ export default function TestimonialsCarousel() {
             <Award className="w-4 h-4" />
             Success Stories
           </span>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-text-primary mb-4">
+          <h2 className="heading-section text-text-primary mb-4">
             What Our <span className="gradient-text">Students Say</span>
           </h2>
           <p className="text-text-secondary text-lg max-w-2xl mx-auto">

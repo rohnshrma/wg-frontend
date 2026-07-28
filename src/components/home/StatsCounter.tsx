@@ -78,7 +78,7 @@ export default function StatsCounter() {
               <div className="w-14 h-14 mx-auto rounded-2xl bg-white/10 flex items-center justify-center mb-4">
                 <stat.icon className="w-7 h-7 text-white" />
               </div>
-              <p className="text-3xl md:text-4xl font-extrabold text-white mb-1">
+              <p className="heading-section text-white mb-1">
                 <AnimatedNumber value={stat.value} suffix={stat.suffix} />
               </p>
               <p className="text-sm text-white/60 font-medium">{stat.label}</p>

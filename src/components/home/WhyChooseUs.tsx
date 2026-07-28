@@ -101,7 +101,7 @@ export default function WhyChooseUs() {
             <Award className="w-4 h-4" />
             Why Choose Us
           </span>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-text-primary mb-4">
+          <h2 className="heading-section text-text-primary mb-4">
             What Makes WebiGeeks{" "}
             <span className="gradient-text">Different?</span>
           </h2>

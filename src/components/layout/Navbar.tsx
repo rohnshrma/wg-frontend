@@ -21,6 +21,11 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
+  // "/" must match exactly, but every other section should stay highlighted on
+  // its detail pages too (/courses/react-basics still means "Courses").
+  const isActiveRoute = (href: string): boolean =>
+    href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -85,13 +90,15 @@ export default function Navbar() {
         <div className="container-custom">
           <nav className="flex items-center justify-between h-16 lg:h-[72px]">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2.5 group">
-              <Image src="/images/logo-mark.png" alt="WebiGeeks" width={58} height={36} className="h-9 w-auto" loading="eager" />
-              <div className="flex flex-col">
-                <span className="text-lg font-extrabold tracking-tight text-text-primary leading-tight">
+            <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group min-w-0">
+              <Image src="/images/logo-mark.png" alt="WebiGeeks" width={58} height={36} className="h-8 sm:h-9 w-auto shrink-0" loading="eager" />
+              <div className="flex flex-col min-w-0">
+                <span className="text-base sm:text-lg font-extrabold tracking-tight text-text-primary leading-tight">
                   Webi<span className="text-primary">Geeks</span>
                 </span>
-                <span className="text-[10px] font-medium text-text-muted tracking-wider uppercase leading-tight">
+                {/* Tagline is the first thing to go on a narrow phone — the
+                    wordmark alone still identifies the brand. */}
+                <span className="hidden xs:block text-[10px] font-medium text-text-muted tracking-wider uppercase leading-tight truncate">
                   Your AI Skill Partner
                 </span>
               </div>
@@ -103,15 +110,16 @@ export default function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  aria-current={isActiveRoute(item.href) ? "page" : undefined}
                   className={cn(
                     "relative px-3 py-2 text-[15px] font-medium rounded-lg transition-colors duration-200",
-                    pathname === item.href
+                    isActiveRoute(item.href)
                       ? "text-primary"
                       : "text-text-secondary hover:text-text-primary hover:bg-primary-50"
                   )}
                 >
                   {item.label}
-                  {pathname === item.href && (
+                  {isActiveRoute(item.href) && (
                     <motion.div
                       layoutId="navbar-indicator"
                       className="absolute bottom-0 left-3 right-3 h-0.5 bg-primary rounded-full"
@@ -183,7 +191,9 @@ export default function Navbar() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 h-full w-[300px] bg-white shadow-2xl z-50 lg:hidden flex flex-col"
+              // Capped against the viewport so the drawer never fills the whole
+              // screen on a 320px device (it left a 20px strip at a fixed 300px).
+              className="fixed top-0 right-0 h-full w-[min(320px,85vw)] bg-white shadow-2xl z-50 lg:hidden flex flex-col"
             >
               {/* Mobile Menu Header */}
               <div className="flex items-center justify-between p-4 border-b border-border">
@@ -216,9 +226,10 @@ export default function Navbar() {
                   >
                     <Link
                       href={item.href}
+                      aria-current={isActiveRoute(item.href) ? "page" : undefined}
                       className={cn(
                         "flex items-center justify-between px-4 py-3 rounded-lg mb-1 text-[15px] font-medium transition-colors",
-                        pathname === item.href
+                        isActiveRoute(item.href)
                           ? "bg-primary-50 text-primary"
                           : "text-text-secondary hover:bg-gray-50 hover:text-text-primary"
                       )}

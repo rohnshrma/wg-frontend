@@ -7,18 +7,22 @@ import NextImage from "next/image";
 import {
   LayoutDashboard, Users, UserPlus, BookOpen, CreditCard, MessageSquare,
   Image, PenSquare, Bell, Settings, LogOut, Menu, X, ChevronRight, BarChart3,
+  KanbanSquare, UserCog,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import { useUnreadNotifications } from "@/hooks/useUnreadNotifications";
 
 const iconMap: Record<string, any> = {
-  LayoutDashboard, Users, UserPlus, BookOpen, CreditCard, MessageSquare, Image, PenSquare, Bell, Settings, BarChart3,
+  LayoutDashboard, Users, UserPlus, BookOpen, CreditCard, MessageSquare, Image, PenSquare, Bell, Settings, BarChart3, KanbanSquare, UserCog,
 };
 
 const sidebarLinks = [
   { label: "Dashboard", href: "/admin", icon: "LayoutDashboard" },
   { label: "Analytics", href: "/admin/analytics", icon: "BarChart3" },
+  { label: "CRM", href: "/admin/crm", icon: "LayoutDashboard" },
+  { label: "Enquiry Pipeline", href: "/admin/crm/pipeline", icon: "KanbanSquare" },
+  { label: "Team Accounts", href: "/admin/crm/users", icon: "UserCog" },
   { label: "Students", href: "/admin/students", icon: "Users" },
   { label: "Leads", href: "/admin/leads", icon: "UserPlus" },
   { label: "Courses", href: "/admin/courses", icon: "BookOpen" },
@@ -109,7 +113,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {isSidebarOpen && <div className="fixed inset-0 bg-black/40 z-30 lg:hidden" onClick={() => setIsSidebarOpen(false)} />}
 
-      <div className="flex-1 flex flex-col min-h-screen">
+      <div className="flex-1 flex flex-col min-h-screen min-w-0">
         <header className="sticky top-0 z-20 h-16 bg-white border-b border-border flex items-center px-4 lg:px-6 gap-4">
           <button onClick={() => setIsSidebarOpen(true)} className="lg:hidden p-2 rounded-lg hover:bg-gray-100">
             <Menu className="w-5 h-5" />
@@ -123,7 +127,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             View Site <ChevronRight className="w-3.5 h-3.5" />
           </Link>
         </header>
-        <main className="flex-1 p-4 lg:p-6">{children}</main>
+        <main className="flex-1 p-4 lg:p-6 min-w-0">{children}</main>
       </div>
     </div>
   );

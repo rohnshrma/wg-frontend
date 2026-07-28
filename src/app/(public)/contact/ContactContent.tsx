@@ -103,7 +103,7 @@ export default function ContactContent() {
               <MessageSquare className="w-4 h-4" />
               Get In Touch
             </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+            <h1 className="heading-hero mb-4">
               We&apos;d Love to{" "}
               <span className="bg-gradient-to-r from-accent to-accent-warm bg-clip-text text-transparent">
                 Hear From You

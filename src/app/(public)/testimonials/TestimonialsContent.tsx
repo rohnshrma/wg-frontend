@@ -19,7 +19,7 @@ export default function TestimonialsContent({ testimonials }: { testimonials: Te
               <Award className="w-4 h-4 text-accent" />
               Success Stories
             </span>
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+            <h1 className="heading-hero mb-4">
               What Our <span className="bg-gradient-to-r from-accent to-accent-warm bg-clip-text text-transparent">Students Say</span>
             </h1>
             <p className="text-white/60 text-lg max-w-xl mx-auto">

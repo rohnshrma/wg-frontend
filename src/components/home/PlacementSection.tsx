@@ -36,7 +36,7 @@ export default function PlacementSection() {
             <TrendingUp className="w-4 h-4" />
             Placement Track Record
           </span>
-          <h2 className="text-3xl md:text-4xl font-extrabold mb-4">
+          <h2 className="heading-section mb-4">
             Our Students Work At{" "}
             <span className="bg-gradient-to-r from-accent to-accent-warm bg-clip-text text-transparent">
               Top Companies

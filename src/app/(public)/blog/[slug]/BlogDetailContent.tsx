@@ -31,7 +31,7 @@ export default function BlogDetailContent({ blog }: { blog: Blog }) {
               <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{readTime(blog.content)} read</span>
               <span className="flex items-center gap-1"><User className="w-3.5 h-3.5" />WebiGeeks Team</span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold leading-tight">{blog.title}</h1>
+            <h1 className="heading-section leading-tight">{blog.title}</h1>
           </motion.div>
         </div>
       </section>
