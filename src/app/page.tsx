@@ -10,9 +10,13 @@ import PlacementSection from "@/components/home/PlacementSection";
 import InquiryPopup from "@/components/popups/InquiryPopup";
 import ExitIntentPopup from "@/components/popups/ExitIntentPopup";
 import { getCourses } from "@/lib/courses";
+import { getTestimonials } from "@/lib/testimonials";
 
 export default async function HomePage() {
-  const featuredCourses = await getCourses({ featured: true });
+  const [featuredCourses, testimonials] = await Promise.all([
+    getCourses({ featured: true }),
+    getTestimonials(),
+  ]);
 
   return (
     <>
@@ -22,7 +26,7 @@ export default async function HomePage() {
         <WhyChooseUs />
         <StatsCounter />
         <FeaturedCourses courses={featuredCourses} />
-        <TestimonialsCarousel />
+        <TestimonialsCarousel testimonials={testimonials} />
         <PlacementSection />
       </main>
       <Footer />

@@ -3,52 +3,19 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, ChevronLeft, ChevronRight, Quote, Award } from "lucide-react";
+import type { Testimonial } from "@/types/testimonial";
 
-const testimonials = [
-  {
-    id: 1,
-    name: "Priya Sharma",
-    course: "Data Science",
-    company: "TCS",
-    designation: "Data Analyst",
-    package: "6.5 LPA",
-    rating: 5,
-    text: "WebiGeeks transformed my career completely. The hands-on projects and AI-integrated curriculum prepared me for real-world challenges. I got placed at TCS within 2 months of completing my course!",
-  },
-  {
-    id: 2,
-    name: "Rahul Patel",
-    course: "MERN Stack",
-    company: "Infosys",
-    designation: "Full Stack Developer",
-    package: "7 LPA",
-    rating: 5,
-    text: "The MERN Stack course was incredibly comprehensive. Building real projects gave me the confidence to crack interviews. The mentors are always available for doubt clearing.",
-  },
-  {
-    id: 3,
-    name: "Sneha Kulkarni",
-    course: "Data Analytics",
-    company: "Accenture",
-    designation: "Business Analyst",
-    package: "5.5 LPA",
-    rating: 5,
-    text: "Coming from a non-tech background, I was worried. But WebiGeeks made everything so simple and practical. The Power BI and SQL skills I learned here are exactly what companies need.",
-  },
-  {
-    id: 4,
-    name: "Amit Deshmukh",
-    course: "Python Programming",
-    company: "Wipro",
-    designation: "Python Developer",
-    package: "5 LPA",
-    rating: 4,
-    text: "Excellent training with real-world projects. The flexible timings helped me learn while working. I highly recommend WebiGeeks to anyone looking to upskill.",
-  },
-];
+interface Props {
+  testimonials: Testimonial[];
+}
 
-export default function TestimonialsCarousel() {
+export default function TestimonialsCarousel({ testimonials }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Real testimonial content is admin-managed and may be empty on a fresh
+  // deployment — unlike the old hardcoded array, this can legitimately be
+  // zero, so the section just doesn't render rather than showing placeholders.
+  if (testimonials.length === 0) return null;
 
   const next = () => setCurrentIndex((prev) => (prev + 1) % testimonials.length);
   const prev = () =>
@@ -85,7 +52,7 @@ export default function TestimonialsCarousel() {
         <div className="max-w-3xl mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
-              key={current.id}
+              key={current._id}
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
@@ -111,26 +78,30 @@ export default function TestimonialsCarousel() {
 
               {/* Text */}
               <p className="text-lg text-text-primary leading-relaxed mb-8 italic">
-                &ldquo;{current.text}&rdquo;
+                &ldquo;{current.testimonialText}&rdquo;
               </p>
 
               {/* Author */}
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-white font-bold text-lg">
-                    {current.name[0]}
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="w-12 h-12 rounded-full gradient-primary flex items-center justify-center text-white font-bold text-lg shrink-0">
+                    {current.studentName[0]}
                   </div>
-                  <div>
-                    <p className="font-bold text-text-primary">{current.name}</p>
-                    <p className="text-sm text-text-secondary">
-                      {current.designation} at {current.company}
+                  <div className="min-w-0">
+                    <p className="font-bold text-text-primary truncate">{current.studentName}</p>
+                    <p className="text-sm text-text-secondary truncate">
+                      {current.designation || current.companyPlaced
+                        ? `${current.designation ?? ""}${current.designation && current.companyPlaced ? " at " : ""}${current.companyPlaced ?? ""}`
+                        : current.courseName}
                     </p>
                   </div>
                 </div>
-                <div className="hidden sm:block text-right">
-                  <p className="text-xs text-text-muted">Package</p>
-                  <p className="text-lg font-bold text-success">{current.package}</p>
-                </div>
+                {current.salaryPackage && (
+                  <div className="hidden sm:block text-right shrink-0">
+                    <p className="text-xs text-text-muted">Package</p>
+                    <p className="text-lg font-bold text-success">{current.salaryPackage}</p>
+                  </div>
+                )}
               </div>
             </motion.div>
           </AnimatePresence>
