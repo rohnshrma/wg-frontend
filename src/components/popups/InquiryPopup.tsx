@@ -87,11 +87,11 @@ export default function InquiryPopup() {
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-md z-50 max-h-[90dvh]"
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-md z-50 max-h-[90svh]"
             >
               {/* The form is taller than a landscape phone viewport, so the
                   panel scrolls internally rather than running off-screen. */}
-              <div className="bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[90dvh] overflow-y-auto">
+              <div className="bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[90svh] overflow-y-auto">
                 {/* Header */}
                 <div className="gradient-primary px-6 py-5 relative">
                   <button

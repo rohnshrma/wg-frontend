@@ -77,7 +77,7 @@ export default function EnquiryDetailModal({
             exit={{ opacity: 0, y: 40, scale: 0.98 }}
             transition={{ type: "spring", damping: 26, stiffness: 320 }}
             onClick={(event) => event.stopPropagation()}
-            className="w-full sm:max-w-2xl bg-white rounded-t-2xl sm:rounded-2xl shadow-xl max-h-[92dvh] sm:max-h-[88dvh] flex flex-col"
+            className="w-full sm:max-w-2xl bg-white rounded-t-2xl sm:rounded-2xl shadow-xl max-h-[92svh] sm:max-h-[88svh] flex flex-col"
           >
             <div className="flex items-start justify-between gap-3 px-5 sm:px-6 py-4 border-b border-border shrink-0">
               <div className="min-w-0">

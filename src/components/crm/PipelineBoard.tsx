@@ -107,11 +107,11 @@ export default function PipelineBoard({
       sensors={sensors}
       collisionDetection={closestCorners}
       // acceleration scales scroll speed linearly (dnd-kit: speed = acceleration
-      // × how far into the edge threshold the pointer is) — doubled from the
-      // dnd-kit default of 10 to make dragging near the top/bottom of a long
-      // vertical stack on mobile actually keep up with the drag instead of
-      // crawling.
-      autoScroll={{ threshold: { x: 0.2, y: 0.2 }, acceleration: 24 }}
+      // × how far into the edge threshold the pointer is). Bumped again after
+      // 2x (24) still felt slow on a real phone — now ~4x the dnd-kit default
+      // of 10, so a drag held at the top/bottom edge of the vertical mobile
+      // stack scrolls fast enough to actually keep up with the gesture.
+      autoScroll={{ threshold: { x: 0.2, y: 0.2 }, acceleration: 48 }}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onDragCancel={() => setActiveEnquiry(null)}
