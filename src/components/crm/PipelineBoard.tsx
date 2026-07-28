@@ -106,7 +106,12 @@ export default function PipelineBoard({
     <DndContext
       sensors={sensors}
       collisionDetection={closestCorners}
-      autoScroll={{ threshold: { x: 0.2, y: 0.2 }, acceleration: 12 }}
+      // acceleration scales scroll speed linearly (dnd-kit: speed = acceleration
+      // × how far into the edge threshold the pointer is) — doubled from the
+      // dnd-kit default of 10 to make dragging near the top/bottom of a long
+      // vertical stack on mobile actually keep up with the drag instead of
+      // crawling.
+      autoScroll={{ threshold: { x: 0.2, y: 0.2 }, acceleration: 24 }}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onDragCancel={() => setActiveEnquiry(null)}

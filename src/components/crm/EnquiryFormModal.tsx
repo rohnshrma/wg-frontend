@@ -158,7 +158,7 @@ export default function EnquiryFormModal({
             exit={{ opacity: 0, y: 40, scale: 0.98 }}
             transition={{ type: "spring", damping: 26, stiffness: 320 }}
             onClick={(event) => event.stopPropagation()}
-            className="w-full sm:max-w-2xl bg-white rounded-t-2xl sm:rounded-2xl shadow-xl max-h-[92vh] sm:max-h-[88vh] flex flex-col"
+            className="w-full sm:max-w-2xl bg-white rounded-t-2xl sm:rounded-2xl shadow-xl max-h-[92dvh] sm:max-h-[88dvh] flex flex-col"
           >
             <div className="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-border shrink-0">
               <h2 className="text-base sm:text-lg font-bold text-text-primary">
