@@ -50,13 +50,28 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     activeLinkRef.current?.scrollIntoView({ block: "nearest" });
   }, [pathname, isLoading]);
 
+  // Without this, a scroll gesture anywhere over the open mobile sidebar
+  // falls through to the page behind it instead of staying inside the
+  // drawer — the drawer has no scrollbar of its own to absorb it.
+  useEffect(() => {
+    document.body.style.overflow = isSidebarOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isSidebarOpen]);
+
   if (isLoading || !user) return null;
 
   return (
     <div className="min-h-screen bg-background flex">
       {/* Sidebar */}
       <aside className={cn(
-        "fixed lg:sticky top-0 left-0 z-40 h-screen w-64 bg-surface-dark text-white flex flex-col transition-transform lg:translate-x-0",
+        // h-screen (100vh) is computed against the mobile browser's expanded
+        // viewport, which is taller than what's actually visible once the
+        // address bar is showing — that's what was pushing the bottom
+        // section (user info, Logout) off the bottom of the screen. h-svh is
+        // the stable "smallest viewport" baseline instead.
+        "fixed lg:sticky top-0 left-0 z-40 h-svh w-64 bg-surface-dark text-white flex flex-col transition-transform lg:translate-x-0",
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="flex items-center justify-between px-5 h-16 border-b border-white/10">

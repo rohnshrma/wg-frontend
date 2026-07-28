@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import NextImage from "next/image";
@@ -18,6 +18,16 @@ export default function CounsellorLayout({ children }: { children: React.ReactNo
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user, isLoading, logout } = useAuth({ requireAuth: true, requireRole: "counsellor" });
 
+  // Without this, a scroll gesture anywhere over the open mobile sidebar
+  // falls through to the page behind it instead of staying inside the
+  // drawer — the drawer has no scrollbar of its own to absorb it.
+  useEffect(() => {
+    document.body.style.overflow = isSidebarOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isSidebarOpen]);
+
   if (isLoading || !user) return null;
 
   const initial = (user.name || user.email).charAt(0).toUpperCase();
@@ -26,7 +36,12 @@ export default function CounsellorLayout({ children }: { children: React.ReactNo
     <div className="min-h-screen bg-background flex">
       <aside
         className={cn(
-          "fixed lg:sticky top-0 left-0 z-40 h-screen w-64 bg-surface-dark text-white flex flex-col transition-transform lg:translate-x-0",
+          // h-screen (100vh) is computed against the mobile browser's
+          // expanded viewport, which is taller than what's actually visible
+          // once the address bar is showing — that's what was pushing the
+          // bottom section (user info, Logout) off the bottom of the screen.
+          // h-svh is the stable "smallest viewport" baseline instead.
+          "fixed lg:sticky top-0 left-0 z-40 h-svh w-64 bg-surface-dark text-white flex flex-col transition-transform lg:translate-x-0",
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
