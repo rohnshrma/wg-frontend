@@ -214,81 +214,127 @@ export default function AdminCrmUsersPage() {
         </motion.form>
       )}
 
-      <div className="bg-white rounded-xl border border-border overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm min-w-[640px]">
-            <thead>
-              <tr className="border-b border-border bg-gray-50/60">
-                <th className="text-left px-4 py-3 font-semibold text-text-secondary">Name</th>
-                <th className="text-left px-4 py-3 font-semibold text-text-secondary">Email</th>
-                <th className="text-left px-4 py-3 font-semibold text-text-secondary">Role</th>
-                <th className="text-left px-4 py-3 font-semibold text-text-secondary">Status</th>
-                <th className="text-right px-4 py-3 font-semibold text-text-secondary">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {isLoading ? (
-                <tr>
-                  <td colSpan={5} className="text-center py-16 text-text-muted">
-                    Loading users...
-                  </td>
-                </tr>
-              ) : users.length === 0 ? (
-                <tr>
-                  <td colSpan={5} className="text-center py-16">
-                    <UserCog className="w-12 h-12 mx-auto mb-3 text-text-muted opacity-30" />
-                    <p className="font-medium text-text-muted">No team accounts yet</p>
-                  </td>
-                </tr>
-              ) : (
-                users.map((user) => (
-                  <tr key={user._id} className="border-b border-border last:border-0 hover:bg-gray-50/50">
-                    <td className="px-4 py-3 font-medium text-text-primary">{user.name || "—"}</td>
-                    <td className="px-4 py-3 text-text-secondary break-all">{user.email}</td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={cn(
-                          "inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full",
-                          user.role === "admin"
-                            ? "bg-primary-100 text-primary-600"
-                            : "bg-violet-100 text-violet-700"
-                        )}
-                      >
-                        {user.role === "admin" && <ShieldCheck className="w-3 h-3" />}
-                        {user.role === "admin" ? "Admin" : "Counsellor"}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <button
-                        type="button"
-                        onClick={() => toggleActive(user)}
-                        className={cn(
-                          "text-xs font-bold px-2.5 py-1 rounded-full transition-colors",
-                          user.isActive
-                            ? "bg-green-100 text-green-700 hover:bg-green-200"
-                            : "bg-gray-100 text-text-muted hover:bg-gray-200"
-                        )}
-                      >
-                        {user.isActive ? "Active" : "Inactive"}
-                      </button>
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(user)}
-                        className="p-2 rounded-lg hover:bg-destructive-light text-text-muted hover:text-destructive transition-colors"
-                        aria-label={`Delete ${user.email}`}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+      {isLoading ? (
+        <div className="bg-white rounded-xl border border-border py-16 text-center text-text-muted text-sm">
+          Loading users...
         </div>
-      </div>
+      ) : users.length === 0 ? (
+        <div className="bg-white rounded-xl border border-border py-16 text-center">
+          <UserCog className="w-12 h-12 mx-auto mb-3 text-text-muted opacity-30" />
+          <p className="font-medium text-text-muted">No team accounts yet</p>
+        </div>
+      ) : (
+        <>
+          {/* Table on wide screens */}
+          <div className="hidden lg:block bg-white rounded-xl border border-border overflow-hidden">
+            <div className="scroll-x">
+              <table className="w-full text-sm min-w-[640px]">
+                <thead>
+                  <tr className="border-b border-border bg-gray-50/60">
+                    <th className="text-left px-4 py-3 font-semibold text-text-secondary">Name</th>
+                    <th className="text-left px-4 py-3 font-semibold text-text-secondary">Email</th>
+                    <th className="text-left px-4 py-3 font-semibold text-text-secondary">Role</th>
+                    <th className="text-left px-4 py-3 font-semibold text-text-secondary">Status</th>
+                    <th className="text-right px-4 py-3 font-semibold text-text-secondary">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map((user) => (
+                    <tr key={user._id} className="border-b border-border last:border-0 hover:bg-gray-50/50">
+                      <td className="px-4 py-3 font-medium text-text-primary">{user.name || "—"}</td>
+                      <td className="px-4 py-3 text-text-secondary break-all">{user.email}</td>
+                      <td className="px-4 py-3">
+                        <span
+                          className={cn(
+                            "inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full",
+                            user.role === "admin"
+                              ? "bg-primary-100 text-primary-600"
+                              : "bg-violet-100 text-violet-700"
+                          )}
+                        >
+                          {user.role === "admin" && <ShieldCheck className="w-3 h-3" />}
+                          {user.role === "admin" ? "Admin" : "Counsellor"}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <button
+                          type="button"
+                          onClick={() => toggleActive(user)}
+                          className={cn(
+                            "text-xs font-bold px-2.5 py-1 rounded-full transition-colors",
+                            user.isActive
+                              ? "bg-green-100 text-green-700 hover:bg-green-200"
+                              : "bg-gray-100 text-text-muted hover:bg-gray-200"
+                          )}
+                        >
+                          {user.isActive ? "Active" : "Inactive"}
+                        </button>
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(user)}
+                          className="p-2 rounded-lg hover:bg-destructive-light text-text-muted hover:text-destructive transition-colors"
+                          aria-label={`Delete ${user.email}`}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Card grid below lg */}
+          <div className="lg:hidden grid grid-cols-1 xs:grid-cols-2 gap-4">
+            {users.map((user) => (
+              <div key={user._id} className="bg-white rounded-xl border border-border p-4">
+                <div className="flex items-start justify-between gap-2 mb-2.5">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-text-primary truncate">{user.name || "—"}</p>
+                    <p className="text-xs text-text-muted break-all">{user.email}</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(user)}
+                    className="shrink-0 p-2 -m-2 rounded-lg hover:bg-destructive-light text-text-muted hover:text-destructive transition-colors"
+                    aria-label={`Delete ${user.email}`}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+                <div className="flex items-center gap-2 mt-3 pt-2.5 border-t border-border/70">
+                  <span
+                    className={cn(
+                      "inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full",
+                      user.role === "admin"
+                        ? "bg-primary-100 text-primary-600"
+                        : "bg-violet-100 text-violet-700"
+                    )}
+                  >
+                    {user.role === "admin" && <ShieldCheck className="w-3 h-3" />}
+                    {user.role === "admin" ? "Admin" : "Counsellor"}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => toggleActive(user)}
+                    className={cn(
+                      "text-xs font-bold px-2.5 py-1 rounded-full transition-colors",
+                      user.isActive
+                        ? "bg-green-100 text-green-700 hover:bg-green-200"
+                        : "bg-gray-100 text-text-muted hover:bg-gray-200"
+                    )}
+                  >
+                    {user.isActive ? "Active" : "Inactive"}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
 
       {toast && (
         <motion.div

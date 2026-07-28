@@ -5,7 +5,8 @@ import {
   DndContext,
   DragOverlay,
   KeyboardSensor,
-  PointerSensor,
+  MouseSensor,
+  TouchSensor,
   closestCorners,
   useSensor,
   useSensors,
@@ -13,6 +14,7 @@ import {
   type DragStartEvent,
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import { cn } from "@/lib/utils";
 import { ENQUIRY_STAGES, type Enquiry, type EnquiryStage } from "@/types/crm";
 import { moveEnquiryStage } from "@/lib/crm";
 import EnquiryCard from "./EnquiryCard";
@@ -37,10 +39,19 @@ export default function PipelineBoard({
 }: Props) {
   const [activeEnquiry, setActiveEnquiry] = useState<Enquiry | null>(null);
 
+  // Mouse and touch need different activation strategies. A small mouse-move
+  // distance keeps a plain click (which opens the detail view) from being
+  // swallowed as a drag. Touch can't use distance alone: a finger moves a few
+  // pixels on almost every tap, and on a touch surface that ambiguity is what
+  // caused the reported glitching — the browser and dnd-kit would race to
+  // decide "is this a scroll or a drag?" and sometimes both would partially
+  // win. A short hold delay resolves that up front: quick swipes are always a
+  // scroll, and only a still finger followed by movement starts a drag.
   const sensors = useSensors(
-    // A small activation distance keeps a plain click on the card (which opens
-    // the detail view) from being swallowed as a drag.
-    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(MouseSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 200, tolerance: 8 },
+    }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
 
@@ -95,11 +106,27 @@ export default function PipelineBoard({
     <DndContext
       sensors={sensors}
       collisionDetection={closestCorners}
+      autoScroll={{ threshold: { x: 0.2, y: 0.2 }, acceleration: 12 }}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onDragCancel={() => setActiveEnquiry(null)}
     >
-      <div className="flex gap-3 sm:gap-4 overflow-x-auto pb-4 -mx-4 px-4 sm:mx-0 sm:px-0 snap-x snap-mandatory sm:snap-none">
+      <div
+        className={cn(
+          // Below lg: stages stack as full-width vertical sections and the
+          // page itself scrolls — a card is dragged down into the next
+          // section, the same gesture as scrolling, with no horizontal
+          // scroller to fight over. At lg+ there's room for the traditional
+          // side-by-side Kanban columns instead.
+          "flex flex-col gap-3 lg:flex-row lg:gap-4 lg:overflow-x-auto lg:pb-4 lg:-mx-4 lg:px-4 xl:mx-0 xl:px-0",
+          // Scroll-snap (lg+ only) fights the drag auto-scroll: as dnd-kit
+          // nudges scrollLeft to reveal the next column, snap tries to yank
+          // it back to the nearest column boundary, which is what produced
+          // the "columns shift" / card-jump reports. Snap only applies when
+          // nothing is being dragged.
+          activeEnquiry ? "lg:snap-none" : "lg:snap-x lg:snap-mandatory xl:snap-none"
+        )}
+      >
         {ENQUIRY_STAGES.map((stage) => (
           <PipelineColumn
             key={stage}
@@ -112,7 +139,7 @@ export default function PipelineBoard({
 
       <DragOverlay dropAnimation={{ duration: 200, easing: "cubic-bezier(0.18, 0.67, 0.6, 1.22)" }}>
         {activeEnquiry && (
-          <div className="w-[280px] sm:w-[300px]">
+          <div className="w-[clamp(260px,78vw,300px)]">
             <EnquiryCard enquiry={activeEnquiry} onOpen={() => {}} isOverlay />
           </div>
         )}

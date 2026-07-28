@@ -17,7 +17,7 @@ export default function PipelineColumn({ stage, enquiries, onOpen }: Props) {
   const styles = STAGE_STYLES[stage];
 
   return (
-    <div className="flex flex-col w-[280px] sm:w-[300px] shrink-0 snap-start">
+    <div className="flex flex-col w-full lg:w-[clamp(260px,78vw,300px)] lg:shrink-0 lg:snap-start">
       <div className="flex items-center justify-between gap-2 px-1 pb-2.5">
         <div className="flex items-center gap-2 min-w-0">
           <span className={cn("w-2.5 h-2.5 rounded-full shrink-0", styles.dot)} />

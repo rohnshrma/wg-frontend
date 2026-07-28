@@ -61,7 +61,14 @@ export default function AdminStudentsPage() {
 
   useEffect(() => {
     const saved = localStorage.getItem(VIEW_STORAGE_KEY);
-    if (saved === "grid" || saved === "list") setView(saved);
+    if (saved === "grid" || saved === "list") {
+      setView(saved);
+      return;
+    }
+    // No explicit preference yet: default to the grid below the desktop
+    // breakpoint, where the table would otherwise force horizontal scrolling
+    // through six columns on first load.
+    if (window.innerWidth < 1024) setView("grid");
   }, []);
 
   const changeView = (next: "list" | "grid") => {

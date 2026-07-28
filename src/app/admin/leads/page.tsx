@@ -25,6 +25,14 @@ const sourceLabels: Record<string, string> = {
   course_page: "Course Page",
 };
 
+const statusBadgeClass: Record<Lead["status"], string> = {
+  new: "bg-primary-50 text-primary",
+  contacted: "bg-warning-light text-warning",
+  interested: "bg-accent-light text-accent",
+  converted: "bg-success-light text-success",
+  lost: "bg-gray-100 text-text-muted",
+};
+
 export default function AdminLeadsPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [search, setSearch] = useState("");
@@ -96,51 +104,89 @@ export default function AdminLeadsPage() {
 
       {error && <div className="px-4 py-3 rounded-lg bg-destructive-light text-destructive text-sm">{error}</div>}
 
-      <div className="bg-white rounded-xl border border-border overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-border bg-gray-50/50">
-                <th className="text-left px-4 py-3 font-semibold text-text-secondary">Name</th>
-                <th className="text-left px-4 py-3 font-semibold text-text-secondary">Contact</th>
-                <th className="text-left px-4 py-3 font-semibold text-text-secondary">Course</th>
-                <th className="text-left px-4 py-3 font-semibold text-text-secondary">Message</th>
-                <th className="text-left px-4 py-3 font-semibold text-text-secondary">Source</th>
-                <th className="text-left px-4 py-3 font-semibold text-text-secondary">Status</th>
-                <th className="text-left px-4 py-3 font-semibold text-text-secondary">Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {isLoading ? (
-                <tr><td colSpan={7} className="text-center py-16 text-text-muted">Loading enquiries...</td></tr>
-              ) : filteredLeads.length === 0 ? (
-                <tr>
-                  <td colSpan={7} className="text-center py-16">
-                    <UserPlus className="w-12 h-12 mx-auto mb-3 text-text-muted opacity-30" />
-                    <p className="font-medium text-text-muted">No enquiries yet</p>
-                    <p className="text-xs text-text-muted mt-1">Website enquiry forms will appear here automatically.</p>
-                  </td>
-                </tr>
-              ) : filteredLeads.map((lead) => (
-                <tr key={lead._id} className="border-b border-border last:border-0 align-top">
-                  <td className="px-4 py-3 font-semibold text-text-primary">{lead.name}</td>
-                  <td className="px-4 py-3">
-                    <a href={`tel:${lead.phone}`} className="flex items-center gap-1 text-text-secondary hover:text-primary"><Phone className="w-3.5 h-3.5" /> {lead.phone}</a>
-                    <a href={`mailto:${lead.email}`} className="flex items-center gap-1 text-xs text-text-muted hover:text-primary mt-1"><Mail className="w-3.5 h-3.5" /> {lead.email}</a>
-                  </td>
-                  <td className="px-4 py-3 text-text-secondary">{lead.courseInterested}</td>
-                  <td className="px-4 py-3 text-text-secondary max-w-xs">{lead.message || "-"}</td>
-                  <td className="px-4 py-3 text-text-secondary">{sourceLabels[lead.source] || lead.source}</td>
-                  <td className="px-4 py-3">
-                    <span className="px-2.5 py-1 rounded-full text-xs font-semibold capitalize bg-primary-50 text-primary">{lead.status}</span>
-                  </td>
-                  <td className="px-4 py-3 text-text-muted">{lead.createdAt ? new Date(lead.createdAt).toLocaleDateString() : "-"}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {isLoading ? (
+        <div className="bg-white rounded-xl border border-border py-16 text-center text-text-muted text-sm">Loading enquiries...</div>
+      ) : filteredLeads.length === 0 ? (
+        <div className="bg-white rounded-xl border border-border py-16 text-center">
+          <UserPlus className="w-12 h-12 mx-auto mb-3 text-text-muted opacity-30" />
+          <p className="font-medium text-text-muted">No enquiries yet</p>
+          <p className="text-xs text-text-muted mt-1">Website enquiry forms will appear here automatically.</p>
         </div>
-      </div>
+      ) : (
+        <>
+          {/* Table: comfortable on wide screens where every column fits without scrolling. */}
+          <div className="hidden lg:block bg-white rounded-xl border border-border overflow-hidden">
+            <div className="scroll-x">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border bg-gray-50/50">
+                    <th className="text-left px-4 py-3 font-semibold text-text-secondary">Name</th>
+                    <th className="text-left px-4 py-3 font-semibold text-text-secondary">Contact</th>
+                    <th className="text-left px-4 py-3 font-semibold text-text-secondary">Course</th>
+                    <th className="text-left px-4 py-3 font-semibold text-text-secondary">Message</th>
+                    <th className="text-left px-4 py-3 font-semibold text-text-secondary">Source</th>
+                    <th className="text-left px-4 py-3 font-semibold text-text-secondary">Status</th>
+                    <th className="text-left px-4 py-3 font-semibold text-text-secondary">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredLeads.map((lead) => (
+                    <tr key={lead._id} className="border-b border-border last:border-0 align-top">
+                      <td className="px-4 py-3 font-semibold text-text-primary">{lead.name}</td>
+                      <td className="px-4 py-3">
+                        <a href={`tel:${lead.phone}`} className="flex items-center gap-1 text-text-secondary hover:text-primary"><Phone className="w-3.5 h-3.5" /> {lead.phone}</a>
+                        <a href={`mailto:${lead.email}`} className="flex items-center gap-1 text-xs text-text-muted hover:text-primary mt-1"><Mail className="w-3.5 h-3.5" /> {lead.email}</a>
+                      </td>
+                      <td className="px-4 py-3 text-text-secondary">{lead.courseInterested}</td>
+                      <td className="px-4 py-3 text-text-secondary max-w-xs">{lead.message || "-"}</td>
+                      <td className="px-4 py-3 text-text-secondary">{sourceLabels[lead.source] || lead.source}</td>
+                      <td className="px-4 py-3">
+                        <span className={`px-2.5 py-1 rounded-full text-xs font-semibold capitalize ${statusBadgeClass[lead.status]}`}>{lead.status}</span>
+                      </td>
+                      <td className="px-4 py-3 text-text-muted">{lead.createdAt ? new Date(lead.createdAt).toLocaleDateString() : "-"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Card grid: replaces the table below lg, where seven columns would
+              otherwise force horizontal scrolling through a dense grid. */}
+          <div className="lg:hidden grid grid-cols-1 xs:grid-cols-2 gap-4">
+            {filteredLeads.map((lead) => (
+              <div key={lead._id} className="bg-white rounded-xl border border-border p-4">
+                <div className="flex items-start justify-between gap-2 mb-2.5">
+                  <p className="font-semibold text-text-primary leading-snug">{lead.name}</p>
+                  <span className={`shrink-0 px-2.5 py-1 rounded-full text-xs font-semibold capitalize ${statusBadgeClass[lead.status]}`}>
+                    {lead.status}
+                  </span>
+                </div>
+                <div className="space-y-1.5 mb-3">
+                  <a href={`tel:${lead.phone}`} className="flex items-center gap-1.5 text-sm text-text-secondary hover:text-primary">
+                    <Phone className="w-3.5 h-3.5 shrink-0 text-text-muted" /> {lead.phone}
+                  </a>
+                  <a href={`mailto:${lead.email}`} className="flex items-center gap-1.5 text-sm text-text-secondary hover:text-primary truncate">
+                    <Mail className="w-3.5 h-3.5 shrink-0 text-text-muted" /> <span className="truncate">{lead.email}</span>
+                  </a>
+                </div>
+                <p className="text-sm text-text-secondary mb-1">{lead.courseInterested}</p>
+                {lead.message && (
+                  <p className="text-xs text-text-muted mt-1.5 line-clamp-2">{lead.message}</p>
+                )}
+                <div className="flex items-center justify-between gap-2 mt-3 pt-2.5 border-t border-border/70">
+                  <span className="text-[11px] px-2 py-0.5 rounded-full bg-gray-100 text-text-secondary font-medium truncate">
+                    {sourceLabels[lead.source] || lead.source}
+                  </span>
+                  <span className="text-[11px] text-text-muted shrink-0">
+                    {lead.createdAt ? new Date(lead.createdAt).toLocaleDateString() : "-"}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </motion.div>
   );
 }

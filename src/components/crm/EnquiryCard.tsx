@@ -59,7 +59,11 @@ export default function EnquiryCard({ enquiry, onOpen, isOverlay }: Props) {
       className={cn(
         "group w-full text-left bg-white rounded-xl border border-border p-3 cursor-grab active:cursor-grabbing",
         "shadow-sm hover:shadow-md hover:border-primary/40 transition-all duration-200",
-        "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 touch-none",
+        // touch-manipulation (not touch-none): the card must stay scrollable
+        // by default so a finger swipe starting on a card can still scroll
+        // the page. TouchSensor's activation delay takes over and blocks the
+        // browser's native handling only once a drag actually starts.
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 touch-manipulation select-none [-webkit-touch-callout:none]",
         isDragging && "opacity-40",
         isOverlay && "shadow-xl ring-2 ring-primary/30 rotate-2 cursor-grabbing"
       )}

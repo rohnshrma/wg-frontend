@@ -100,7 +100,7 @@ export default function PaymentsPage() {
               Installment Schedule
             </h3>
           </div>
-          <div className="overflow-x-auto">
+          <div className="scroll-x">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border bg-gray-50/50">
@@ -148,7 +148,7 @@ export default function PaymentsPage() {
             </p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="scroll-x">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border bg-gray-50/50">

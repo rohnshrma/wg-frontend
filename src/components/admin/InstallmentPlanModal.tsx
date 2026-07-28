@@ -133,7 +133,7 @@ export default function InstallmentPlanModal({
             </div>
             <div className="border border-border rounded-lg overflow-hidden">
               {installments.map((inst) => (
-                <div key={inst._id} className="flex items-center justify-between px-4 py-3 border-b border-border last:border-0">
+                <div key={inst._id} className="flex flex-col xs:flex-row xs:items-center xs:justify-between gap-2 px-4 py-3 border-b border-border last:border-0">
                   <div>
                     <p className="text-sm font-semibold text-text-primary">#{inst.installmentNumber} — {formatCurrency(inst.amount)}</p>
                     <p className="text-xs text-text-muted">Due {formatDate(inst.dueDate)}</p>
