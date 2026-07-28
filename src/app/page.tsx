@@ -6,7 +6,6 @@ import WhyChooseUs from "@/components/home/WhyChooseUs";
 import StatsCounter from "@/components/home/StatsCounter";
 import FeaturedCourses from "@/components/home/FeaturedCourses";
 import TestimonialsCarousel from "@/components/home/TestimonialsCarousel";
-import PlacementSection from "@/components/home/PlacementSection";
 import InquiryPopup from "@/components/popups/InquiryPopup";
 import ExitIntentPopup from "@/components/popups/ExitIntentPopup";
 import { getCourses } from "@/lib/courses";
@@ -27,7 +26,6 @@ export default async function HomePage() {
         <StatsCounter />
         <FeaturedCourses courses={featuredCourses} />
         <TestimonialsCarousel testimonials={testimonials} />
-        <PlacementSection />
       </main>
       <Footer />
       <FloatingButtons />
