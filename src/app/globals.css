@@ -146,9 +146,18 @@ body {
   background-color: var(--color-background);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
-  overflow-x: hidden;
   /* Belt-and-braces against a single wide child (tables, code blocks, kanban
-     rows) forcing the whole page sideways. */
+     rows) forcing the whole page sideways.
+
+     `clip`, NOT `hidden`: `overflow-x: hidden` here makes the body a scroll
+     container, and every `position: sticky` descendant then sticks relative to
+     *that* scrollport instead of the viewport. The body's scrollport never
+     scrolls (the viewport does), so the admin/dashboard/counsellor sidebars and
+     their sticky headers just scrolled away with the page. `clip` does the same
+     clipping without creating a scroll container, so sticky keeps working.
+     (html's own overflow-x above is propagated to the viewport by the UA and
+     computes to `visible` on the element itself, so it never had this effect.) */
+  overflow-x: clip;
   max-width: 100%;
 }
 

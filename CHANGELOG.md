@@ -2,6 +2,10 @@
 
 Notable changes to the frontend. Full context and rationale for each entry lives in the backend's `ROADMAP.md` (shared source of truth across both repos); this file is a scannable index.
 
+## 2026-07-29
+
+- **Layout fix**: the admin/dashboard/counsellor sidebars and their sticky top headers scrolled away with the page instead of staying pinned. Cause was `body { overflow-x: hidden }` in `globals.css`, which makes the body a scroll container so every `position: sticky` descendant resolves against the body's (never-scrolling) scrollport rather than the viewport. Changed to `overflow-x: clip`, which clips identically without creating a scroll container. `html`'s own `overflow-x: hidden` is unchanged — it propagates to the viewport and was never the problem. Verified in real headless Chrome against the running app, including a control run that re-injected the old rule and reproduced the bug.
+
 ## 2026-07-25
 
 - Wired the public `/testimonials`, `/gallery`, `/blog`, and `/blog/[slug]` pages to real backend data (previously hardcoded placeholder arrays) via `lib/{testimonials,gallery,blog}.ts`, following the existing `lib/courses.ts` server-fetch + ISR pattern. Added empty states.
