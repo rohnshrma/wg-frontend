@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { CalendarClock, CreditCard } from "lucide-react";
+import { CalendarClock, CreditCard, Smartphone } from "lucide-react";
 import api from "@/lib/api";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
@@ -23,6 +23,16 @@ type Installment = {
   amount: number;
   dueDate: string;
   status: "pending" | "paid" | "overdue";
+  collectionMethod?: "manual" | "autopay";
+};
+
+type Mandate = {
+  _id: string;
+  status: "created" | "authenticated" | "active" | "paused" | "cancelled" | "failed";
+};
+
+const paymentMethodLabel: Record<string, string> = {
+  upi_autopay: "UPI AutoPay",
 };
 
 type StudentSummary = {
@@ -42,6 +52,7 @@ export default function PaymentsPage() {
   const [student, setStudent] = useState<StudentSummary | null>(null);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [installments, setInstallments] = useState<Installment[]>([]);
+  const [mandate, setMandate] = useState<Mandate | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -56,12 +67,14 @@ export default function PaymentsPage() {
         }
         setStudent(studentData);
 
-        const [paymentsRes, installmentsRes] = await Promise.all([
+        const [paymentsRes, installmentsRes, mandateRes] = await Promise.all([
           api.get(`/payments/student/${studentData._id}`),
           api.get(`/payments/installments/student/${studentData._id}`),
+          api.get(`/payments/mandate/student/${studentData._id}`).catch(() => ({ data: { data: null } })),
         ]);
         setPayments(paymentsRes.data.data || []);
         setInstallments(installmentsRes.data.data || []);
+        setMandate(mandateRes.data.data || null);
       } catch (err: any) {
         setError(err.response?.data?.message || "Could not load payment details");
       } finally {
@@ -70,6 +83,10 @@ export default function PaymentsPage() {
     };
     load();
   }, []);
+
+  const nextAutopayDebit = installments
+    .filter((i) => i.collectionMethod === "autopay" && i.status !== "paid")
+    .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())[0];
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
@@ -90,6 +107,32 @@ export default function PaymentsPage() {
           <p className="text-2xl font-extrabold text-warning">{formatCurrency(student?.pendingAmount || 0)}</p>
         </div>
       </div>
+
+      {/* Upcoming AutoPay Debit */}
+      {mandate && mandate.status === "active" && nextAutopayDebit && (
+        <div className="bg-primary-50 rounded-xl border border-primary/20 p-5 flex items-center gap-3">
+          <Smartphone className="w-8 h-8 text-primary shrink-0" />
+          <div>
+            <p className="text-sm font-bold text-text-primary">
+              Next AutoPay debit: {formatCurrency(nextAutopayDebit.amount)} on {formatDate(nextAutopayDebit.dueDate)}
+            </p>
+            <p className="text-xs text-text-secondary mt-0.5">
+              This will be automatically debited from your linked account — no action needed.
+            </p>
+          </div>
+        </div>
+      )}
+      {mandate && (mandate.status === "paused" || mandate.status === "failed") && (
+        <div className="bg-destructive-light rounded-xl border border-destructive/20 p-5 flex items-center gap-3">
+          <Smartphone className="w-8 h-8 text-destructive shrink-0" />
+          <div>
+            <p className="text-sm font-bold text-destructive">Your AutoPay mandate needs attention</p>
+            <p className="text-xs text-text-secondary mt-0.5">
+              Our team will reach out, or contact us directly to resolve this.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Installment Schedule */}
       {installments.length > 0 && (
@@ -114,7 +157,12 @@ export default function PaymentsPage() {
                 {installments.map((inst) => (
                   <tr key={inst._id} className="border-b border-border last:border-0">
                     <td className="px-4 py-3 text-text-secondary">{inst.installmentNumber}</td>
-                    <td className="px-4 py-3 font-semibold text-text-primary">{formatCurrency(inst.amount)}</td>
+                    <td className="px-4 py-3 font-semibold text-text-primary">
+                      {formatCurrency(inst.amount)}
+                      {inst.collectionMethod === "autopay" && (
+                        <span className="ml-1.5 text-[10px] font-semibold uppercase text-secondary">AutoPay</span>
+                      )}
+                    </td>
                     <td className="px-4 py-3 text-text-secondary">{formatDate(inst.dueDate)}</td>
                     <td className="px-4 py-3">
                       <span className={`px-2.5 py-1 rounded-full text-xs font-semibold capitalize ${statusClass[inst.status]}`}>
@@ -164,7 +212,7 @@ export default function PaymentsPage() {
                   <tr key={payment._id} className="border-b border-border last:border-0">
                     <td className="px-4 py-3 text-text-secondary">{formatDate(payment.paymentDate)}</td>
                     <td className="px-4 py-3 font-semibold text-text-primary">{formatCurrency(payment.amount)}</td>
-                    <td className="px-4 py-3 text-text-secondary capitalize">{payment.paymentMethod}</td>
+                    <td className="px-4 py-3 text-text-secondary capitalize">{paymentMethodLabel[payment.paymentMethod] || payment.paymentMethod}</td>
                     <td className="px-4 py-3 text-text-secondary">
                       {payment.receiptUrl ? (
                         <a href={payment.receiptUrl} target="_blank" rel="noopener noreferrer" className="text-primary font-semibold hover:underline">

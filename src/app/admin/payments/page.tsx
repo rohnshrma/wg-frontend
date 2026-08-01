@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, ChevronDown, CreditCard, Download, Mail, MessageCircle, Plus, Search } from "lucide-react";
+import { AlertTriangle, CheckCircle2, ChevronDown, CreditCard, Download, Mail, MessageCircle, Plus, Search, Smartphone } from "lucide-react";
+import Link from "next/link";
 import api from "@/lib/api";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import RecordPaymentModal from "@/components/admin/RecordPaymentModal";
@@ -17,6 +18,90 @@ type Payment = {
   receiptNumber: string;
   paymentDate: string;
 };
+
+type Mandate = {
+  _id: string;
+  studentId?: { _id: string; fullName?: string; admissionId?: string };
+  status: "created" | "authenticated" | "active" | "paused" | "cancelled" | "failed";
+  amount: number;
+  totalCount: number;
+  createdAt: string;
+};
+
+const mandateStatusClass: Record<Mandate["status"], string> = {
+  created: "bg-gray-100 text-text-muted",
+  authenticated: "bg-primary-50 text-primary",
+  active: "bg-success-light text-success",
+  paused: "bg-warning-light text-warning",
+  cancelled: "bg-gray-100 text-text-muted",
+  failed: "bg-destructive-light text-destructive",
+};
+
+const paymentMethodLabel: Record<string, string> = {
+  upi_autopay: "UPI AutoPay",
+};
+
+function MandatesPanel() {
+  const [mandates, setMandates] = useState<Mandate[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    api
+      .get("/payments/mandates")
+      .then((res) => setMandates(res.data.data || []))
+      .catch(() => setMandates([]))
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  if (isLoading || mandates.length === 0) return null;
+
+  const needsAttention = (status: Mandate["status"]) => status === "paused" || status === "failed";
+
+  return (
+    <div className="bg-white rounded-xl border border-border overflow-hidden">
+      <div className="px-4 py-3 border-b border-border bg-gray-50/50 flex items-center gap-2">
+        <Smartphone className="w-4 h-4 text-secondary" />
+        <h3 className="font-semibold text-text-primary text-sm">AutoPay Mandates</h3>
+      </div>
+      <div className="scroll-x">
+        <table className="w-full text-sm min-w-[560px]">
+          <thead>
+            <tr className="border-b border-border">
+              <th className="text-left px-4 py-2.5 font-semibold text-text-secondary">Student</th>
+              <th className="text-left px-4 py-2.5 font-semibold text-text-secondary">Amount / Installment</th>
+              <th className="text-left px-4 py-2.5 font-semibold text-text-secondary">Installments</th>
+              <th className="text-left px-4 py-2.5 font-semibold text-text-secondary">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {mandates.map((m) => (
+              <tr key={m._id} className={`border-b border-border last:border-0 ${needsAttention(m.status) ? "bg-destructive-light/30" : ""}`}>
+                <td className="px-4 py-2.5">
+                  {m.studentId?._id ? (
+                    <Link href={`/admin/students/${m.studentId._id}`} className="font-semibold text-primary hover:underline">
+                      {m.studentId.fullName || "-"}
+                    </Link>
+                  ) : (
+                    <span className="font-semibold text-text-primary">-</span>
+                  )}
+                  <p className="text-xs text-text-muted">{m.studentId?.admissionId}</p>
+                </td>
+                <td className="px-4 py-2.5 text-text-secondary">{formatCurrency(m.amount)}</td>
+                <td className="px-4 py-2.5 text-text-secondary">{m.totalCount}</td>
+                <td className="px-4 py-2.5">
+                  <span className={`px-2.5 py-1 rounded-full text-xs font-semibold capitalize inline-flex items-center gap-1 ${mandateStatusClass[m.status]}`}>
+                    {needsAttention(m.status) && <AlertTriangle className="w-3 h-3" />}
+                    {m.status}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
 
 function SendReceiptMenu({
   paymentId,
@@ -155,6 +240,8 @@ export default function AdminPaymentsPage() {
       {successMessage && <div className="flex items-center gap-2 px-4 py-3 rounded-lg bg-success-light text-success text-sm"><CheckCircle2 className="w-4 h-4" /> {successMessage}</div>}
       {error && <div className="px-4 py-3 rounded-lg bg-destructive-light text-destructive text-sm">{error}</div>}
 
+      <MandatesPanel />
+
       <div className="bg-white rounded-xl border border-border overflow-hidden">
         <div className="scroll-x">
           <table className="w-full text-sm min-w-[720px]">
@@ -188,7 +275,7 @@ export default function AdminPaymentsPage() {
                 </td>
                 <td className="px-4 py-3 text-text-secondary">{payment.courseId?.title || "-"}</td>
                 <td className="px-4 py-3 font-semibold text-text-primary">{formatCurrency(payment.amount)}</td>
-                <td className="px-4 py-3 text-text-secondary capitalize">{payment.paymentMethod}</td>
+                <td className="px-4 py-3 text-text-secondary capitalize">{paymentMethodLabel[payment.paymentMethod] || payment.paymentMethod}</td>
                 <td className="px-4 py-3 text-text-muted">{formatDate(payment.paymentDate)}</td>
                 <td className="px-4 py-3">
                   <SendReceiptMenu

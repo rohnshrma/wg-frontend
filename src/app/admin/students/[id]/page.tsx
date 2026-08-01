@@ -14,6 +14,7 @@ import {
   Mail,
   MapPin,
   Phone,
+  Smartphone,
   Trash2,
   User,
   Users,
@@ -40,11 +41,16 @@ export default function AdminStudentDetailPage() {
   const [isActing, setIsActing] = useState(false);
   const [showInstallments, setShowInstallments] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [mandate, setMandate] = useState<{ status: string } | null>(null);
 
   const load = async () => {
     try {
       const res = await api.get(`/students/${params.id}`);
       setStudent(res.data.data);
+      api
+        .get(`/payments/mandate/student/${params.id}`)
+        .then((mandateRes) => setMandate(mandateRes.data.data || null))
+        .catch(() => setMandate(null));
     } catch (err: any) {
       setError(err.response?.data?.message || "Could not load student");
     } finally {
@@ -206,7 +212,22 @@ export default function AdminStudentDetailPage() {
 
       {/* Payment Summary */}
       <div className="bg-white rounded-xl border border-border p-6">
-        <h3 className="font-bold text-text-primary mb-4">Payment Summary</h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-bold text-text-primary">Payment Summary</h3>
+          {mandate && (
+            <span
+              className={`px-2.5 py-1 rounded-full text-xs font-semibold capitalize flex items-center gap-1 ${
+                mandate.status === "active"
+                  ? "bg-success-light text-success"
+                  : mandate.status === "paused" || mandate.status === "failed"
+                    ? "bg-destructive-light text-destructive"
+                    : "bg-gray-100 text-text-muted"
+              }`}
+            >
+              <Smartphone className="w-3 h-3" /> AutoPay: {mandate.status}
+            </span>
+          )}
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="rounded-lg border border-border p-4">
             <p className="text-xs text-text-muted mb-1">Course Fees</p>
