@@ -24,7 +24,7 @@ export default function TestimonialsContent({ testimonials }: { testimonials: Te
               What Our <span className="bg-gradient-to-r from-accent to-accent-warm bg-clip-text text-transparent">Students Say</span>
             </h1>
             <p className="text-white/60 text-lg max-w-xl mx-auto">
-              Real stories from real students who transformed their careers.
+              Real feedback from students who&apos;ve completed our courses.
             </p>
           </motion.div>
         </div>
@@ -37,7 +37,7 @@ export default function TestimonialsContent({ testimonials }: { testimonials: Te
             <div className="text-center py-20">
               <Award className="w-12 h-12 text-text-muted mx-auto mb-4 opacity-30" />
               <h3 className="text-xl font-bold text-text-primary">Success Stories Coming Soon</h3>
-              <p className="text-text-secondary">Check back shortly to read about our students&apos; journeys.</p>
+              <p className="text-text-secondary">Check back soon — we&apos;re adding new stories.</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -100,10 +100,10 @@ export default function TestimonialsContent({ testimonials }: { testimonials: Te
           <GraduationCap className="w-12 h-12 mx-auto mb-4 opacity-80" />
           <h2 className="text-3xl font-extrabold mb-3">Be the Next Success Story</h2>
           <p className="text-white/60 text-lg mb-6 max-w-lg mx-auto">
-            Join WebiGeeks and start your journey towards a rewarding tech career.
+            Book a free demo and see if WebiGeeks is the right fit for you.
           </p>
           <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl gradient-accent text-white font-bold shadow-lg hover:shadow-glow-accent transition-shadow">
-            Start Your Journey <ArrowRight className="w-5 h-5" />
+            Book Free Demo <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
       </section>

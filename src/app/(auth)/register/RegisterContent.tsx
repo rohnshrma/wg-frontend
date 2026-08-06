@@ -57,7 +57,7 @@ export default function RegisterContent() {
           <div className="w-24 h-24 mx-auto rounded-2xl bg-white/95 flex items-center justify-center mb-6 shadow-2xl p-3">
             <Image src="/images/logo-mark.png" alt="WebiGeeks" width={116} height={72} className="w-full h-full object-contain" />
           </div>
-          <h2 className="text-3xl font-extrabold text-white mb-3">Start Your Journey!</h2>
+          <h2 className="text-3xl font-extrabold text-white mb-3">Create Your Account</h2>
           <p className="text-white/50 text-lg leading-relaxed max-w-sm mx-auto">
             Create your account and begin your transformation into an industry-ready professional.
           </p>

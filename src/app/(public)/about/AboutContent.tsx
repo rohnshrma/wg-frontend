@@ -44,15 +44,6 @@ const values = [
   },
 ];
 
-const timeline = [
-  { year: "2019", event: "WebiGeeks founded with a vision for practical IT training" },
-  { year: "2020", event: "Launched online training during COVID-19, reached 100+ students" },
-  { year: "2021", event: "Expanded to 5+ courses with dedicated placement support" },
-  { year: "2022", event: "200+ students placed in top MNCs like TCS, Infosys, Wipro" },
-  { year: "2023", event: "Introduced AI-integrated curriculum across all courses" },
-  { year: "2024", event: "Crossed 500+ placed students, partnered with 20+ companies" },
-];
-
 const advantages = [
   "Hands-on mentorship from an experienced instructor",
   "100% practical, project-based learning",
@@ -85,15 +76,16 @@ export default function AboutContent() {
               About WebiGeeks
             </span>
             <h1 className="heading-hero mb-4">
-              Empowering Careers Through
+              A Coding Institute Built Around
               <br />
               <span className="bg-gradient-to-r from-accent to-accent-warm bg-clip-text text-transparent">
                 Practical Technology Education
               </span>
             </h1>
             <p className="text-white/60 text-lg max-w-2xl mx-auto">
-              Since 2019, we&apos;ve been transforming careers with AI-integrated,
-              industry-ready training that goes beyond theory.
+              Founded in 2023 in Sector-14, Gurugram — small batches, real
+              projects, and AI-integrated courses built to get you hired, not
+              just certified.
             </p>
           </motion.div>
         </div>
@@ -117,16 +109,17 @@ export default function AboutContent() {
                 <span className="gradient-text">500+ Placed Students</span>
               </h2>
               <p className="text-text-secondary leading-relaxed mb-4">
-                WebiGeeks was founded in 2019 with a simple mission: make technology
-                education practical, accessible, and career-focused. We noticed that
-                traditional institutions were teaching outdated syllabi with no
-                real-world application.
+                WebiGeeks was founded in 2023 in Sector-14, Gurugram, with a simple
+                mission: make technology education practical, accessible, and
+                career-focused — small batches, real projects, and direct mentor
+                access instead of a lecture hall of a hundred students.
               </p>
               <p className="text-text-secondary leading-relaxed mb-6">
-                Today, we&apos;re proud to have placed 500+ students in leading MNCs
-                and startups. Every course we offer is designed with industry experts,
-                integrated with AI tools, and focused on building portfolios that
-                employers actually value.
+                Since then, 500+ students have completed our courses, and our
+                alumni are now part of teams at companies like KPMG, Extramarks,
+                Ferns N Petals, Descriptive AI, Flick AI, and Smart Data
+                Enterprises. Every course is built around real projects, so you
+                leave with a portfolio, not just a certificate.
               </p>
               <Link
                 href="/contact"
@@ -202,48 +195,6 @@ export default function AboutContent() {
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="section-padding bg-white">
-        <div className="container-custom">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <h2 className="heading-section text-text-primary mb-4">
-              Our <span className="gradient-text">Journey</span>
-            </h2>
-          </motion.div>
-          <div className="max-w-2xl mx-auto">
-            {timeline.map((item, i) => (
-              <motion.div
-                key={item.year}
-                initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="flex gap-4 mb-6 last:mb-0"
-              >
-                <div className="flex flex-col items-center shrink-0">
-                  <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center text-white text-xs font-bold">
-                    {item.year.slice(2)}
-                  </div>
-                  {i < timeline.length - 1 && (
-                    <div className="w-0.5 h-full bg-primary/20 mt-2" />
-                  )}
-                </div>
-                <div className="pt-2">
-                  <p className="font-bold text-primary text-sm mb-1">
-                    {item.year}
-                  </p>
-                  <p className="text-text-secondary text-sm">{item.event}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="py-16 gradient-primary text-white text-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
@@ -259,7 +210,7 @@ export default function AboutContent() {
         <div className="container-custom relative">
           <Users className="w-12 h-12 mx-auto mb-4 opacity-80" />
           <h2 className="heading-section mb-4">
-            Ready to Start Your Journey?
+            Ready to Book a Free Demo?
           </h2>
           <p className="text-white/60 text-lg mb-8 max-w-lg mx-auto">
             Join 500+ students who have transformed their careers with WebiGeeks.

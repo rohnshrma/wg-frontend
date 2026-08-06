@@ -209,7 +209,7 @@ export const locationPages: LocationPageContent[] = [
     heroPitch:
       "A focused 6-week SQL course at our Sector-14 campus — from SELECT statements through window functions and CTEs — built for a fast, specific outcome: real SQL fluency for interviews and on-the-job work, not a semester-long detour.",
     whyChooseUs: [
-      "Our shortest and lowest-cost course, deliberately — this is the fastest way to get one concrete, interview-tested skill rather than a multi-month commitment.",
+      "Our shortest and lowest-cost course, by design — the fastest way to get one concrete, interview-tested skill rather than a multi-month commitment.",
       "Goes past basic SELECT/WHERE into the material that actually differentiates candidates in interviews: window functions (ROW_NUMBER, RANK, LAG/LEAD) and recursive CTEs.",
       "100+ practice problems on real databases, not just slides — the kind of repetition that makes syntax stick before an interview, not just during the class.",
       "Offline at our Sector-14 campus or fully online — a 6-week course fits around a job search or a current job either way.",
@@ -238,10 +238,10 @@ export const locationPages: LocationPageContent[] = [
     heroPitch:
       "A 3-month, offline-only Java programme at our Sector-14 campus — OOP fundamentals through Collections, multithreading, JDBC, and an introduction to Spring Boot, taught entirely in person.",
     whyChooseUs: [
-      "Offline-only, by design — Java at WebiGeeks is taught exclusively at the Sector-14 campus, so if you're searching for Java training in Gurugram specifically, this is a genuinely local-only course, not an online course with a Gurugram landing page attached.",
+      "Offline-only — Java at WebiGeeks is taught exclusively at the Sector-14 campus, so if you're searching for Java training in Gurugram specifically, this course requires showing up, not an online course with a Gurugram landing page attached.",
       "Covers both console applications and an intro to Spring Boot, so the course bridges core Java fundamentals into the framework most enterprise Java roles actually use.",
       "Interview-ready curriculum — Collections, multithreading, and JDBC are exactly the areas Java interviews probe, not a generic syntax tour.",
-      "Small in-person batches mean direct instructor time on the parts of Java (memory model, concurrency) that are genuinely hard to self-teach from documentation alone.",
+      "Small in-person batches mean direct instructor time on the parts of Java (memory model, concurrency) that are hard to self-teach from documentation alone.",
     ],
     localFaqs: [
       {
@@ -267,8 +267,8 @@ export const locationPages: LocationPageContent[] = [
     heroPitch:
       "A 2-month, offline-only C/C++ course at our Sector-14 campus focused on the fundamentals — pointers, memory management, and the STL — that everything else in software engineering, from DSA interviews to systems programming, is built on.",
     whyChooseUs: [
-      "Offline-only at the Sector-14 campus — genuinely built for in-person learning of concepts (pointers, manual memory management) that are notoriously hard to absorb from a video alone.",
-      "Our lowest-cost course after MS Excel and SQL, positioned deliberately as an accessible entry point for engineering students who want DSA-ready fundamentals before tackling interview prep.",
+      "Offline-only at the Sector-14 campus — built for in-person learning of concepts (pointers, manual memory management) that are notoriously hard to absorb from a video alone.",
+      "Our lowest-cost course after MS Excel and SQL, built as an accessible entry point for engineering students who want DSA-ready fundamentals before tackling interview prep.",
       "STL coverage alongside core C/C++ — the standard library knowledge that's assumed, not taught, in most competitive-programming and DSA courses elsewhere.",
       "A genuine foundation course — most of our Gurugram students take this before or alongside a DSA/interview-prep track, not as a standalone career course.",
     ],
@@ -363,7 +363,7 @@ export const locationPages: LocationPageContent[] = [
       {
         question: "Is TypeScript hard to learn if I already know JavaScript?",
         answer:
-          "It's a genuinely fast add-on for a working JavaScript developer — most of the course is about the type system layered on top of syntax you already know, which is why it's a 4-week course rather than a multi-month one.",
+          "It's a fast add-on for a working JavaScript developer — most of the course is about the type system layered on top of syntax you already know, which is why it's a 4-week course rather than a multi-month one.",
       },
       {
         question: "Should I learn TypeScript before or after MERN Stack?",

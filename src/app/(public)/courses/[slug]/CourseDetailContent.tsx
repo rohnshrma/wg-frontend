@@ -340,7 +340,7 @@ export default function CourseDetailContent({
       <section className="py-14 bg-primary-50 text-center">
         <div className="container-custom">
           <h2 className="text-2xl font-extrabold text-text-primary mb-3">
-            Ready to Start Your {course.title} Journey?
+            Ready to Start {course.title}?
           </h2>
           <p className="text-text-secondary mb-6">Limited seats available. Enroll now!</p>
           <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl gradient-accent text-white font-bold shadow-lg hover:shadow-glow-accent transition-shadow">

@@ -4,7 +4,7 @@ import RegisterContent from "./RegisterContent";
 
 export const metadata: Metadata = {
   title: "Register",
-  description: "Create your WebiGeeks account to start your learning journey.",
+  description: "Create your WebiGeeks account to get started.",
   robots: { index: false, follow: false },
 };
 

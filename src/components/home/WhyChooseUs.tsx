@@ -28,7 +28,7 @@ const features = [
   {
     icon: Brain,
     title: "AI Integrated Curriculum",
-    description: "Learn with AI tools integrated into every course for industry relevance.",
+    description: "AI tools are part of the coursework itself — not a bolted-on extra module.",
     color: "from-accent to-accent-warm",
   },
   {
@@ -40,7 +40,7 @@ const features = [
   {
     icon: Building2,
     title: "Internship Assistance",
-    description: "Get placed in top companies with our dedicated placement support.",
+    description: "Resume building, mock interviews, and direct introductions through our hiring network.",
     color: "from-violet-500 to-purple-700",
   },
   {
@@ -106,8 +106,8 @@ export default function WhyChooseUs() {
             <span className="gradient-text">Different?</span>
           </h2>
           <p className="text-text-secondary text-lg max-w-2xl mx-auto">
-            We don&apos;t just teach technology — we build careers. Here&apos;s
-            why 500+ students trust us.
+            500+ students later, here&apos;s what actually made the difference
+            for them.
           </p>
         </motion.div>
 

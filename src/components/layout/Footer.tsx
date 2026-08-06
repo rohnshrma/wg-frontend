@@ -54,7 +54,7 @@ export default function Footer({
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
-                Ready to Start Your Journey?
+                Ready to Book a Free Demo?
               </h3>
               <p className="text-white/60 text-lg">
                 Book a free career counseling session with our experts.
@@ -90,8 +90,8 @@ export default function Footer({
               </div>
             </Link>
             <p className="text-white/50 text-sm leading-relaxed mb-6">
-              Empowering careers with AI-integrated, 100% practical training.
-              Join 500+ placed students and become industry-ready.
+              AI-integrated, 100% practical coding courses from our Sector-14,
+              Gurugram campus. 500+ students trained and counting.
             </p>
             {/* Social Links */}
             <div className="flex items-center gap-3">
