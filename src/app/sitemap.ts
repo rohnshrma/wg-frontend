@@ -13,6 +13,11 @@ const staticRoutes = [
   "/contact",
 ];
 
+// Local-intent landing pages — separate from staticRoutes because they get
+// course-page-level priority (0.9), not generic-page priority (0.8). Add
+// each new one here as it ships (see MASTER_TASK_BOARD.md C5/GROWTH-P3).
+const locationRoutes = ["/mern-course-gurugram"];
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [courses, blogs] = await Promise.all([getCourses(), getBlogs()]);
 
@@ -22,6 +27,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(),
     changeFrequency: path === "" ? "daily" : "weekly",
     priority: path === "" ? 1 : 0.8,
+  }));
+
+  const locationEntries: MetadataRoute.Sitemap = locationRoutes.map((path) => ({
+    url: `${siteConfig.url}${path}`,
+    lastModified: new Date(),
+    changeFrequency: "monthly",
+    priority: 0.9,
   }));
 
   // DB-backed routes — use the real updatedAt so crawlers can trust this
@@ -42,5 +54,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticEntries, ...courseEntries, ...blogEntries];
+  return [...staticEntries, ...locationEntries, ...courseEntries, ...blogEntries];
 }
