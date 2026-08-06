@@ -16,7 +16,10 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
-import Hero3DBackground from "@/components/three/Hero3DBackground";
+import dynamic from "next/dynamic";
+// three.js + @react-three/fiber are large — code-split out of the initial
+// bundle instead of a static import, since this rendered on every page.
+const Hero3DBackground = dynamic(() => import("@/components/three/Hero3DBackground"), { ssr: false });
 
 const techBadges = [
   "Data Science",

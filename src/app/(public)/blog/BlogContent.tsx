@@ -5,7 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, PenSquare, Tag, Search } from "lucide-react";
 import { useMemo, useState } from "react";
-import Hero3DBackground from "@/components/three/Hero3DBackground";
+import dynamic from "next/dynamic";
+const Hero3DBackground = dynamic(() => import("@/components/three/Hero3DBackground"), { ssr: false });
 import type { Blog } from "@/types/blog";
 
 const formatDate = (value?: string) =>

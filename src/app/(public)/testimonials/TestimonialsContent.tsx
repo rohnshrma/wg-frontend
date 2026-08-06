@@ -3,7 +3,8 @@
 import { motion } from "framer-motion";
 import { Star, Award, ArrowRight, GraduationCap } from "lucide-react";
 import Link from "next/link";
-import Hero3DBackground from "@/components/three/Hero3DBackground";
+import dynamic from "next/dynamic";
+const Hero3DBackground = dynamic(() => import("@/components/three/Hero3DBackground"), { ssr: false });
 import type { Testimonial } from "@/types/testimonial";
 
 export default function TestimonialsContent({ testimonials }: { testimonials: Testimonial[] }) {

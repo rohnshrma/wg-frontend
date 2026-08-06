@@ -4,7 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Camera, X, ChevronLeft, ChevronRight } from "lucide-react";
-import Hero3DBackground from "@/components/three/Hero3DBackground";
+import dynamic from "next/dynamic";
+const Hero3DBackground = dynamic(() => import("@/components/three/Hero3DBackground"), { ssr: false });
 import type { GalleryImage } from "@/types/gallery";
 
 const categories = ["All", "Classroom", "Events", "Activities", "Campus", "Placements"];

@@ -15,7 +15,8 @@ import {
 import { useState } from "react";
 import { courseGradient } from "@/lib/courseColors";
 import type { Course } from "@/types/course";
-import Hero3DBackground from "@/components/three/Hero3DBackground";
+import dynamic from "next/dynamic";
+const Hero3DBackground = dynamic(() => import("@/components/three/Hero3DBackground"), { ssr: false });
 
 const levels = ["All", "beginner", "intermediate", "advanced"] as const;
 const levelLabels: Record<(typeof levels)[number], string> = {

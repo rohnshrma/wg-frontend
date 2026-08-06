@@ -13,7 +13,8 @@ import FormInput from "@/components/ui/FormInput";
 import FormError from "@/components/ui/FormError";
 import { loginSchema, type LoginFormValues } from "@/lib/validations/auth";
 import { isRedirectAllowedForRole, roleHomeRoute } from "@/lib/roles";
-import Hero3DBackground from "@/components/three/Hero3DBackground";
+import dynamic from "next/dynamic";
+const Hero3DBackground = dynamic(() => import("@/components/three/Hero3DBackground"), { ssr: false });
 import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
 
 export default function LoginContent() {
