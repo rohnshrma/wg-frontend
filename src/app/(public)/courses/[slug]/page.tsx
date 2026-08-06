@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import CourseDetailContent from "./CourseDetailContent";
-import { getCourseBySlug } from "@/lib/courses";
+import { getCourseBySlug, getRelatedCourses } from "@/lib/courses";
 import { getTestimonialsByCourse } from "@/lib/testimonials";
 import { courseSchema, faqPageSchema } from "@/lib/schema";
 import JsonLd from "@/components/seo/JsonLd";
@@ -35,13 +35,16 @@ export default async function CourseDetailPage({
     notFound();
   }
 
-  const ratings = await getTestimonialsByCourse(course.title);
+  const [ratings, relatedCourses] = await Promise.all([
+    getTestimonialsByCourse(course.title),
+    getRelatedCourses(course.slug, course.technologies),
+  ]);
 
   return (
     <>
       <JsonLd data={courseSchema(course, ratings)} />
       {course.faqs.length > 0 && <JsonLd data={faqPageSchema(course.faqs)} />}
-      <CourseDetailContent course={course} />
+      <CourseDetailContent course={course} relatedCourses={relatedCourses} />
     </>
   );
 }

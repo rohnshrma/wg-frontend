@@ -12,8 +12,9 @@ import { getCourses } from "@/lib/courses";
 import { getTestimonials } from "@/lib/testimonials";
 
 export default async function HomePage() {
-  const [featuredCourses, testimonials] = await Promise.all([
+  const [featuredCourses, allCourses, testimonials] = await Promise.all([
     getCourses({ featured: true }),
+    getCourses(),
     getTestimonials(),
   ]);
 
@@ -27,7 +28,7 @@ export default async function HomePage() {
         <FeaturedCourses courses={featuredCourses} />
         <TestimonialsCarousel testimonials={testimonials} />
       </main>
-      <Footer />
+      <Footer courses={allCourses.map((c) => ({ title: c.title, slug: c.slug }))} />
       <FloatingButtons />
       <InquiryPopup />
       <ExitIntentPopup />

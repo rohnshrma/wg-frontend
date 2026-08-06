@@ -22,16 +22,26 @@ const quickLinks = [
   { label: "Contact Us", href: "/contact" },
 ];
 
-const courses = [
-  { label: "Data Science", href: "/courses/data-science" },
-  { label: "Data Analytics", href: "/courses/data-analytics" },
-  { label: "Artificial Intelligence", href: "/courses/artificial-intelligence" },
-  { label: "MERN Stack", href: "/courses/mern-stack-development" },
-  { label: "Python Programming", href: "/courses/python-programming" },
-  { label: "Power BI", href: "/courses/power-bi" },
+// Fallback only — the real, current catalogue is fetched server-side and
+// passed in as `courses`. This hardcoded list previously WAS the footer,
+// which meant it silently went stale (6 of 12 live courses were missing —
+// SQL, Java, C/C++, MS Excel, React, TypeScript never appeared here) and
+// every page footer was one of the few internal links search engines
+// reliably follow site-wide to the course catalogue.
+const fallbackCourses = [
+  { title: "Data Science", slug: "data-science" },
+  { title: "Data Analytics", slug: "data-analytics" },
+  { title: "Artificial Intelligence", slug: "artificial-intelligence" },
+  { title: "MERN Stack", slug: "mern-stack-development" },
+  { title: "Python Programming", slug: "python-programming" },
+  { title: "Power BI", slug: "power-bi" },
 ];
 
-export default function Footer() {
+export default function Footer({
+  courses = fallbackCourses,
+}: {
+  courses?: { title: string; slug: string }[];
+}) {
   return (
     <footer className="bg-surface-dark text-white/80 relative overflow-hidden">
       {/* Decorative gradient orb */}
@@ -131,13 +141,13 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3">
               {courses.map((course) => (
-                <li key={course.href}>
+                <li key={course.slug}>
                   <Link
-                    href={course.href}
+                    href={`/courses/${course.slug}`}
                     className="text-sm text-white/50 hover:text-white hover:translate-x-1 transition-all duration-200 flex items-center gap-2"
                   >
                     <ArrowRight className="w-3 h-3" />
-                    {course.label}
+                    {course.title}
                   </Link>
                 </li>
               ))}

@@ -18,6 +18,7 @@ import {
   User,
   Mail,
   Send,
+  MapPin,
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { courseGradient } from "@/lib/courseColors";
@@ -27,7 +28,21 @@ import Breadcrumbs from "@/components/shared/Breadcrumbs";
 
 const Hero3DBackground = dynamic(() => import("@/components/three/Hero3DBackground"), { ssr: false });
 
-export default function CourseDetailContent({ course }: { course: Course }) {
+// Maps a course slug to its dedicated Gurugram location landing page, where
+// one exists. Extend this as more location pages ship (MASTER_TASK_BOARD.md
+// C5) — deliberately a lookup, not a naming convention, since not every
+// course will get one at once.
+const locationPageBySlug: Record<string, string> = {
+  "mern-stack-development": "/mern-course-gurugram",
+};
+
+export default function CourseDetailContent({
+  course,
+  relatedCourses = [],
+}: {
+  course: Course;
+  relatedCourses?: Course[];
+}) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -105,6 +120,15 @@ export default function CourseDetailContent({ course }: { course: Course }) {
                     <Users className="w-4 h-4" /> Max 15 students
                   </span>
                 </div>
+
+                {locationPageBySlug[course.slug] && (
+                  <Link
+                    href={locationPageBySlug[course.slug]}
+                    className="inline-flex items-center gap-2 mt-6 text-sm text-white/70 hover:text-white transition-colors"
+                  >
+                    <MapPin className="w-4 h-4" /> See our Gurugram campus details &amp; local FAQs
+                  </Link>
+                )}
 
                 {quickStats.length > 0 && (
                   <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -278,6 +302,40 @@ export default function CourseDetailContent({ course }: { course: Course }) {
                     </div>
                   )}
                 </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Related Courses */}
+      {relatedCourses.length > 0 && (
+        <section className="section-padding bg-gray-50">
+          <div className="container-custom">
+            <h2 className="text-3xl font-extrabold text-text-primary text-center mb-2">
+              Related Courses
+            </h2>
+            <p className="text-text-secondary text-center text-sm mb-10">
+              Often paired with {course.title} by our Gurugram students
+            </p>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
+              {relatedCourses.map((rc) => (
+                <Link
+                  key={rc.slug}
+                  href={`/courses/${rc.slug}`}
+                  className="group p-5 rounded-xl border border-border bg-white card-hover"
+                >
+                  <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${courseGradient(rc.slug)} flex items-center justify-center mb-3`}>
+                    <GraduationCap className="w-5 h-5 text-white" />
+                  </div>
+                  <h4 className="font-bold text-text-primary text-sm mb-1 group-hover:text-primary transition-colors">
+                    {rc.title}
+                  </h4>
+                  <p className="text-xs text-text-secondary mb-3">{rc.shortDescription}</p>
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary">
+                    View course <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </Link>
               ))}
             </div>
           </div>

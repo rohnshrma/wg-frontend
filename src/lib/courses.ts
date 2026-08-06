@@ -35,3 +35,28 @@ export async function getCourseBySlug(slug: string): Promise<Course | null> {
   const json = await res.json();
   return json.data ?? null;
 }
+
+// Powers the "Related Courses" cross-links on course detail pages — every
+// course page was previously a dead end with no path to any other course
+// page except via the global nav, which meant no internal link equity
+// flowed between related course pages at all. Ranks by shared technology
+// tags (a real signal already in the data) rather than a hardcoded list, so
+// it stays correct as courses are added/removed via the admin CMS.
+export async function getRelatedCourses(
+  currentSlug: string,
+  currentTechnologies: string[],
+  limit = 3
+): Promise<Course[]> {
+  const all = await getCourses();
+  const currentTechSet = new Set(currentTechnologies.map((t) => t.toLowerCase()));
+
+  return all
+    .filter((c) => c.slug !== currentSlug)
+    .map((c) => ({
+      course: c,
+      overlap: c.technologies.filter((t) => currentTechSet.has(t.toLowerCase())).length,
+    }))
+    .sort((a, b) => b.overlap - a.overlap || (a.course.displayOrder ?? 0) - (b.course.displayOrder ?? 0))
+    .slice(0, limit)
+    .map((x) => x.course);
+}
