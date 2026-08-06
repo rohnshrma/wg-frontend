@@ -3,7 +3,7 @@ import { siteConfig } from "@/config/site";
 import { getLocationPageContent } from "@/data/locationPages";
 import CourseLocationPage from "@/components/location-pages/CourseLocationPage";
 
-const content = getLocationPageContent("mern-stack-development")!;
+const content = getLocationPageContent("data-science")!;
 
 export const metadata: Metadata = {
   title: content.metaTitle,
@@ -11,6 +11,6 @@ export const metadata: Metadata = {
   alternates: { canonical: `${siteConfig.url}${content.path}` },
 };
 
-export default function MernCourseGurugramPage() {
+export default function DataScienceCourseGurugramPage() {
   return <CourseLocationPage content={content} />;
 }

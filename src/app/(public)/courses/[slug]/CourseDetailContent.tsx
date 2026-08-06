@@ -25,17 +25,9 @@ import { courseGradient } from "@/lib/courseColors";
 import dynamic from "next/dynamic";
 import type { Course } from "@/types/course";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
+import { getLocationPageContent } from "@/data/locationPages";
 
 const Hero3DBackground = dynamic(() => import("@/components/three/Hero3DBackground"), { ssr: false });
-
-// Maps a course slug to its dedicated Gurugram location landing page, where
-// one exists. Extend this as more location pages ship (MASTER_TASK_BOARD.md
-// C5) — deliberately a lookup, not a naming convention, since not every
-// course will get one at once.
-const locationPageBySlug: Record<string, string> = {
-  "mern-stack-development": "/mern-course-gurugram",
-  "python-programming": "/python-course-gurugram",
-};
 
 export default function CourseDetailContent({
   course,
@@ -50,6 +42,7 @@ export default function CourseDetailContent({
   const [formData, setFormData] = useState({ name: "", phone: "", email: "" });
 
   const gradient = courseGradient(course.slug);
+  const locationPage = getLocationPageContent(course.slug);
   const quickStats = [
     { label: "Duration", value: course.duration },
     ...(course.curriculum.length > 0 ? [{ label: "Modules", value: `${course.curriculum.length}+` }] : []),
@@ -122,9 +115,9 @@ export default function CourseDetailContent({
                   </span>
                 </div>
 
-                {locationPageBySlug[course.slug] && (
+                {locationPage && (
                   <Link
-                    href={locationPageBySlug[course.slug]}
+                    href={locationPage.path}
                     className="inline-flex items-center gap-2 mt-6 text-sm text-white/70 hover:text-white transition-colors"
                   >
                     <MapPin className="w-4 h-4" /> See our Gurugram campus details &amp; local FAQs

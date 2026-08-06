@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { getCourses } from "@/lib/courses";
 import { getBlogs } from "@/lib/blog";
 import { siteConfig } from "@/config/site";
+import { locationPages } from "@/data/locationPages";
 
 const staticRoutes = [
   "",
@@ -12,11 +13,6 @@ const staticRoutes = [
   "/blog",
   "/contact",
 ];
-
-// Local-intent landing pages — separate from staticRoutes because they get
-// course-page-level priority (0.9), not generic-page priority (0.8). Add
-// each new one here as it ships (see MASTER_TASK_BOARD.md C5/GROWTH-P3).
-const locationRoutes = ["/mern-course-gurugram", "/python-course-gurugram"];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [courses, blogs] = await Promise.all([getCourses(), getBlogs()]);
@@ -29,8 +25,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: path === "" ? 1 : 0.8,
   }));
 
-  const locationEntries: MetadataRoute.Sitemap = locationRoutes.map((path) => ({
-    url: `${siteConfig.url}${path}`,
+  // Local-intent landing pages — one real page per course × Gurugram, sourced
+  // from the same data file CourseDetailContent reads for its reciprocal
+  // links, so the two can't drift out of sync with each other.
+  const locationEntries: MetadataRoute.Sitemap = locationPages.map((page) => ({
+    url: `${siteConfig.url}${page.path}`,
     lastModified: new Date(),
     changeFrequency: "monthly",
     priority: 0.9,
