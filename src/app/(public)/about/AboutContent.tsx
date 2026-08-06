@@ -105,8 +105,8 @@ export default function AboutContent() {
                 Our Story
               </span>
               <h2 className="heading-section text-text-primary mb-6">
-                From a Small Classroom to{" "}
-                <span className="gradient-text">500+ Placed Students</span>
+                From a Small Classroom to a{" "}
+                <span className="gradient-text">Real Placement Network</span>
               </h2>
               <p className="text-text-secondary leading-relaxed mb-4">
                 WebiGeeks was founded in 2023 in Sector-14, Gurugram, with a simple
@@ -115,11 +115,11 @@ export default function AboutContent() {
                 access instead of a lecture hall of a hundred students.
               </p>
               <p className="text-text-secondary leading-relaxed mb-6">
-                Since then, 500+ students have completed our courses, and our
-                alumni are now part of teams at companies like KPMG, Extramarks,
-                Ferns N Petals, Descriptive AI, Flick AI, and Smart Data
-                Enterprises. Every course is built around real projects, so you
-                leave with a portfolio, not just a certificate.
+                Since then, students have completed our courses, and our alumni
+                are now part of teams at companies like KPMG, Extramarks, Ferns
+                N Petals, Descriptive AI, Flick AI, and Smart Data Enterprises.
+                Every course is built around real projects, so you leave with a
+                portfolio, not just a certificate.
               </p>
               <Link
                 href="/contact"
@@ -213,7 +213,7 @@ export default function AboutContent() {
             Ready to Book a Free Demo?
           </h2>
           <p className="text-white/60 text-lg mb-8 max-w-lg mx-auto">
-            Join 500+ students who have transformed their careers with WebiGeeks.
+            Join the students who&apos;ve built real careers with WebiGeeks.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link

@@ -37,9 +37,12 @@ export const siteConfig = {
     "MS Excel",
   ],
 
+  // studentsPlaced deliberately removed — a specific headcount of "placed"
+  // students isn't a claim we can stand behind, so it's not tracked as a
+  // stat anywhere on the site. Use "students trained" in prose instead,
+  // with no attached number.
   stats: {
     yearsExperience: 6,
-    studentsPlaced: 500,
     courses: 10,
     batchesCompleted: 100,
   },

@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     siteName: "WebiGeeks — Coding Institute in Gurugram",
     title: "WebiGeeks — Coding Institute in Gurugram",
     description:
-      "100% practical MERN, Python & Data Analytics training in Sector-14, Gurugram. Offline and online batches. Join 500+ placed students.",
+      "100% practical MERN, Python & Data Analytics training in Sector-14, Gurugram. Offline and online batches, with real placement assistance.",
     // No `images` array here — the app/opengraph-image.tsx file convention
     // (next/og) auto-generates and wires this up; setting it manually here
     // too would create a conflicting/duplicate og:image tag.

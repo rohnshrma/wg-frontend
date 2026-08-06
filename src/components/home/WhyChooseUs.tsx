@@ -106,8 +106,7 @@ export default function WhyChooseUs() {
             <span className="gradient-text">Different?</span>
           </h2>
           <p className="text-text-secondary text-lg max-w-2xl mx-auto">
-            500+ students later, here&apos;s what actually made the difference
-            for them.
+            Here&apos;s what actually makes the difference for our students.
           </p>
         </motion.div>
 

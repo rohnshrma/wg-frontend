@@ -4,7 +4,7 @@ import { getTestimonials } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
   title: "Testimonials",
-  description: "Read success stories from 500+ placed students. See how WebiGeeks transformed their careers with practical training.",
+  description: "Read real feedback from WebiGeeks students. See how practical, project-based training helped them build their careers.",
 };
 
 export default async function TestimonialsPage() {

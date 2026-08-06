@@ -91,7 +91,8 @@ export default function Footer({
             </Link>
             <p className="text-white/50 text-sm leading-relaxed mb-6">
               AI-integrated, 100% practical coding courses from our Sector-14,
-              Gurugram campus. 500+ students trained and counting.
+              Gurugram campus, training students across MERN, Python, Data
+              Analytics, and more.
             </p>
             {/* Social Links */}
             <div className="flex items-center gap-3">

@@ -172,7 +172,6 @@ export default function HeroSection() {
             {/* Trust indicators */}
             <div className="flex items-center gap-6 mt-10 pt-8 border-t border-white/10">
               {[
-                { value: "500+", label: "Students Placed" },
                 { value: "100+", label: "Batches Completed" },
                 { value: "4.8", label: "Student Rating" },
               ].map((stat) => (

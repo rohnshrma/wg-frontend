@@ -2,11 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Users, GraduationCap, BookOpen, Award } from "lucide-react";
+import { GraduationCap, BookOpen, Award } from "lucide-react";
 import { siteConfig } from "@/config/site";
 
 const stats = [
-  { icon: Users, value: siteConfig.stats.studentsPlaced, suffix: "+", label: "Students Placed" },
   { icon: GraduationCap, value: siteConfig.stats.batchesCompleted, suffix: "+", label: "Batches Completed" },
   { icon: BookOpen, value: siteConfig.stats.courses, suffix: "+", label: "Courses Offered" },
   { icon: Award, value: siteConfig.stats.yearsExperience, suffix: "+", label: "Years Experience" },
@@ -71,7 +70,7 @@ export default function StatsCounter() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-8"
+          className="grid grid-cols-3 gap-8"
         >
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
