@@ -21,8 +21,11 @@ import {
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { courseGradient } from "@/lib/courseColors";
+import dynamic from "next/dynamic";
 import type { Course } from "@/types/course";
-import Hero3DBackground from "@/components/three/Hero3DBackground";
+import Breadcrumbs from "@/components/shared/Breadcrumbs";
+
+const Hero3DBackground = dynamic(() => import("@/components/three/Hero3DBackground"), { ssr: false });
 
 export default function CourseDetailContent({ course }: { course: Course }) {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -68,6 +71,12 @@ export default function CourseDetailContent({ course }: { course: Course }) {
           <div className="grid lg:grid-cols-3 gap-10 items-start">
             <div className="lg:col-span-2">
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+                <Breadcrumbs
+                  items={[
+                    { label: "Courses", href: "/courses" },
+                    { label: course.title, href: `/courses/${course.slug}` },
+                  ]}
+                />
                 <div className="flex flex-wrap gap-2 mb-4">
                   <span className={`px-3 py-1 rounded-full bg-gradient-to-r ${gradient} text-xs font-bold capitalize`}>
                     {course.level}

@@ -4,8 +4,11 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Clock, Tag, User, Share2, PenSquare, ArrowRight } from "lucide-react";
-import Hero3DBackground from "@/components/three/Hero3DBackground";
+import dynamic from "next/dynamic";
+import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import type { Blog } from "@/types/blog";
+
+const Hero3DBackground = dynamic(() => import("@/components/three/Hero3DBackground"), { ssr: false });
 
 const readTime = (content: string) => `${Math.max(1, Math.round(content.split(/\s+/).length / 200))} min`;
 
@@ -23,6 +26,12 @@ export default function BlogDetailContent({ blog }: { blog: Blog }) {
         <Hero3DBackground variant="compact" />
         <div className="container-custom relative">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
+            <Breadcrumbs
+              items={[
+                { label: "Blog", href: "/blog" },
+                { label: blog.title, href: `/blog/${blog.slug}` },
+              ]}
+            />
             <Link href="/blog" className="inline-flex items-center gap-1 text-white/60 hover:text-white text-sm mb-6 transition-colors">
               <ArrowLeft className="w-4 h-4" /> Back to Blog
             </Link>

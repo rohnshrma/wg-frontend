@@ -14,4 +14,5 @@ export interface Blog {
   metaDescription?: string;
   viewCount: number;
   createdAt: string;
+  updatedAt?: string;
 }

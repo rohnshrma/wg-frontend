@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import BlogDetailContent from "./BlogDetailContent";
 import { getBlogBySlug } from "@/lib/blog";
+import { blogPostingSchema } from "@/lib/schema";
+import JsonLd from "@/components/seo/JsonLd";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -21,5 +23,10 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
     notFound();
   }
 
-  return <BlogDetailContent blog={blog} />;
+  return (
+    <>
+      <JsonLd data={blogPostingSchema(blog)} />
+      <BlogDetailContent blog={blog} />
+    </>
+  );
 }

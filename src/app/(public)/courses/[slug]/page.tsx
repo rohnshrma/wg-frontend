@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import CourseDetailContent from "./CourseDetailContent";
 import { getCourseBySlug } from "@/lib/courses";
+import { getTestimonialsByCourse } from "@/lib/testimonials";
+import { courseSchema, faqPageSchema } from "@/lib/schema";
+import JsonLd from "@/components/seo/JsonLd";
 
 export async function generateMetadata({
   params,
@@ -32,5 +35,13 @@ export default async function CourseDetailPage({
     notFound();
   }
 
-  return <CourseDetailContent course={course} />;
+  const ratings = await getTestimonialsByCourse(course.title);
+
+  return (
+    <>
+      <JsonLd data={courseSchema(course, ratings)} />
+      {course.faqs.length > 0 && <JsonLd data={faqPageSchema(course.faqs)} />}
+      <CourseDetailContent course={course} />
+    </>
+  );
 }

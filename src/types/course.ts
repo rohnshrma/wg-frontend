@@ -42,4 +42,7 @@ export interface Course {
   isFeatured: boolean;
   isActive: boolean;
   displayOrder: number;
+
+  createdAt?: string;
+  updatedAt?: string;
 }
