@@ -3,7 +3,11 @@ import { Suspense } from "react";
 import Navbar from "@/components/layout/Navbar";
 import LoginContent from "./LoginContent";
 
-export const metadata: Metadata = { title: "Login", description: "Login to your WebiGeeks student or admin dashboard." };
+export const metadata: Metadata = {
+  title: "Login",
+  description: "Login to your WebiGeeks student or admin dashboard.",
+  robots: { index: false, follow: false },
+};
 
 export default function LoginPage() {
   return (
