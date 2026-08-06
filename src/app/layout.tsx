@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import JsonLd from "@/components/seo/JsonLd";
+import { organizationSchema } from "@/lib/schema";
 import "./globals.css";
 
 const inter = Inter({
@@ -12,21 +14,21 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://webigeeks.com"),
   title: {
-    default: "WebiGeeks — Your AI Skill Partner",
-    template: "%s | WebiGeeks",
+    default: "WebiGeeks — Coding Institute in Gurugram | MERN, Python & Data Analytics",
+    template: "%s | WebiGeeks Gurugram",
   },
   description:
-    "Become industry-ready with AI-integrated courses in Data Science, Data Analytics, MERN Stack, Python, Power BI, and more. 100% practical training with placement assistance.",
+    "AI-integrated coding classes in Sector-14, Gurugram — MERN Stack, Python, Data Analytics, Power BI & more. Offline and online batches, 100% placement assistance.",
   keywords: [
-    "data science course",
-    "data analytics training",
-    "MERN stack development",
-    "python programming",
-    "power bi course",
-    "AI courses",
-    "machine learning",
-    "web development",
-    "placement assistance",
+    "coding institute Gurgaon",
+    "MERN course Gurugram",
+    "python course Gurgaon",
+    "full stack developer course near me",
+    "IT training institute Gurgaon",
+    "data analytics course Gurgaon",
+    "power bi training Gurgaon",
+    "offline coding classes Gurgaon",
+    "programming classes Gurgaon",
     "WebiGeeks",
   ],
   authors: [{ name: "WebiGeeks" }],
@@ -35,16 +37,18 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     url: "https://webigeeks.com",
-    siteName: "WebiGeeks — Your AI Skill Partner",
-    title: "WebiGeeks — Become Industry Ready With AI Integrated Courses",
+    siteName: "WebiGeeks — Coding Institute in Gurugram",
+    title: "WebiGeeks — Coding Institute in Gurugram",
     description:
-      "100% practical training in Data Science, AI, MERN Stack, Python, and more. Join 500+ placed students.",
-    images: [{ url: "/images/og-image.jpg", width: 1200, height: 630 }],
+      "100% practical MERN, Python & Data Analytics training in Sector-14, Gurugram. Offline and online batches. Join 500+ placed students.",
+    // No `images` array here — the app/opengraph-image.tsx file convention
+    // (next/og) auto-generates and wires this up; setting it manually here
+    // too would create a conflicting/duplicate og:image tag.
   },
   twitter: {
     card: "summary_large_image",
-    title: "WebiGeeks — Your AI Skill Partner",
-    description: "AI-Integrated Courses for Industry-Ready Careers",
+    title: "WebiGeeks — Coding Institute in Gurugram",
+    description: "AI-Integrated MERN, Python & Data Analytics Courses in Sector-14, Gurugram",
   },
   robots: {
     index: true,
@@ -74,6 +78,7 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" />
         <meta name="theme-color" content="#1672B8" />
+        <JsonLd data={organizationSchema} />
       </head>
       <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
         {children}
