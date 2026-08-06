@@ -16,7 +16,7 @@ const staticRoutes = [
 // Local-intent landing pages — separate from staticRoutes because they get
 // course-page-level priority (0.9), not generic-page priority (0.8). Add
 // each new one here as it ships (see MASTER_TASK_BOARD.md C5/GROWTH-P3).
-const locationRoutes = ["/mern-course-gurugram"];
+const locationRoutes = ["/mern-course-gurugram", "/python-course-gurugram"];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [courses, blogs] = await Promise.all([getCourses(), getBlogs()]);

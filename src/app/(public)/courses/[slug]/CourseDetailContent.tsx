@@ -34,6 +34,7 @@ const Hero3DBackground = dynamic(() => import("@/components/three/Hero3DBackgrou
 // course will get one at once.
 const locationPageBySlug: Record<string, string> = {
   "mern-stack-development": "/mern-course-gurugram",
+  "python-programming": "/python-course-gurugram",
 };
 
 export default function CourseDetailContent({
