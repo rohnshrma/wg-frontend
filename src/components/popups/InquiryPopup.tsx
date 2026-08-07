@@ -97,6 +97,7 @@ export default function InquiryPopup() {
                   <button
                     onClick={handleClose}
                     className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+                    aria-label="Close"
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -134,6 +135,7 @@ export default function InquiryPopup() {
                         <input
                           type="text"
                           placeholder="Your Name"
+                          aria-label="Your Name"
                           required
                           value={formData.name}
                           onChange={(e) =>
@@ -147,6 +149,7 @@ export default function InquiryPopup() {
                         <input
                           type="tel"
                           placeholder="Phone Number"
+                          aria-label="Phone Number"
                           required
                           value={formData.phone}
                           onChange={(e) =>
@@ -160,6 +163,7 @@ export default function InquiryPopup() {
                         <input
                           type="email"
                           placeholder="Email Address"
+                          aria-label="Email Address"
                           required
                           value={formData.email}
                           onChange={(e) =>
@@ -170,6 +174,7 @@ export default function InquiryPopup() {
                       </div>
                       <select
                         required
+                        aria-label="Select Course"
                         value={formData.courseInterested}
                         onChange={(e) =>
                           setFormData({
