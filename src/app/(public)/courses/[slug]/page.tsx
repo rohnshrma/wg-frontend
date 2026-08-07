@@ -5,6 +5,7 @@ import { getCourseBySlug, getRelatedCourses } from "@/lib/courses";
 import { getTestimonialsByCourse } from "@/lib/testimonials";
 import { courseSchema, faqPageSchema } from "@/lib/schema";
 import JsonLd from "@/components/seo/JsonLd";
+import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -13,14 +14,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const course = await getCourseBySlug(slug);
-  if (!course) return { title: "Course Not Found" };
+  if (!course) {
+    return { title: "Course Not Found", robots: { index: false, follow: false } };
+  }
 
-  return {
+  return pageMetadata({
     title: course.metaTitle || `${course.title} Course`,
     description:
       course.metaDescription ||
       `Learn ${course.title} with 100% practical, AI-integrated training at WebiGeeks. Industry projects, placement assistance, and flexible timings.`,
-  };
+    path: `/courses/${course.slug}`,
+  });
 }
 
 export default async function CourseDetailPage({

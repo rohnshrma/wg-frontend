@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { siteConfig } from "@/config/site";
 import { getLocationPageContent } from "@/data/locationPages";
 import CourseLocationPage from "@/components/location-pages/CourseLocationPage";
+import { pageMetadata } from "@/lib/seo";
 
 const content = getLocationPageContent("typescript")!;
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: content.metaTitle,
   description: content.metaDescription,
-  alternates: { canonical: `${siteConfig.url}${content.path}` },
-};
+  path: content.path,
+});
 
 export default function TypeScriptCourseGurugramPage() {
   return <CourseLocationPage content={content} />;

@@ -11,6 +11,7 @@ import {
   Heart,
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
+import { locationPages } from "@/data/locationPages";
 
 const quickLinks = [
   { label: "Home", href: "/" },
@@ -200,6 +201,28 @@ export default function Footer({
                 Mon – Sat: 9:00 AM – 7:00 PM
               </li>
             </ul>
+          </div>
+        </div>
+
+        {/* Gurugram Location Pages — every location page's only sitewide
+            inbound link previously came from its one matching course page
+            plus the sitemap; this gives all 12 a real internal link on
+            every page of the site. */}
+        <div className="mt-10 pt-8 border-t border-white/10">
+          <h4 className="text-white font-bold text-sm mb-4 flex items-center gap-2">
+            <div className="w-1 h-4 rounded-full bg-primary" />
+            Courses by Location in Gurugram
+          </h4>
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            {locationPages.map((page) => (
+              <Link
+                key={page.path}
+                href={page.path}
+                className="text-xs text-white/40 hover:text-white transition-colors"
+              >
+                {page.breadcrumbLabel}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

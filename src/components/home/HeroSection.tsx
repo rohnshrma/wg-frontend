@@ -130,6 +130,17 @@ export default function HeroSection() {
               Courses
             </h1>
 
+            {/* Direct-answer sentence — plain-language entity statement for AI
+                search / LLM browsing tools, which tend to lift declarative
+                sentences rather than headline copy when summarizing what a
+                business is. */}
+            <p className="text-base text-white/80 mb-3 max-w-lg leading-relaxed font-medium">
+              WebiGeeks is a coding institute in Sector-14, Gurugram offering
+              MERN Stack, Python, Data Analytics, Power BI and other
+              AI-integrated courses for students, freshers, working
+              professionals and career switchers.
+            </p>
+
             {/* Subheading */}
             <p className="text-lg text-white/60 mb-8 max-w-lg leading-relaxed">
               100% practical training with real-world projects, internship
