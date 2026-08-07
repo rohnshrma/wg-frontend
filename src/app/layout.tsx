@@ -33,6 +33,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "WebiGeeks" }],
   creator: "WebiGeeks",
+  alternates: { canonical: "https://webigeeks.com" },
   openGraph: {
     type: "website",
     locale: "en_IN",
