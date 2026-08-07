@@ -212,9 +212,9 @@ export default function HeroSection() {
                     <Send className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-text-primary">
+                    <h2 className="text-lg font-bold text-text-primary">
                       Get Free Career Counseling
-                    </h3>
+                    </h2>
                     <p className="text-sm text-text-muted">
                       We&apos;ll call you back within 30 minutes
                     </p>
@@ -230,9 +230,9 @@ export default function HeroSection() {
                     <div className="w-16 h-16 mx-auto rounded-full bg-success-light flex items-center justify-center mb-4">
                       <CheckCircle2 className="w-8 h-8 text-success" />
                     </div>
-                    <h4 className="text-xl font-bold text-text-primary mb-2">
+                    <h3 className="text-xl font-bold text-text-primary mb-2">
                       Thank You! 🎉
-                    </h4>
+                    </h3>
                     <p className="text-text-secondary">
                       We&apos;ve received your inquiry. Our team will contact
                       you shortly.
@@ -246,6 +246,7 @@ export default function HeroSection() {
                       <input
                         type="text"
                         placeholder="Your Name"
+                        aria-label="Your Name"
                         required
                         value={formData.name}
                         onChange={(e) =>
@@ -261,6 +262,7 @@ export default function HeroSection() {
                       <input
                         type="tel"
                         placeholder="Phone Number"
+                        aria-label="Phone Number"
                         required
                         value={formData.phone}
                         onChange={(e) =>
@@ -276,6 +278,7 @@ export default function HeroSection() {
                       <input
                         type="email"
                         placeholder="Email Address"
+                        aria-label="Email Address"
                         required
                         value={formData.email}
                         onChange={(e) =>
@@ -288,6 +291,7 @@ export default function HeroSection() {
                     {/* Course Selection */}
                     <select
                       required
+                      aria-label="Select Course"
                       value={formData.courseInterested}
                       onChange={(e) =>
                         setFormData({
