@@ -97,6 +97,10 @@ export default function CourseDetailContent({
                 <h1 className="heading-hero mb-4">
                   {course.title}
                 </h1>
+                <p className="text-white/80 text-base mb-3 max-w-2xl leading-relaxed font-medium">
+                  WebiGeeks&apos; {course.title} course at our Sector-14, Gurugram campus is{" "}
+                  {course.mode === "hybrid" ? "a" : "an"} {course.duration}, {course.mode} programme for {course.level} learners.
+                </p>
                 <p className="text-white/60 text-lg mb-6 max-w-2xl leading-relaxed">
                   {course.fullDescription}
                 </p>
