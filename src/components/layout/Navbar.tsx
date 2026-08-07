@@ -210,6 +210,7 @@ export default function Navbar() {
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="p-2 rounded-lg hover:bg-gray-100"
+                  aria-label="Close menu"
                 >
                   <X className="w-5 h-5" />
                 </button>

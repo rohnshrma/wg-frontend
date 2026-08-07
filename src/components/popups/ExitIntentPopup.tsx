@@ -74,6 +74,7 @@ export default function ExitIntentPopup() {
               <button
                 onClick={() => setIsOpen(false)}
                 className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 z-10"
+                aria-label="Close"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -120,6 +121,7 @@ export default function ExitIntentPopup() {
                           <input
                             type="text"
                             placeholder="Your Name"
+                            aria-label="Your Name"
                             required
                             value={formData.name}
                             onChange={(e) =>
@@ -133,6 +135,7 @@ export default function ExitIntentPopup() {
                           <input
                             type="tel"
                             placeholder="Phone Number"
+                            aria-label="Phone Number"
                             required
                             value={formData.phone}
                             onChange={(e) =>
