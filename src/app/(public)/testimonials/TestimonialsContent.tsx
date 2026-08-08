@@ -83,17 +83,17 @@ export default function TestimonialsContent({ testimonials }: { testimonials: Te
                         )}
                       </div>
                     </div>
-                    <div className="flex items-end gap-2">
+                    <div className="flex items-center gap-2">
                       <div className="text-right">
                         <p className="text-xs text-text-muted">{t.courseName}</p>
                         {t.salaryPackage && <p className="text-sm font-bold text-success">{t.salaryPackage}</p>}
                       </div>
                       {t.source === "google" && (
                         <div
-                          className="w-6 h-6 rounded-full bg-white shadow-sm border border-border flex items-center justify-center shrink-0"
+                          className="w-8 h-8 rounded-full bg-white shadow-sm border border-border flex items-center justify-center shrink-0"
                           title="Verified Google review"
                         >
-                          <GoogleLogo className="w-3.5 h-3.5" />
+                          <GoogleLogo className="w-4 h-4" />
                         </div>
                       )}
                     </div>

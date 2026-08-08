@@ -1,6 +1,7 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import FloatingButtons from "@/components/layout/FloatingButtons";
+import StickyCallbackCTA from "@/components/layout/StickyCallbackCTA";
 import { getCourses } from "@/lib/courses";
 
 export default async function PublicLayout({ children }: { children: React.ReactNode }) {
@@ -12,6 +13,7 @@ export default async function PublicLayout({ children }: { children: React.React
       <main>{children}</main>
       <Footer courses={courses.map((c) => ({ title: c.title, slug: c.slug }))} />
       <FloatingButtons />
+      <StickyCallbackCTA />
     </>
   );
 }

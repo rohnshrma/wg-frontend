@@ -97,7 +97,7 @@ export default function TestimonialsCarousel({ testimonials }: Props) {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-end gap-2 shrink-0">
+                <div className="flex items-center gap-3 shrink-0">
                   {current.salaryPackage && (
                     <div className="hidden sm:block text-right">
                       <p className="text-xs text-text-muted">Package</p>
@@ -106,10 +106,10 @@ export default function TestimonialsCarousel({ testimonials }: Props) {
                   )}
                   {current.source === "google" && (
                     <div
-                      className="w-8 h-8 rounded-full bg-white shadow-sm border border-border flex items-center justify-center"
+                      className="w-9 h-9 rounded-full bg-white shadow-sm border border-border flex items-center justify-center"
                       title="Verified Google review"
                     >
-                      <GoogleLogo className="w-4 h-4" />
+                      <GoogleLogo className="w-5 h-5" />
                     </div>
                   )}
                 </div>

@@ -31,6 +31,7 @@ const sourceLabels: Record<string, string> = {
   exit_intent: "Exit Intent",
   course_page: "Course Page",
   book_demo: "Book Demo",
+  sticky_cta: "Sticky CTA",
 };
 
 const statusColors: Record<string, string> = {

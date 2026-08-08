@@ -23,6 +23,7 @@ const sourceLabels: Record<string, string> = {
   contact_page: "Contact Page",
   exit_intent: "Exit Intent",
   course_page: "Course Page",
+  sticky_cta: "Sticky CTA",
 };
 
 const statusBadgeClass: Record<Lead["status"], string> = {
