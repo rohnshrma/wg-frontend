@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { locationPages } from "@/data/locationPages";
+import { useObfuscatedEmail } from "@/lib/useObfuscatedEmail";
 
 const quickLinks = [
   { label: "Home", href: "/" },
@@ -43,6 +44,8 @@ export default function Footer({
 }: {
   courses?: { title: string; slug: string }[];
 }) {
+  const email = useObfuscatedEmail();
+
   return (
     <footer className="bg-surface-dark text-white/80 relative overflow-hidden">
       {/* Decorative gradient orb */}
@@ -165,9 +168,9 @@ export default function Footer({
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 mt-1 text-primary-200 shrink-0" />
-                <span className="text-sm text-white/50 leading-relaxed">
+                <address className="text-sm text-white/50 leading-relaxed not-italic">
                   {siteConfig.contact.address}
-                </span>
+                </address>
               </li>
               <li>
                 <a
@@ -189,11 +192,11 @@ export default function Footer({
               </li>
               <li>
                 <a
-                  href={`mailto:${siteConfig.contact.email}`}
+                  href={email.href}
                   className="flex items-center gap-3 text-sm text-white/50 hover:text-white transition-colors"
                 >
                   <Mail className="w-4 h-4 text-primary-200 shrink-0" />
-                  {siteConfig.contact.email}
+                  {email.label}
                 </a>
               </li>
               <li className="flex items-center gap-3 text-sm text-white/50">

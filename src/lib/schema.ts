@@ -8,7 +8,11 @@ import type { Blog } from "@/types/blog";
 // pages) draws from one definition instead of re-typing the address/NAP.
 export const organizationSchema = {
   "@context": "https://schema.org",
-  "@type": "EducationalOrganization",
+  // Multi-typed rather than a second, duplicate JSON-LD node: WebiGeeks is
+  // genuinely both (a physical campus with an address/phone = LocalBusiness,
+  // and a training provider = EducationalOrganization). schema.org supports
+  // an array of types on one entity for exactly this case.
+  "@type": ["EducationalOrganization", "LocalBusiness"],
   "@id": `${siteConfig.url}/#organization`,
   name: siteConfig.name,
   alternateName: "WebiGeeks Coding Institute",

@@ -15,11 +15,13 @@ import {
 import { navItems } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import { useObfuscatedEmail } from "@/lib/useObfuscatedEmail";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const email = useObfuscatedEmail();
 
   // "/" must match exactly, but every other section should stay highlighted on
   // its detail pages too (/courses/react-basics still means "Courses").
@@ -65,10 +67,10 @@ export default function Navbar() {
               {siteConfig.contact.phone}
             </a>
             <a
-              href={`mailto:${siteConfig.contact.email}`}
+              href={email.href}
               className="hover:text-white transition-colors"
             >
-              {siteConfig.contact.email}
+              {email.label}
             </a>
           </div>
           <div className="flex items-center gap-2">

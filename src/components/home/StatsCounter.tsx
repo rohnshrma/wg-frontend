@@ -55,14 +55,7 @@ export default function StatsCounter() {
   return (
     <section className="py-16 gradient-primary relative overflow-hidden">
       <div className="absolute inset-0 opacity-10">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 2px 2px, white 1px, transparent 1px)",
-            backgroundSize: "40px 40px",
-          }}
-        />
+        <div className="absolute inset-0 bg-dot-pattern" />
       </div>
 
       <div className="container-custom relative">

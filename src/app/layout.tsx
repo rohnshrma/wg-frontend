@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import JsonLd from "@/components/seo/JsonLd";
+import GoogleAnalytics from "@/components/seo/GoogleAnalytics";
 import { organizationSchema } from "@/lib/schema";
 import "./globals.css";
 
@@ -14,11 +15,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://webigeeks.com"),
   title: {
-    default: "WebiGeeks — Coding Institute in Gurugram | MERN, Python & Data Analytics",
+    default: "WebiGeeks — Coding Institute in Gurugram | MERN & Python",
     template: "%s | WebiGeeks Gurugram",
   },
   description:
-    "AI-integrated coding classes in Sector-14, Gurugram — MERN Stack, Python, Data Analytics, Power BI & more. Offline and online batches, 100% placement assistance.",
+    "AI-integrated coding classes in Sector-14, Gurugram — MERN, Python, Data Analytics & Power BI. Offline and online batches, 100% placement assistance.",
   keywords: [
     "coding institute Gurgaon",
     "MERN course Gurugram",
@@ -83,6 +84,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
         {children}
+        <GoogleAnalytics />
       </body>
     </html>
   );
