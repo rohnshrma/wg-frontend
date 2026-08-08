@@ -16,6 +16,7 @@ type TestimonialFormValues = {
   photoUrl: string;
   testimonialText: string;
   rating: number;
+  source: "google" | "manual";
   displayOrder: string;
   isActive: boolean;
 };
@@ -29,6 +30,7 @@ const toFormValues = (testimonial?: Testimonial | null): TestimonialFormValues =
   photoUrl: testimonial?.photoUrl || "",
   testimonialText: testimonial?.testimonialText || "",
   rating: testimonial?.rating ?? 5,
+  source: testimonial?.source || "manual",
   displayOrder: testimonial?.displayOrder?.toString() || "0",
   isActive: testimonial?.isActive ?? true,
 });
@@ -59,6 +61,7 @@ export default function TestimonialForm({ testimonial }: { testimonial?: Testimo
       photoUrl: values.photoUrl,
       testimonialText: values.testimonialText,
       rating: values.rating,
+      source: values.source,
       displayOrder: Number(values.displayOrder) || 0,
       isActive: values.isActive,
     };
@@ -135,6 +138,13 @@ export default function TestimonialForm({ testimonial }: { testimonial?: Testimo
               </button>
             ))}
           </div>
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-text-secondary mb-1">Source</label>
+          <select value={values.source} onChange={(e) => update("source", e.target.value as "google" | "manual")} className={inputClass}>
+            <option value="manual">Manual</option>
+            <option value="google">Google Review</option>
+          </select>
         </div>
         <label className="flex items-center gap-2 text-sm text-text-secondary">
           <input type="checkbox" checked={values.isActive} onChange={(e) => update("isActive", e.target.checked)} className="rounded border-border" />

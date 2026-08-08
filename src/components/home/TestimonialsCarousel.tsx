@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, ChevronLeft, ChevronRight, Quote, Award } from "lucide-react";
 import type { Testimonial } from "@/types/testimonial";
+import GoogleLogo from "@/components/shared/GoogleLogo";
 
 interface Props {
   testimonials: Testimonial[];
@@ -96,12 +97,22 @@ export default function TestimonialsCarousel({ testimonials }: Props) {
                     </p>
                   </div>
                 </div>
-                {current.salaryPackage && (
-                  <div className="hidden sm:block text-right shrink-0">
-                    <p className="text-xs text-text-muted">Package</p>
-                    <p className="text-lg font-bold text-success">{current.salaryPackage}</p>
-                  </div>
-                )}
+                <div className="flex items-end gap-2 shrink-0">
+                  {current.salaryPackage && (
+                    <div className="hidden sm:block text-right">
+                      <p className="text-xs text-text-muted">Package</p>
+                      <p className="text-lg font-bold text-success">{current.salaryPackage}</p>
+                    </div>
+                  )}
+                  {current.source === "google" && (
+                    <div
+                      className="w-8 h-8 rounded-full bg-white shadow-sm border border-border flex items-center justify-center"
+                      title="Verified Google review"
+                    >
+                      <GoogleLogo className="w-4 h-4" />
+                    </div>
+                  )}
+                </div>
               </div>
             </motion.div>
           </AnimatePresence>

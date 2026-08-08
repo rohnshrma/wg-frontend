@@ -7,6 +7,7 @@ import { MessageSquare, Plus, Pencil, Star, Trash2 } from "lucide-react";
 import api from "@/lib/api";
 import ConfirmDeleteModal from "@/components/admin/ConfirmDeleteModal";
 import type { Testimonial } from "@/types/testimonial";
+import GoogleLogo from "@/components/shared/GoogleLogo";
 
 export default function AdminTestimonialsPage() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
@@ -63,10 +64,18 @@ export default function AdminTestimonialsPage() {
                   {t.isActive ? "Active" : "Inactive"}
                 </span>
               </div>
-              <div className="flex gap-0.5 mb-2">
-                {Array.from({ length: 5 }).map((_, j) => (
-                  <Star key={j} className={`w-3.5 h-3.5 ${j < t.rating ? "text-accent-warm fill-accent-warm" : "text-gray-200"}`} />
-                ))}
+              <div className="flex items-center gap-2 mb-2">
+                <div className="flex gap-0.5">
+                  {Array.from({ length: 5 }).map((_, j) => (
+                    <Star key={j} className={`w-3.5 h-3.5 ${j < t.rating ? "text-accent-warm fill-accent-warm" : "text-gray-200"}`} />
+                  ))}
+                </div>
+                {t.source === "google" && (
+                  <span className="inline-flex items-center gap-1 text-xs text-text-muted" title="Verified Google review">
+                    <GoogleLogo className="w-3.5 h-3.5" />
+                    Google
+                  </span>
+                )}
               </div>
               <p className="text-sm text-text-secondary line-clamp-2 mb-3">{t.testimonialText}</p>
               <div className="flex items-center gap-2 pt-3 border-t border-border">

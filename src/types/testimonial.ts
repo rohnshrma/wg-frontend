@@ -9,6 +9,7 @@ export interface Testimonial {
   videoUrl?: string;
   testimonialText: string;
   rating: number;
+  source?: 'google' | 'manual';
   isActive: boolean;
   displayOrder: number;
 }
