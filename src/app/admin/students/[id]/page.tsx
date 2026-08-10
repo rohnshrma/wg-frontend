@@ -8,16 +8,19 @@ import {
   AlertCircle,
   ArrowLeft,
   CalendarClock,
+  Check,
   CheckCircle2,
   FileText,
   GraduationCap,
   Mail,
   MapPin,
+  Pencil,
   Phone,
   Smartphone,
   Trash2,
   User,
   Users,
+  X,
   XCircle,
 } from "lucide-react";
 import api from "@/lib/api";
@@ -42,6 +45,9 @@ export default function AdminStudentDetailPage() {
   const [showInstallments, setShowInstallments] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [mandate, setMandate] = useState<{ status: string } | null>(null);
+  const [isEditingFees, setIsEditingFees] = useState(false);
+  const [feesInput, setFeesInput] = useState("");
+  const [isSavingFees, setIsSavingFees] = useState(false);
 
   const load = async () => {
     try {
@@ -76,6 +82,30 @@ export default function AdminStudentDetailPage() {
       setError(err.response?.data?.message || `Could not ${action} student`);
     } finally {
       setIsActing(false);
+    }
+  };
+
+  const startEditingFees = () => {
+    setFeesInput(String(student?.courseFees ?? 0));
+    setIsEditingFees(true);
+  };
+
+  const saveFees = async () => {
+    const value = Number(feesInput);
+    if (!Number.isFinite(value) || value < 0) {
+      setError("Enter a valid, non-negative fee amount");
+      return;
+    }
+    setIsSavingFees(true);
+    setError("");
+    try {
+      await api.put(`/students/${params.id}`, { courseFees: value });
+      await load();
+      setIsEditingFees(false);
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Could not update course fees");
+    } finally {
+      setIsSavingFees(false);
     }
   };
 
@@ -231,7 +261,46 @@ export default function AdminStudentDetailPage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="rounded-lg border border-border p-4">
             <p className="text-xs text-text-muted mb-1">Course Fees</p>
-            <p className="font-bold text-text-primary">{formatCurrency(student.courseFees)}</p>
+            {isEditingFees ? (
+              <div className="flex items-center gap-1.5">
+                <input
+                  type="number"
+                  min={0}
+                  autoFocus
+                  value={feesInput}
+                  onChange={(e) => setFeesInput(e.target.value)}
+                  disabled={isSavingFees}
+                  className="w-full min-w-0 px-2 py-1 rounded-md border border-border text-sm font-bold text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                />
+                <button
+                  onClick={saveFees}
+                  disabled={isSavingFees}
+                  aria-label="Save course fees"
+                  className="p-1.5 rounded-md bg-success text-white shrink-0 disabled:opacity-50"
+                >
+                  <Check className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  onClick={() => setIsEditingFees(false)}
+                  disabled={isSavingFees}
+                  aria-label="Cancel editing course fees"
+                  className="p-1.5 rounded-md border border-border text-text-secondary shrink-0 disabled:opacity-50"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <p className="font-bold text-text-primary">{formatCurrency(student.courseFees)}</p>
+                <button
+                  onClick={startEditingFees}
+                  aria-label="Edit course fees"
+                  className="p-1 rounded-md text-text-muted hover:text-primary hover:bg-primary-50"
+                >
+                  <Pencil className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
           </div>
           <div className="rounded-lg border border-border p-4">
             <p className="text-xs text-text-muted mb-1">Paid</p>
