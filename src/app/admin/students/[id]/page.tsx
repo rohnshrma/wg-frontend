@@ -48,6 +48,7 @@ export default function AdminStudentDetailPage() {
   const [isEditingFees, setIsEditingFees] = useState(false);
   const [feesInput, setFeesInput] = useState("");
   const [isSavingFees, setIsSavingFees] = useState(false);
+  const [feesWarning, setFeesWarning] = useState("");
 
   const load = async () => {
     try {
@@ -98,8 +99,10 @@ export default function AdminStudentDetailPage() {
     }
     setIsSavingFees(true);
     setError("");
+    setFeesWarning("");
     try {
-      await api.put(`/students/${params.id}`, { courseFees: value });
+      const res = await api.put(`/students/${params.id}`, { courseFees: value });
+      if (res.data.warning) setFeesWarning(res.data.warning);
       await load();
       setIsEditingFees(false);
     } catch (err: any) {
@@ -149,6 +152,11 @@ export default function AdminStudentDetailPage() {
       </div>
 
       {error && <div className="flex items-center gap-2 px-4 py-3 rounded-lg bg-destructive-light text-destructive text-sm"><AlertCircle className="w-4 h-4" /> {error}</div>}
+      {feesWarning && (
+        <div className="flex items-start gap-2 px-4 py-3 rounded-lg bg-warning-light text-warning text-sm">
+          <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" /> {feesWarning}
+        </div>
+      )}
 
       {/* Header */}
       <div className="bg-white rounded-xl border border-border p-6">

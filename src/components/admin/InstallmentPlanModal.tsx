@@ -63,6 +63,9 @@ export default function InstallmentPlanModal({
   const [isGenerating, setIsGenerating] = useState(false);
   const [payingId, setPayingId] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [hasFirstPayment, setHasFirstPayment] = useState(false);
+  const [firstPaymentAmount, setFirstPaymentAmount] = useState("");
+  const [firstPaymentMethod, setFirstPaymentMethod] = useState("cash");
 
   const [autopayCount, setAutopayCount] = useState("3");
   const [autopayPeriod, setAutopayPeriod] = useState<"monthly" | "weekly" | "daily">("monthly");
@@ -98,6 +101,11 @@ export default function InstallmentPlanModal({
     try {
       await api.post(`/payments/installments/student/${studentId}/generate`, {
         numberOfInstallments: Number(numberOfInstallments),
+        ...(hasFirstPayment && {
+          firstInstallmentAmount: Number(firstPaymentAmount),
+          firstInstallmentPaid: true,
+          paymentMethod: firstPaymentMethod,
+        }),
       });
       await load();
     } catch (err: any) {
@@ -106,6 +114,13 @@ export default function InstallmentPlanModal({
       setIsGenerating(false);
     }
   };
+
+  const remainingCount = Math.max(Number(numberOfInstallments) - 1, 0);
+  const remainingTotal = pendingAmount - (Number(firstPaymentAmount) || 0);
+  const remainingPreview =
+    hasFirstPayment && firstPaymentAmount && remainingCount > 0 && remainingTotal > 0
+      ? `Remaining ${formatCurrency(remainingTotal)} will split into ${remainingCount} installment${remainingCount > 1 ? "s" : ""} of ~${formatCurrency(Math.floor(remainingTotal / remainingCount))} each.`
+      : null;
 
   const handleMarkPaid = async (installmentId: string) => {
     setPayingId(installmentId);
@@ -199,6 +214,51 @@ export default function InstallmentPlanModal({
                     className="w-full px-4 py-2.5 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   />
                 </div>
+
+                <label className="flex items-center gap-2 text-xs text-text-secondary cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={hasFirstPayment}
+                    onChange={(e) => setHasFirstPayment(e.target.checked)}
+                  />
+                  Student already paid an amount now (e.g. admission fee)
+                </label>
+
+                {hasFirstPayment && (
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-text-secondary mb-1">Amount Paid Now</label>
+                      <input
+                        type="number"
+                        min={1}
+                        max={pendingAmount}
+                        required={hasFirstPayment}
+                        value={firstPaymentAmount}
+                        onChange={(e) => setFirstPaymentAmount(e.target.value)}
+                        className="w-full px-4 py-2.5 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-text-secondary mb-1">Payment Method</label>
+                      <select
+                        value={firstPaymentMethod}
+                        onChange={(e) => setFirstPaymentMethod(e.target.value)}
+                        className="w-full px-4 py-2.5 rounded-lg border border-border text-sm"
+                      >
+                        <option value="cash">Cash</option>
+                        <option value="upi">UPI</option>
+                        <option value="bank_transfer">Bank Transfer</option>
+                        <option value="card">Card</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                  </div>
+                )}
+
+                {remainingPreview && (
+                  <p className="text-xs text-text-muted bg-gray-50 rounded-lg px-3 py-2">{remainingPreview}</p>
+                )}
+
                 <button type="submit" disabled={isGenerating} className="w-full py-3 rounded-xl gradient-primary text-white font-bold text-sm shadow-sm hover:shadow-glow disabled:opacity-50">
                   {isGenerating ? "Generating..." : "Generate Plan"}
                 </button>
