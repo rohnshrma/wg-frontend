@@ -27,7 +27,7 @@ export default function NewBlogPage() {
         <BlogHtmlImporter onImport={(data) => setImportedData(data)} />
       ) : null}
 
-      <BlogForm initialData={importedData} />
+      <BlogForm key={importedData ? "imported" : "blank"} initialData={importedData} />
     </div>
   );
 }

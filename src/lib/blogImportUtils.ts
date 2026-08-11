@@ -4,7 +4,6 @@ export interface ExtractedBlogMeta {
   title: string;
   excerpt: string;
   slug: string;
-  category: string;
   tags: string[];
   metaTitle?: string;
   metaDescription?: string;
@@ -12,40 +11,44 @@ export interface ExtractedBlogMeta {
   relatedKeywords?: string[];
 }
 
+// Pulls title/description/slug/keywords out of the HTML-comment metadata
+// block some blog exports use (SEO TITLE / META DESCRIPTION / URL SLUG /
+// FOCUS KEYWORD / SECONDARY KEYWORDS), since that data never makes it into
+// real <meta> tags for those files.
 export function extractBlogMetadata(htmlContent: string): ExtractedBlogMeta | null {
   try {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, "text/html");
 
-    // Extract SEO metadata from HTML comments
-    const htmlText = htmlContent;
-    const metaMatch = htmlText.match(/SEO TITLE[\s\S]*?\n\s+(.*?)\n/);
-    const descMatch = htmlText.match(/META DESCRIPTION[\s\S]*?\n\s+([\s\S]*?)\n\n/);
-    const slugMatch = htmlText.match(/URL SLUG:\s*([^\n]+)/);
-    const focusMatch = htmlText.match(/FOCUS KEYWORD:\s*([^\n]+)/);
-    const secondaryMatch = htmlText.match(/SECONDARY KEYWORDS:\s*([\s\S]*?)(?=\n\s*NOTE:|$)/);
+    const metaMatch = htmlContent.match(/SEO TITLE[\s\S]*?\n\s+(.*?)\n/);
+    const descMatch = htmlContent.match(/META DESCRIPTION[\s\S]*?\n\s+([\s\S]*?)\n\n/);
+    const slugMatch = htmlContent.match(/URL SLUG:\s*([^\n]+)/);
+    const focusMatch = htmlContent.match(/FOCUS KEYWORD:\s*([^\n]+)/);
+    const secondaryMatch = htmlContent.match(/SECONDARY KEYWORDS:\s*([\s\S]*?)(?=\n\s*NOTE:|$)/);
 
-    const title = doc.querySelector("h1")?.textContent || metaMatch?.[1] || "Untitled";
-    const excerpt = descMatch?.[1]?.trim() || title.substring(0, 300);
-    const slug = slugMatch?.[1]?.trim().replace(/^\/|\/$/g, "") || "";
-    const metaTitle = metaMatch?.[1] || title;
-    const metaDescription = descMatch?.[1]?.trim() || excerpt;
+    // Comment text spans multiple lines with leading indentation (e.g. the
+    // META DESCRIPTION block), so collapse that back into normal prose.
+    const normalize = (value: string) => value.replace(/\s+/g, " ").trim();
+
+    const title = doc.querySelector("h1")?.textContent?.trim() || (metaMatch?.[1] && normalize(metaMatch[1])) || "Untitled";
+    const excerpt = (descMatch?.[1] && normalize(descMatch[1])) || title.substring(0, 300);
+    const slug = slugMatch?.[1]?.trim().split("/").filter(Boolean).pop() || "";
+    const metaTitle = (metaMatch?.[1] && normalize(metaMatch[1])) || title;
+    const metaDescription = (descMatch?.[1] && normalize(descMatch[1])) || excerpt;
     const focusKeyword = focusMatch?.[1]?.trim() || "";
 
-    const secondaryKeywords = secondaryMatch?.[1]
-      ?.split(",")
-      .map((k) => k.trim())
-      .filter(Boolean) || [];
+    const secondaryKeywords =
+      secondaryMatch?.[1]
+        ?.split(",")
+        .map((k) => k.trim())
+        .filter(Boolean) || [];
 
-    // Parse tags and category from the blog (usually first <strong> tag or keywords)
     const tags = [...new Set([focusKeyword, ...secondaryKeywords])].filter(Boolean).slice(0, 8);
-    const category = "Career"; // Default for this blog, adjust as needed
 
     return {
       title,
       excerpt,
       slug,
-      category,
       tags,
       metaTitle,
       metaDescription,
@@ -58,62 +61,29 @@ export function extractBlogMetadata(htmlContent: string): ExtractedBlogMeta | nu
   }
 }
 
-export function cleanBlogHtml(htmlContent: string): string {
+// Cleans an exported blog's <article> HTML into something safe to drop
+// straight into the rich text editor: strips comments/scripts/styles,
+// removes elements that duplicate what the blog page already renders on its
+// own (byline, CTA block, related-reading footer), and unwraps the custom
+// "webigeeks-*" classes since the editor applies its own styling.
+export function formatBlogContentForEditor(htmlContent: string): string {
   try {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, "text/html");
+    const root = doc.querySelector("article") || doc.body;
 
-    // Find the main article content
-    const article = doc.querySelector("article");
-    if (!article) return htmlContent;
+    root.querySelectorAll("script, style").forEach((el) => el.remove());
+    root.querySelectorAll("p.post-meta, p.post-tags, .webigeeks-cta").forEach((el) => el.remove());
+    root.querySelectorAll("[class*='webigeeks-']").forEach((el) => el.removeAttribute("class"));
 
-    // Remove metadata comments, scripts, styles
-    const cleaned = article.innerHTML
-      .replace(/<!--[\s\S]*?-->/g, "") // Remove HTML comments
-      .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, "") // Remove scripts
-      .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, "") // Remove styles
-      .replace(/class="webigeeks-[^"]*"/g, "") // Remove custom classes (we'll apply our own)
+    return root.innerHTML
+      .replace(/<!--[\s\S]*?-->/g, "")
+      .replace(/&middot;/g, "•")
+      .replace(/&mdash;/g, "—")
+      .replace(/&ndash;/g, "–")
       .trim();
-
-    return cleaned;
   } catch (err) {
-    console.error("Error cleaning HTML:", err);
+    console.error("Error formatting content:", err);
     return htmlContent;
   }
 }
-
-export function formatBlogContentForEditor(htmlContent: string): string {
-  // Clean and format HTML for the TipTap editor
-  const cleaned = cleanBlogHtml(htmlContent);
-
-  // Ensure proper structure with TipTap-compatible HTML
-  return cleaned
-    .replace(/<p class="post-meta">.*?<\/p>/gi, "") // Remove meta paragraphs
-    .replace(/<div class="webigeeks-[^"]*">[\s\S]*?<\/div>/gi, "") // Remove custom divs
-    .replace(/&middot;/g, "•") // Convert HTML entities
-    .replace(/&mdash;/g, "—")
-    .replace(/&ndash;/g, "–")
-    .trim();
-}
-
-// Sample parsed blog data for your first blog:
-// Use this as reference for what the import should produce
-export const SAMPLE_BLOG_DATA = {
-  title: "Job Finding Strategies That Actually Work in 2026: The Psychology and the Smart Play",
-  excerpt:
-    "Psychological and smart job search strategies for freshers in 2026. Practical tactics for MERN Stack and Data Analytics students to get hired faster.",
-  slug: "job-finding-strategies-2026-freshers",
-  category: "Career",
-  tags: [
-    "job finding strategies 2026",
-    "jobs for freshers India",
-    "MERN stack developer jobs",
-    "data analytics jobs for freshers",
-    "IT training institute Gurugram",
-  ],
-  metaTitle: "Job Finding Strategies That Actually Work in 2026 | WebiGeeks",
-  metaDescription:
-    "Psychological + smart job search strategies for freshers in 2026. Real tactics for MERN Stack and Data Analytics students to get hired faster.",
-  contentType: "html",
-  isPublished: true,
-};

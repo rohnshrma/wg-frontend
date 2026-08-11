@@ -10,6 +10,7 @@ const makeBlog = (overrides: Partial<Blog> = {}): Blog => ({
   slug: "why-data-science",
   excerpt: "Data Science continues to dominate the job market.",
   content: "Full body content of the article goes here and is reasonably long.",
+  contentType: "html",
   coverImageUrl: "https://res.cloudinary.com/demo/image/upload/cover.jpg",
   category: "Career",
   tags: [],

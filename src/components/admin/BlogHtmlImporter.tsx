@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AlertCircle, Upload, Copy } from "lucide-react";
 import type { Blog } from "@/types/blog";
+import { extractBlogMetadata, formatBlogContentForEditor } from "@/lib/blogImportUtils";
 
 interface ImportedBlogData {
   title: string;
@@ -25,37 +26,32 @@ export default function BlogHtmlImporter({ onImport }: { onImport?: (data: Parti
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, "text/html");
 
-      // Extract title (from h1 or meta)
+      // Comment-based SEO block (SEO TITLE / META DESCRIPTION / etc.) — used
+      // by exports that never got real <meta> tags added.
+      const commentMeta = extractBlogMetadata(html);
+
       const h1 = doc.querySelector("h1");
       const titleMeta = doc.querySelector('meta[property="og:title"]');
-      const title = h1?.textContent || titleMeta?.getAttribute("content") || "Untitled";
+      const title = h1?.textContent?.trim() || titleMeta?.getAttribute("content") || commentMeta?.title || "Untitled";
 
-      // Extract excerpt/description
       const descMeta = doc.querySelector('meta[name="description"]') || doc.querySelector('meta[property="og:description"]');
-      const excerpt = descMeta?.getAttribute("content") || doc.querySelector("p")?.textContent || title.substring(0, 300);
+      const excerpt =
+        descMeta?.getAttribute("content") ||
+        commentMeta?.excerpt ||
+        doc.querySelector("p:not(.post-meta)")?.textContent?.trim() ||
+        title.substring(0, 300);
 
-      // Extract the article/main content
-      const article = doc.querySelector("article") || doc.querySelector("main") || doc.body;
-      let content = article?.innerHTML || html;
+      const content = formatBlogContentForEditor(html);
 
-      // Clean up common HTML artifacts
-      content = content
-        .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, "")
-        .replace(/<!--[\s\S]*?-->/g, "")
-        .trim();
-
-      // Extract category from any metadata or default
       const categoryMeta = doc.querySelector('meta[name="category"]');
       const category = categoryMeta?.getAttribute("content") || "General";
 
-      // Extract tags
       const tagMeta = doc.querySelector('meta[name="keywords"]');
-      const tags = tagMeta
-        ? tagMeta.getAttribute("content")?.split(",").map((t) => t.trim()) || []
-        : [];
+      const metaTags = tagMeta?.getAttribute("content")?.split(",").map((t) => t.trim()).filter(Boolean) || [];
+      const tags = metaTags.length > 0 ? metaTags : commentMeta?.tags || [];
 
-      const metaTitle = doc.querySelector("title")?.textContent || title;
-      const metaDescription = excerpt;
+      const metaTitle = doc.querySelector("title")?.textContent?.trim() || commentMeta?.metaTitle || title;
+      const metaDescription = commentMeta?.metaDescription || excerpt;
 
       return { title, excerpt, content, category, tags, metaTitle, metaDescription };
     } catch (err) {
