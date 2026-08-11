@@ -5,35 +5,40 @@ import { useRouter } from "next/navigation";
 import { AlertCircle, Save } from "lucide-react";
 import api from "@/lib/api";
 import DocumentUploadField from "@/components/forms/DocumentUploadField";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 import type { Blog } from "@/types/blog";
 
 type BlogFormValues = {
   title: string;
   excerpt: string;
   content: string;
+  contentType: "html" | "plain";
   coverImageUrl: string;
   category: string;
   tags: string;
+  relatedPosts: string;
   isPublished: boolean;
   metaTitle: string;
   metaDescription: string;
 };
 
-const toFormValues = (blog?: Blog | null): BlogFormValues => ({
+const toFormValues = (blog?: Blog | Partial<Blog> | null): BlogFormValues => ({
   title: blog?.title || "",
   excerpt: blog?.excerpt || "",
   content: blog?.content || "",
+  contentType: (blog?.contentType as "html" | "plain") || "html",
   coverImageUrl: blog?.coverImageUrl || "",
   category: blog?.category || "",
-  tags: blog?.tags?.join(", ") || "",
+  tags: Array.isArray(blog?.tags) ? blog.tags.join(", ") : "",
+  relatedPosts: Array.isArray(blog?.relatedPosts) ? (blog.relatedPosts as any[]).map((p) => typeof p === "string" ? p : p._id || "").join(", ") : "",
   isPublished: blog?.isPublished ?? false,
   metaTitle: blog?.metaTitle || "",
   metaDescription: blog?.metaDescription || "",
 });
 
-export default function BlogForm({ blog }: { blog?: Blog | null }) {
+export default function BlogForm({ blog, initialData }: { blog?: Blog | null; initialData?: Partial<Blog> | null }) {
   const router = useRouter();
-  const [values, setValues] = useState<BlogFormValues>(toFormValues(blog));
+  const [values, setValues] = useState<BlogFormValues>(toFormValues(blog || initialData));
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState("");
 
@@ -52,9 +57,11 @@ export default function BlogForm({ blog }: { blog?: Blog | null }) {
       title: values.title,
       excerpt: values.excerpt,
       content: values.content,
+      contentType: values.contentType,
       coverImageUrl: values.coverImageUrl,
       category: values.category,
       tags: values.tags.split(",").map((t) => t.trim()).filter(Boolean),
+      relatedPosts: values.relatedPosts.split(",").map((id) => id.trim()).filter(Boolean),
       isPublished: values.isPublished,
       metaTitle: values.metaTitle,
       metaDescription: values.metaDescription,
@@ -90,8 +97,8 @@ export default function BlogForm({ blog }: { blog?: Blog | null }) {
           <textarea required maxLength={300} rows={2} value={values.excerpt} onChange={(e) => update("excerpt", e.target.value)} className={`${inputClass} resize-none`} />
         </div>
         <div>
-          <label className="block text-xs font-medium text-text-secondary mb-1">Content *</label>
-          <textarea required rows={10} value={values.content} onChange={(e) => update("content", e.target.value)} className={`${inputClass} resize-none`} />
+          <label className="block text-xs font-medium text-text-secondary mb-1">Content * (Use the editor below for rich formatting)</label>
+          <RichTextEditor value={values.content} onChange={(content) => update("content", content)} />
         </div>
         <DocumentUploadField
           label="Cover Image *"
@@ -114,6 +121,10 @@ export default function BlogForm({ blog }: { blog?: Blog | null }) {
             <label className="block text-xs font-medium text-text-secondary mb-1">Tags (comma-separated)</label>
             <input value={values.tags} onChange={(e) => update("tags", e.target.value)} className={inputClass} placeholder="python, data-science" />
           </div>
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-text-secondary mb-1">Related Posts (comma-separated blog IDs for backlinks)</label>
+          <input value={values.relatedPosts} onChange={(e) => update("relatedPosts", e.target.value)} className={inputClass} placeholder="paste blog IDs here" />
         </div>
         <label className="flex items-center gap-2 text-sm text-text-secondary">
           <input type="checkbox" checked={values.isPublished} onChange={(e) => update("isPublished", e.target.checked)} className="rounded border-border" />

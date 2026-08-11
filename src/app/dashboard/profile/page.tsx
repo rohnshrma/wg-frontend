@@ -221,7 +221,10 @@ export default function ProfilePage() {
             <Field label={courses.length > 0 ? "Course *" : "Course"}>
               <select disabled={isLocked} required={courses.length > 0} value={formData.courseId} onChange={(event) => updateField("courseId", event.target.value)} className={inputClass}>
                 <option value="">{courses.length > 0 ? "Select course" : "Course can be assigned by admin later"}</option>
-                {courses.map((course) => <option key={course._id} value={course._id}>{course.title} - Rs. {course.fees}</option>)}
+                {/* Fee intentionally left out of the option text — students
+                    shouldn't see pricing while self-selecting a course; the
+                    final (possibly negotiated) fee is set by admin. */}
+                {courses.map((course) => <option key={course._id} value={course._id}>{course.title}</option>)}
               </select>
             </Field>
             <Field label="Payment Mode *">

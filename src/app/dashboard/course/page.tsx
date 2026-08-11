@@ -17,6 +17,7 @@ type EnrolledCourse = {
 
 export default function CoursePage() {
   const [course, setCourse] = useState<EnrolledCourse | null>(null);
+  const [isApproved, setIsApproved] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -24,7 +25,9 @@ export default function CoursePage() {
     const load = async () => {
       try {
         const res = await api.get("/students/me/dashboard");
-        setCourse(res.data.data?.student?.courseId || null);
+        const studentData = res.data.data?.student;
+        setCourse(studentData?.courseId || null);
+        setIsApproved(studentData?.status === "approved");
       } catch (err: any) {
         setError(err.response?.data?.message || "Could not load course details");
       } finally {
@@ -56,7 +59,13 @@ export default function CoursePage() {
           </div>
           <div>
             <h3 className="text-xl font-bold text-text-primary">{course?.title || "Your Course"}</h3>
-            <p className="text-sm text-text-muted">{course ? formatCurrency(course.fees) : "Course assignment pending"}</p>
+            <p className="text-sm text-text-muted">
+              {!course
+                ? "Course assignment pending"
+                : isApproved
+                  ? formatCurrency(course.fees)
+                  : "Fee details available after admission approval"}
+            </p>
           </div>
         </div>
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { CalendarClock, CreditCard, Smartphone } from "lucide-react";
+import { CalendarClock, Clock, CreditCard, Smartphone } from "lucide-react";
 import api from "@/lib/api";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
@@ -37,6 +37,7 @@ const paymentMethodLabel: Record<string, string> = {
 
 type StudentSummary = {
   _id: string;
+  status: "pending" | "approved" | "rejected";
   courseFees: number;
   totalPaid: number;
   pendingAmount: number;
@@ -92,21 +93,37 @@ export default function PaymentsPage() {
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
       {error && <div className="px-4 py-3 rounded-lg bg-destructive-light text-destructive text-sm">{error}</div>}
 
-      {/* Summary Cards */}
-      <div className="grid sm:grid-cols-3 gap-4">
-        <div className="bg-white rounded-xl border border-border p-5">
-          <p className="text-xs text-text-muted mb-1">Total Fees</p>
-          <p className="text-2xl font-extrabold text-text-primary">{student ? formatCurrency(student.courseFees) : "—"}</p>
+      {/* Summary Cards — fee amounts are only meaningful (and only shown)
+          once admission is approved; before that the fee may still be
+          finalized/negotiated by admin. */}
+      {student?.status === "approved" ? (
+        <div className="grid sm:grid-cols-3 gap-4">
+          <div className="bg-white rounded-xl border border-border p-5">
+            <p className="text-xs text-text-muted mb-1">Total Fees</p>
+            <p className="text-2xl font-extrabold text-text-primary">{formatCurrency(student.courseFees)}</p>
+          </div>
+          <div className="bg-white rounded-xl border border-border p-5">
+            <p className="text-xs text-text-muted mb-1">Paid</p>
+            <p className="text-2xl font-extrabold text-success">{formatCurrency(student.totalPaid)}</p>
+          </div>
+          <div className="bg-white rounded-xl border border-border p-5">
+            <p className="text-xs text-text-muted mb-1">Pending</p>
+            <p className="text-2xl font-extrabold text-warning">{formatCurrency(student.pendingAmount)}</p>
+          </div>
         </div>
-        <div className="bg-white rounded-xl border border-border p-5">
-          <p className="text-xs text-text-muted mb-1">Paid</p>
-          <p className="text-2xl font-extrabold text-success">{formatCurrency(student?.totalPaid || 0)}</p>
-        </div>
-        <div className="bg-white rounded-xl border border-border p-5">
-          <p className="text-xs text-text-muted mb-1">Pending</p>
-          <p className="text-2xl font-extrabold text-warning">{formatCurrency(student?.pendingAmount || 0)}</p>
-        </div>
-      </div>
+      ) : (
+        !isLoading && (
+          <div className="bg-white rounded-xl border border-border p-5 flex items-center gap-3">
+            <Clock className="w-8 h-8 text-text-muted shrink-0" />
+            <div>
+              <p className="text-sm font-bold text-text-primary">Awaiting admission approval</p>
+              <p className="text-xs text-text-secondary mt-0.5">
+                Your fee and payment details will appear here once your admission is approved.
+              </p>
+            </div>
+          </div>
+        )
+      )}
 
       {/* Upcoming AutoPay Debit */}
       {mandate && mandate.status === "active" && nextAutopayDebit && (
@@ -135,7 +152,7 @@ export default function PaymentsPage() {
       )}
 
       {/* Installment Schedule */}
-      {installments.length > 0 && (
+      {student?.status === "approved" && installments.length > 0 && (
         <div className="bg-white rounded-xl border border-border">
           <div className="px-6 py-4 border-b border-border">
             <h3 className="font-bold text-text-primary flex items-center gap-2">

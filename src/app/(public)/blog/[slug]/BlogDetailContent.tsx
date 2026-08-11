@@ -3,10 +3,12 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Clock, Tag, User, Share2, PenSquare, ArrowRight } from "lucide-react";
+import { ArrowLeft, Clock, Tag, User, Share2, PenSquare, ArrowRight, Bookmark } from "lucide-react";
 import dynamic from "next/dynamic";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import type { Blog } from "@/types/blog";
+import { useEffect, useState } from "react";
+import api from "@/lib/api";
 
 const Hero3DBackground = dynamic(() => import("@/components/three/Hero3DBackground"), { ssr: false });
 
@@ -18,6 +20,19 @@ const formatDate = (value?: string) =>
     : "";
 
 export default function BlogDetailContent({ blog }: { blog: Blog }) {
+  const [relatedBlogs, setRelatedBlogs] = useState<Blog[]>([]);
+  const [loadingRelated, setLoadingRelated] = useState(false);
+
+  useEffect(() => {
+    if (blog.relatedPosts?.length) {
+      setLoadingRelated(true);
+      Promise.all(blog.relatedPosts.map((id) => api.get(`/blogs/${id}`)))
+        .then((responses) => setRelatedBlogs(responses.map((r) => r.data)))
+        .catch(() => setRelatedBlogs([]))
+        .finally(() => setLoadingRelated(false));
+    }
+  }, [blog.relatedPosts]);
+
   return (
     <>
       {/* Hero */}
@@ -55,8 +70,12 @@ export default function BlogDetailContent({ blog }: { blog: Blog }) {
                   <Image src={blog.coverImageUrl} alt={blog.title} fill sizes="768px" className="object-cover" />
                 </div>
                 <div className="p-8 md:p-10">
-                  <div className="whitespace-pre-line text-text-secondary leading-relaxed text-lg mb-6">
-                    {blog.content}
+                  {/* Rich HTML Content */}
+                  <div className="prose prose-lg max-w-none mb-6 prose-headings:text-text-primary prose-p:text-text-secondary prose-a:text-primary prose-strong:text-text-primary prose-em:text-text-secondary prose-blockquote:border-primary prose-blockquote:text-text-secondary prose-ol:text-text-secondary prose-ul:text-text-secondary">
+                    <div
+                      dangerouslySetInnerHTML={{ __html: blog.content }}
+                      className="text-text-secondary leading-relaxed text-lg"
+                    />
                   </div>
 
                   {blog.tags.length > 0 && (
@@ -84,6 +103,29 @@ export default function BlogDetailContent({ blog }: { blog: Blog }) {
                 </div>
               </div>
             </motion.article>
+
+            {/* Related Posts / Backlinks */}
+            {relatedBlogs.length > 0 && (
+              <div className="mt-12">
+                <h2 className="text-2xl font-bold text-text-primary mb-6 flex items-center gap-2">
+                  <Bookmark className="w-6 h-6 text-primary" /> Related Reading
+                </h2>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {relatedBlogs.map((relatedBlog) => (
+                    <Link
+                      key={relatedBlog._id}
+                      href={`/blog/${relatedBlog.slug}`}
+                      className="group p-4 rounded-lg border border-border bg-white hover:border-primary hover:shadow-md transition-all"
+                    >
+                      <h3 className="font-semibold text-text-primary group-hover:text-primary transition-colors line-clamp-2">
+                        {relatedBlog.title}
+                      </h3>
+                      <p className="text-xs text-text-muted mt-2">{relatedBlog.category}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* CTA */}
             <div className="mt-10 p-8 rounded-2xl bg-primary-50 text-center">
