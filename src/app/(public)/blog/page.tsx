@@ -13,3 +13,4 @@ export default async function BlogPage() {
   const blogs = await getBlogs();
   return <BlogContent blogs={blogs} />;
 }
+// Cache invalidation - Tue Aug 11 17:34:59 IST 2026
