@@ -76,7 +76,11 @@ export default function BlogForm({ blog, initialData }: { blog?: Blog | null; in
       router.push("/admin/blogs");
       router.refresh();
     } catch (err: any) {
-      setError(err.response?.data?.message || "Could not save blog post");
+      const fieldErrors = err.response?.data?.errors as { field: string; message: string }[] | undefined;
+      const detail = fieldErrors?.length
+        ? fieldErrors.map((e) => e.message).join(" ")
+        : err.response?.data?.message;
+      setError(detail || "Could not save blog post");
     } finally {
       setIsSaving(false);
     }
