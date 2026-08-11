@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowLeft, Clock, Tag, User, Share2, PenSquare, ArrowRight, Bookmark } from "lucide-react";
 import dynamic from "next/dynamic";
 import Breadcrumbs from "@/components/shared/Breadcrumbs";
+import BlogComments from "@/components/blog/BlogComments";
 import type { Blog } from "@/types/blog";
 import { useEffect, useState } from "react";
 import api from "@/lib/api";
@@ -126,6 +127,9 @@ export default function BlogDetailContent({ blog }: { blog: Blog }) {
                 </div>
               </div>
             )}
+
+            {/* Comments Section */}
+            <BlogComments blogId={blog._id} />
 
             {/* CTA */}
             <div className="mt-10 p-8 rounded-2xl bg-primary-50 text-center">
