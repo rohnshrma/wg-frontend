@@ -75,23 +75,23 @@ export default function BlogComments({ blogId }: { blogId: string }) {
 
   return (
     <div className="max-w-3xl mx-auto mt-16">
-      <div className="border-t border-border pt-10">
-        <h2 className="text-2xl font-bold text-text-primary mb-8 flex items-center gap-2">
-          <MessageCircle className="w-6 h-6 text-primary" />
+      <div className="border-t-2 border-ink pt-10">
+        <h2 className="font-display text-2xl font-bold text-ink mb-8 flex items-center gap-2">
+          <MessageCircle className="w-5 h-5 text-agency-accent" />
           Comments ({comments.length})
         </h2>
 
         {/* Comment Form */}
-        <div className="bg-gray-50 rounded-lg p-6 mb-10">
-          <h3 className="font-semibold text-text-primary mb-4">Leave a Comment</h3>
+        <div className="bg-white rounded-2xl p-6 mb-10">
+          <h3 className="font-display font-semibold text-ink mb-4">Leave a comment</h3>
           {error && (
-            <div className="flex gap-2 px-4 py-3 rounded-lg bg-destructive-light text-destructive text-sm mb-4">
+            <div className="flex gap-2 px-4 py-3 rounded-xl bg-red-50 text-red-700 text-sm mb-4">
               <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
               {error}
             </div>
           )}
           {success && (
-            <div className="flex gap-2 px-4 py-3 rounded-lg bg-success-light text-success text-sm mb-4">
+            <div className="flex gap-2 px-4 py-3 rounded-xl bg-green-50 text-green-700 text-sm mb-4">
               ✓ {success}
             </div>
           )}
@@ -103,14 +103,14 @@ export default function BlogComments({ blogId }: { blogId: string }) {
                 placeholder="Your name"
                 value={formData.author}
                 onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                className="px-4 py-2.5 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                className="px-4 py-2.5 rounded-xl bg-canvas border border-transparent text-sm focus:outline-none focus:border-agency-accent transition-colors"
               />
               <input
                 type="email"
                 placeholder="Your email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="px-4 py-2.5 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                className="px-4 py-2.5 rounded-xl bg-canvas border border-transparent text-sm focus:outline-none focus:border-agency-accent transition-colors"
               />
             </div>
             <textarea
@@ -119,16 +119,16 @@ export default function BlogComments({ blogId }: { blogId: string }) {
               onChange={(e) => setFormData({ ...formData, content: e.target.value })}
               maxLength={1000}
               rows={4}
-              className="w-full px-4 py-2.5 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary resize-none"
+              className="w-full px-4 py-2.5 rounded-xl bg-canvas border border-transparent text-sm focus:outline-none focus:border-agency-accent transition-colors resize-none"
             />
             <div className="flex items-center justify-between">
-              <span className="text-xs text-text-muted">
+              <span className="font-mono-agency text-xs text-agency-muted">
                 {formData.content.length}/1000 characters
               </span>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-lg gradient-primary text-white text-sm font-semibold hover:shadow-md disabled:opacity-50 transition-all"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-ink hover:bg-agency-accent text-white text-sm font-semibold disabled:opacity-50 transition-colors"
               >
                 {isSubmitting ? (
                   <>
@@ -138,7 +138,7 @@ export default function BlogComments({ blogId }: { blogId: string }) {
                 ) : (
                   <>
                     <Send className="w-4 h-4" />
-                    Post Comment
+                    Post comment
                   </>
                 )}
               </button>
@@ -149,22 +149,22 @@ export default function BlogComments({ blogId }: { blogId: string }) {
         {/* Comments List */}
         <div className="space-y-6">
           {loading ? (
-            <p className="text-center py-8 text-text-muted">Loading comments...</p>
+            <p className="text-center py-8 text-agency-muted">Loading comments...</p>
           ) : comments.length === 0 ? (
-            <p className="text-center py-8 text-text-muted">No comments yet. Be the first to comment!</p>
+            <p className="text-center py-8 text-agency-muted">No comments yet. Be the first to comment!</p>
           ) : (
             comments.map((comment) => (
-              <div key={comment._id} className="pb-6 border-b border-border last:border-0">
+              <div key={comment._id} className="pb-6 border-b border-ink/10 last:border-0">
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center text-white font-semibold flex-shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-ink flex items-center justify-center text-white font-semibold flex-shrink-0">
                     {comment.author.charAt(0).toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <p className="font-semibold text-text-primary">{comment.author}</p>
-                      <span className="text-xs text-text-muted">{formatDate(comment.createdAt)}</span>
+                      <p className="font-semibold text-ink">{comment.author}</p>
+                      <span className="font-mono-agency text-xs text-agency-muted">{formatDate(comment.createdAt)}</span>
                     </div>
-                    <p className="text-text-secondary leading-relaxed break-words">{comment.content}</p>
+                    <p className="text-agency-muted leading-relaxed break-words">{comment.content}</p>
                   </div>
                 </div>
               </div>

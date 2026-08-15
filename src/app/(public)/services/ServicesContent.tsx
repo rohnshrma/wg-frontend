@@ -73,7 +73,12 @@ export default function ServicesContent() {
       {/* Hero */}
       <section className="bg-canvas">
         <div className="container-custom pt-16 pb-16 md:pt-20 md:pb-24">
-          <p className="text-sm text-agency-muted uppercase tracking-widest mb-6">What we do</p>
+          <div className="flex items-center gap-3 mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-agency-accent" />
+            <span className="font-mono-agency text-xs text-agency-muted tracking-[0.15em] uppercase">
+              WGD / 002 — What we do
+            </span>
+          </div>
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-ink max-w-3xl leading-[1.05]">
             Services built around real business outcomes.
           </h1>

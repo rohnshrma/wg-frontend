@@ -64,9 +64,12 @@ export default function AboutContent() {
       <section className="bg-canvas">
         <div className="container-custom pt-16 pb-16 md:pt-20 md:pb-24">
           <motion.div initial="hidden" animate="show" variants={container}>
-            <motion.p variants={item} className="text-sm text-agency-muted uppercase tracking-widest mb-6">
-              About us
-            </motion.p>
+            <motion.div variants={item} className="flex items-center gap-3 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-agency-accent" />
+              <span className="font-mono-agency text-xs text-agency-muted tracking-[0.15em] uppercase">
+                WGD / 004 — About us
+              </span>
+            </motion.div>
             <motion.h1
               variants={item}
               className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-ink max-w-3xl leading-[1.05] mb-8"

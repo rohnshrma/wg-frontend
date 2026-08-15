@@ -1,102 +1,90 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Star, Award, ArrowRight, GraduationCap } from "lucide-react";
+import { Star, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-import dynamic from "next/dynamic";
-const Hero3DBackground = dynamic(() => import("@/components/three/Hero3DBackground"), { ssr: false });
 import type { Testimonial } from "@/types/testimonial";
 import GoogleLogo from "@/components/shared/GoogleLogo";
 
 export default function TestimonialsContent({ testimonials }: { testimonials: Testimonial[] }) {
   return (
-    <>
+    <main>
       {/* Hero */}
-      <section className="gradient-hero text-white py-16 md:py-20 relative overflow-hidden">
-        <div className="absolute top-10 right-20 w-72 h-72 bg-primary/20 rounded-full blur-[100px]" />
-        <Hero3DBackground variant="compact" />
-        <div className="container-custom relative text-center">
+      <section className="bg-canvas">
+        <div className="container-custom pt-16 pb-16 md:pt-20 md:pb-24">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-medium mb-6">
-              <Award className="w-4 h-4 text-accent" />
-              Success Stories
-            </span>
-            <h1 className="heading-hero mb-4">
-              What Our <span className="bg-gradient-to-r from-accent to-accent-warm bg-clip-text text-transparent">Students Say</span>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-agency-accent" />
+              <span className="font-mono-agency text-xs text-agency-muted tracking-[0.15em] uppercase">
+                WGD / 007 — Testimonials
+              </span>
+            </div>
+            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-ink max-w-3xl leading-[1.05]">
+              What people say about working with us.
             </h1>
-            <p className="text-white/60 text-lg max-w-xl mx-auto">
-              Real feedback from students who&apos;ve completed our courses.
-            </p>
           </motion.div>
         </div>
       </section>
 
       {/* Testimonials Grid */}
-      <section className="section-padding">
-        <div className="container-custom">
+      <section className="bg-canvas">
+        <div className="container-custom pb-24 md:pb-32">
           {testimonials.length === 0 ? (
-            <div className="text-center py-20">
-              <Award className="w-12 h-12 text-text-muted mx-auto mb-4 opacity-30" />
-              <h3 className="text-xl font-bold text-text-primary">Success Stories Coming Soon</h3>
-              <p className="text-text-secondary">Check back soon — we&apos;re adding new stories.</p>
+            <div className="text-center py-20 border-t-2 border-ink">
+              <h3 className="font-display text-2xl font-bold text-ink mb-2">Stories coming soon</h3>
+              <p className="text-agency-muted">Check back soon — we&apos;re adding new stories.</p>
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 border-t-2 border-ink pt-12">
               {testimonials.map((t, i) => (
                 <motion.div
                   key={t._id}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.05 }}
-                  className="relative bg-white rounded-xl border border-border p-6 card-hover"
+                  transition={{ delay: (i % 6) * 0.05 }}
+                  className="bg-white rounded-2xl p-6"
                 >
                   {/* Stars */}
                   <div className="flex gap-0.5 mb-4">
                     {Array.from({ length: 5 }).map((_, j) => (
-                      <Star key={j} className={`w-4 h-4 ${j < t.rating ? "text-accent-warm fill-accent-warm" : "text-gray-200"}`} />
+                      <Star key={j} className={`w-4 h-4 ${j < t.rating ? "text-agency-accent fill-agency-accent" : "text-ink/10"}`} />
                     ))}
                   </div>
 
                   {/* Text */}
-                  <p className="text-sm text-text-secondary leading-relaxed mb-5 italic">
+                  <p className="text-sm text-ink/70 leading-relaxed mb-5 italic">
                     &ldquo;{t.testimonialText}&rdquo;
                   </p>
 
                   {/* Author */}
-                  <div className="flex items-center justify-between pt-4 border-t border-border">
+                  <div className="flex items-center justify-between pt-4 border-t border-ink/10">
                     <div className="flex items-center gap-3">
                       {t.photoUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={t.photoUrl} alt={t.studentName} className="w-10 h-10 rounded-full object-cover" />
                       ) : (
-                        <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center text-white font-bold text-sm">
+                        <div className="w-10 h-10 rounded-full bg-ink flex items-center justify-center text-white font-bold text-sm">
                           {t.studentName[0]}
                         </div>
                       )}
                       <div>
-                        <p className="font-bold text-text-primary text-sm">{t.studentName}</p>
+                        <p className="font-semibold text-ink text-sm">{t.studentName}</p>
                         {(t.designation || t.companyPlaced) && (
-                          <p className="text-xs text-text-muted">
+                          <p className="font-mono-agency text-xs text-agency-muted">
                             {t.designation}{t.designation && t.companyPlaced ? " at " : ""}{t.companyPlaced}
                           </p>
                         )}
                       </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <div className="text-right">
-                        <p className="text-xs text-text-muted">{t.courseName}</p>
-                        {t.salaryPackage && <p className="text-sm font-bold text-success">{t.salaryPackage}</p>}
+                    {t.source === "google" && (
+                      <div
+                        className="w-8 h-8 rounded-full bg-canvas border border-ink/10 flex items-center justify-center shrink-0"
+                        title="Verified Google review"
+                      >
+                        <GoogleLogo className="w-4 h-4" />
                       </div>
-                      {t.source === "google" && (
-                        <div
-                          className="w-8 h-8 rounded-full bg-white shadow-sm border border-border flex items-center justify-center shrink-0"
-                          title="Verified Google review"
-                        >
-                          <GoogleLogo className="w-4 h-4" />
-                        </div>
-                      )}
-                    </div>
+                    )}
                   </div>
                 </motion.div>
               ))}
@@ -106,18 +94,23 @@ export default function TestimonialsContent({ testimonials }: { testimonials: Te
       </section>
 
       {/* CTA */}
-      <section className="py-16 gradient-primary text-white text-center">
-        <div className="container-custom">
-          <GraduationCap className="w-12 h-12 mx-auto mb-4 opacity-80" />
-          <h2 className="text-3xl font-extrabold mb-3">Be the Next Success Story</h2>
-          <p className="text-white/60 text-lg mb-6 max-w-lg mx-auto">
-            Book a free demo and see if WebiGeeks is the right fit for you.
+      <section className="bg-ink">
+        <div className="container-custom py-24 md:py-32 text-center">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-6">
+            Be the next story.
+          </h2>
+          <p className="text-lg text-white/60 mb-10 max-w-xl mx-auto leading-relaxed">
+            Let&apos;s discuss how we can help bring your vision to life.
           </p>
-          <Link href="/contact" className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl gradient-accent text-white font-bold shadow-lg hover:shadow-glow-accent transition-shadow">
-            Book Free Demo <ArrowRight className="w-5 h-5" />
+          <Link
+            href="/contact"
+            className="group inline-flex items-center gap-2 px-8 py-4 bg-white text-ink font-semibold rounded-full hover:bg-agency-accent hover:text-white transition-colors duration-300"
+          >
+            Start your project
+            <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Link>
         </div>
       </section>
-    </>
+    </main>
   );
 }

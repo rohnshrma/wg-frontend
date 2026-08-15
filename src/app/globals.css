@@ -59,6 +59,10 @@
   /* Font Family */
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
   --font-display: var(--font-hanken), "Inter", system-ui, -apple-system, sans-serif;
+  /* Technical/label face — eyebrows, coordinates, metadata, numbered markers.
+     The "engineering precision" layer of the sci-fi direction: schematic and
+     credible, not a gamer HUD typeface. */
+  --font-mono-agency: var(--font-plex-mono), "SF Mono", ui-monospace, monospace;
 
   /* Colors - Studio system (public marketing site only — see AGENCY_* below).
      Kept separate from the --color-* tokens above, which /admin, /dashboard,
@@ -70,6 +74,10 @@
   --color-agency-muted: #6B7280;
   --color-agency-accent: #2454E0;
   --color-agency-accent-soft: #E8EDFD;
+  /* Brighter tint of --color-agency-accent, used only for glow/blur elements
+     (blurred orbs, edge lighting) — kept as a separate token because glow
+     needs more luminance than the accent reads at when used as flat fill. */
+  --color-agency-glow: #5B7FFF;
 
   /* Extra-small breakpoint for the 320–400px band, where the default `sm`
      (640px) is far too late to make layout decisions. */

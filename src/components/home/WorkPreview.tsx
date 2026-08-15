@@ -6,29 +6,48 @@ import { ArrowUpRight } from "lucide-react";
 
 const projects = [
   {
+    number: "01",
     title: "E-Commerce Platform Redesign",
     category: "Web Development",
-    metric: "45% conversion lift",
-    gradient: "from-agency-accent to-blue-800",
+    metric: "45%",
+    metricLabel: "Conversion lift",
   },
   {
+    number: "02",
     title: "SaaS Analytics Platform",
     category: "Product Engineering",
-    metric: "100K+ daily active users",
-    gradient: "from-indigo-700 to-agency-accent",
+    metric: "100K+",
+    metricLabel: "Daily active users",
   },
   {
+    number: "03",
     title: "AI-Powered Customer Support",
     category: "AI & Automation",
-    metric: "70% queries auto-resolved",
-    gradient: "from-blue-900 to-indigo-800",
+    metric: "70%",
+    metricLabel: "Queries auto-resolved",
   },
 ];
 
 export default function WorkPreview() {
   return (
-    <section className="bg-ink">
-      <div className="container-custom py-24 md:py-32">
+    <section className="relative bg-ink overflow-hidden">
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 opacity-60 [mask-image:linear-gradient(to_bottom,black,transparent_70%)]"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px)",
+          backgroundSize: "56px 56px",
+        }}
+      />
+
+      <div className="container-custom relative py-24 md:py-32">
+        <div className="flex items-center gap-3 mb-6">
+          <span className="w-1.5 h-1.5 rounded-full bg-agency-accent" />
+          <span className="font-mono-agency text-xs text-white/40 tracking-[0.15em] uppercase">
+            Selected work / 01–03
+          </span>
+        </div>
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-16 md:mb-20">
           <h2 className="font-display text-5xl sm:text-7xl md:text-8xl font-bold tracking-tight text-white leading-none">
             Our Work
@@ -38,7 +57,7 @@ export default function WorkPreview() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/10 border border-white/10">
           {projects.map((project) => (
             <motion.div
               key={project.title}
@@ -46,24 +65,26 @@ export default function WorkPreview() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.6 }}
+              className="bg-ink"
             >
-              <Link href="/work" className="group block">
-                <div className="rounded-3xl overflow-hidden border border-white/10">
-                  <div className="flex items-center justify-between px-6 py-5">
-                    <span className="text-white font-semibold flex items-center gap-2">
-                      <ArrowUpRight className="w-4 h-4 text-agency-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                      {project.title}
-                    </span>
-                  </div>
-                  <div
-                    className={`h-56 bg-gradient-to-br ${project.gradient} flex items-end p-6`}
-                  >
-                    <div>
-                      <p className="text-white/70 text-xs uppercase tracking-widest mb-1">
-                        {project.category}
-                      </p>
-                      <p className="text-white font-semibold">{project.metric}</p>
-                    </div>
+              <Link href="/work" className="group block h-full p-8 flex flex-col justify-between min-h-[280px]">
+                <div className="flex items-start justify-between">
+                  <span className="font-mono-agency text-xs text-white/40 tracking-[0.1em]">
+                    {project.number}
+                  </span>
+                  <ArrowUpRight className="w-5 h-5 text-white/40 group-hover:text-agency-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                </div>
+
+                <div>
+                  <p className="font-mono-agency text-white/40 text-xs uppercase tracking-widest mb-3">
+                    {project.category}
+                  </p>
+                  <h3 className="font-display text-xl font-semibold text-white mb-6 leading-snug">
+                    {project.title}
+                  </h3>
+                  <div className="pt-4 border-t border-white/10">
+                    <p className="font-display text-3xl font-bold text-agency-accent">{project.metric}</p>
+                    <p className="text-white/40 text-xs mt-1">{project.metricLabel}</p>
                   </div>
                 </div>
               </Link>

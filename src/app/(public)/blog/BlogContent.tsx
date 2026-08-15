@@ -3,10 +3,8 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, PenSquare, Tag, Search } from "lucide-react";
+import { ArrowUpRight, Search } from "lucide-react";
 import { useMemo, useState } from "react";
-import dynamic from "next/dynamic";
-const Hero3DBackground = dynamic(() => import("@/components/three/Hero3DBackground"), { ssr: false });
 import type { Blog } from "@/types/blog";
 
 const formatDate = (value?: string) =>
@@ -28,37 +26,51 @@ export default function BlogContent({ blogs }: { blogs: Blog[] }) {
   });
 
   return (
-    <>
+    <main>
       {/* Hero */}
-      <section className="gradient-hero text-white py-16 md:py-20 relative overflow-hidden">
-        <div className="absolute top-10 right-20 w-72 h-72 bg-primary/20 rounded-full blur-[100px]" />
-        <Hero3DBackground variant="compact" />
-        <div className="container-custom relative text-center">
+      <section className="bg-canvas">
+        <div className="container-custom pt-16 pb-16 md:pt-20 md:pb-24">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-medium mb-6">
-              <PenSquare className="w-4 h-4 text-accent" />
-              Our Blog
-            </span>
-            <h1 className="heading-hero mb-4">
-              Insights & <span className="bg-gradient-to-r from-accent to-accent-warm bg-clip-text text-transparent">Resources</span>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-agency-accent" />
+              <span className="font-mono-agency text-xs text-agency-muted tracking-[0.15em] uppercase">
+                WGD / 006 — Insights
+              </span>
+            </div>
+            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-ink max-w-3xl leading-[1.05]">
+              Notes from the studio.
             </h1>
-            <p className="text-white/60 text-lg max-w-xl mx-auto">
-              Stay updated with the latest in tech, career tips, and industry trends.
+            <p className="text-lg text-agency-muted max-w-xl mt-8 leading-relaxed">
+              Perspectives on product engineering, design, and building software that lasts.
             </p>
           </motion.div>
         </div>
       </section>
 
       {/* Filters */}
-      <section className="py-6 bg-white border-b border-border sticky top-[72px] z-30">
-        <div className="container-custom flex flex-col sm:flex-row gap-4 items-center justify-between">
+      <section className="bg-canvas border-y border-ink/10 sticky top-[72px] z-30 backdrop-blur-md bg-canvas/90">
+        <div className="container-custom py-5 flex flex-col sm:flex-row gap-4 items-center justify-between">
           <div className="relative w-full sm:w-72">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-            <input type="text" placeholder="Search articles..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-agency-muted" />
+            <input
+              type="text"
+              placeholder="Search articles..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-10 pr-4 py-2.5 rounded-full border border-ink/15 text-sm bg-white focus:outline-none focus:border-agency-accent transition-colors"
+            />
           </div>
-          <div className="flex gap-2 flex-wrap">
+          <div className="flex gap-2 flex-wrap font-mono-agency">
             {categories.map((cat) => (
-              <button key={cat} onClick={() => setSelectedCategory(cat)} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${selectedCategory === cat ? "bg-primary text-white" : "bg-gray-100 text-text-secondary hover:bg-gray-200"}`}>
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 py-2 rounded-full text-xs tracking-wide transition-colors ${
+                  selectedCategory === cat
+                    ? "bg-ink text-white"
+                    : "border border-ink/15 text-agency-muted hover:border-ink hover:text-ink"
+                }`}
+              >
                 {cat}
               </button>
             ))}
@@ -67,50 +79,57 @@ export default function BlogContent({ blogs }: { blogs: Blog[] }) {
       </section>
 
       {/* Blog Grid */}
-      <section className="section-padding">
-        <div className="container-custom">
+      <section className="bg-canvas">
+        <div className="container-custom py-20 md:py-28">
           {filtered.length === 0 ? (
-            <div className="text-center py-20">
-              <PenSquare className="w-12 h-12 text-text-muted mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-text-primary">
-                {blogs.length === 0 ? "No Articles Yet" : "No Articles Found"}
+            <div className="text-center py-20 border-t-2 border-ink">
+              <h3 className="font-display text-2xl font-bold text-ink mb-2">
+                {blogs.length === 0 ? "No articles yet" : "No articles found"}
               </h3>
-              <p className="text-text-secondary">
+              <p className="text-agency-muted">
                 {blogs.length === 0 ? "Check back soon for new posts." : "Try a different search or category."}
               </p>
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 border-t-2 border-ink pt-12">
               {filtered.map((blog, i) => (
-                <motion.div key={blog.slug} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} className="group bg-white rounded-xl border border-border overflow-hidden card-hover">
-                  <div className="relative h-48">
-                    <Image
-                      src={blog.coverImageUrl}
-                      alt={blog.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-5">
-                    <div className="flex items-center gap-3 text-xs text-text-muted mb-3">
-                      <span className="flex items-center gap-1"><Tag className="w-3 h-3" />{blog.category}</span>
+                <motion.div
+                  key={blog.slug}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: (i % 6) * 0.05 }}
+                >
+                  <Link href={`/blog/${blog.slug}`} className="group block">
+                    <div className="relative h-52 rounded-2xl overflow-hidden mb-5 bg-ink-soft">
+                      <Image
+                        src={blog.coverImageUrl}
+                        alt={blog.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="flex items-center gap-3 font-mono-agency text-xs text-agency-muted mb-3 tracking-wide">
+                      <span>{blog.category}</span>
+                      <span className="w-1 h-1 rounded-full bg-agency-muted/50" />
                       <span>{formatDate(blog.publishedAt || blog.createdAt)}</span>
                     </div>
-                    <h3 className="font-bold text-text-primary mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                    <h3 className="font-display text-xl font-semibold text-ink mb-2 group-hover:text-agency-accent transition-colors line-clamp-2">
                       {blog.title}
                     </h3>
-                    <p className="text-sm text-text-secondary line-clamp-2 mb-4">{blog.excerpt}</p>
-                    <Link href={`/blog/${blog.slug}`} className="inline-flex items-center gap-1 text-primary text-sm font-semibold hover:gap-2 transition-all">
-                      Read More <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  </div>
+                    <p className="text-sm text-agency-muted line-clamp-2 mb-4 leading-relaxed">{blog.excerpt}</p>
+                    <span className="inline-flex items-center gap-1.5 text-ink text-sm font-semibold group-hover:gap-2.5 transition-all">
+                      Read more
+                      <ArrowUpRight className="w-4 h-4" />
+                    </span>
+                  </Link>
                 </motion.div>
               ))}
             </div>
           )}
         </div>
       </section>
-    </>
+    </main>
   );
 }

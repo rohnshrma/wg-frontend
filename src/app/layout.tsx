@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Hanken_Grotesk } from "next/font/google";
+import { Inter, Hanken_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import JsonLd from "@/components/seo/JsonLd";
 import GoogleAnalytics from "@/components/seo/GoogleAnalytics";
 import { organizationSchema } from "@/lib/schema";
@@ -20,6 +20,15 @@ const hankenGrotesk = Hanken_Grotesk({
   subsets: ["latin"],
   display: "swap",
   weight: ["400", "500", "600", "700", "800"],
+});
+
+// Technical/label face for the schematic layer of the design system —
+// eyebrows, coordinates, numbered markers. Same opt-in pattern as above.
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -73,7 +82,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#1672B8",
+  themeColor: "#0A0E1A",
 };
 
 export default function RootLayout({
@@ -84,12 +93,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${hankenGrotesk.variable} h-full antialiased`}
+      className={`${inter.variable} ${hankenGrotesk.variable} ${plexMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
         <link rel="icon" href="/favicon.ico" />
-        <meta name="theme-color" content="#1672B8" />
+        <meta name="theme-color" content="#0A0E1A" />
         <JsonLd data={organizationSchema} />
       </head>
       <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>

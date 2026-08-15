@@ -124,6 +124,9 @@ export default function Navbar() {
                         isActiveRoute(item.href) ? "text-agency-accent" : "text-white hover:text-agency-accent"
                       )}
                     >
+                      <span className="font-mono-agency text-sm sm:text-base text-white/30 tracking-[0.1em] self-center">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
                       {item.label}
                       <ArrowUpRight className="w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </Link>

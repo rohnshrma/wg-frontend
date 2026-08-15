@@ -14,6 +14,7 @@ const categoryToProjectType: Record<string, string> = {
 const projects = [
   {
     id: 1,
+    number: "01",
     title: "E-Commerce Platform Redesign",
     category: "Web Development",
     description:
@@ -24,10 +25,10 @@ const projects = [
       { label: "Page Load Time Reduction", value: "62%" },
       { label: "Mobile Traffic Increase", value: "78%" },
     ],
-    gradient: "from-agency-accent to-blue-800",
   },
   {
     id: 2,
+    number: "02",
     title: "SaaS Analytics Platform",
     category: "Product Engineering",
     description:
@@ -38,10 +39,10 @@ const projects = [
       { label: "Real-time Processing", value: "99.9%" },
       { label: "System Uptime", value: "99.99%" },
     ],
-    gradient: "from-indigo-700 to-agency-accent",
   },
   {
     id: 3,
+    number: "03",
     title: "AI-Powered Customer Support",
     category: "AI & Automation",
     description:
@@ -52,10 +53,10 @@ const projects = [
       { label: "Annual Cost Savings", value: "$200K+" },
       { label: "Response Time", value: "<1s" },
     ],
-    gradient: "from-blue-900 to-indigo-800",
   },
   {
     id: 4,
+    number: "04",
     title: "Corporate Website & Branding",
     category: "UI/UX Design",
     description:
@@ -66,10 +67,10 @@ const projects = [
       { label: "WCAG Score", value: "AAA" },
       { label: "Performance Score", value: "98/100" },
     ],
-    gradient: "from-blue-700 to-indigo-900",
   },
   {
     id: 5,
+    number: "05",
     title: "Marketplace MVP Development",
     category: "Product Engineering",
     description:
@@ -80,10 +81,10 @@ const projects = [
       { label: "Initial Users", value: "5K+" },
       { label: "Transactions Processed", value: "$500K+" },
     ],
-    gradient: "from-indigo-800 to-blue-900",
   },
   {
     id: 6,
+    number: "06",
     title: "Workflow Automation System",
     category: "AI & Automation",
     description:
@@ -94,7 +95,6 @@ const projects = [
       { label: "Error Reduction", value: "95%" },
       { label: "ROI (1 Year)", value: "280%" },
     ],
-    gradient: "from-agency-accent to-indigo-900",
   },
 ];
 
@@ -104,7 +104,12 @@ export default function WorkContent() {
       {/* Hero */}
       <section className="bg-canvas">
         <div className="container-custom pt-16 pb-16 md:pt-20 md:pb-24">
-          <p className="text-sm text-agency-muted uppercase tracking-widest mb-6">Case studies</p>
+          <div className="flex items-center gap-3 mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-agency-accent" />
+            <span className="font-mono-agency text-xs text-agency-muted tracking-[0.15em] uppercase">
+              WGD / 003 — Case studies
+            </span>
+          </div>
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-ink max-w-3xl leading-[1.05]">
             Projects built for ambitious businesses worldwide.
           </h1>
@@ -112,9 +117,18 @@ export default function WorkContent() {
       </section>
 
       {/* Work gallery — dark */}
-      <section className="bg-ink">
-        <div className="container-custom py-20 md:py-28">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <section className="relative bg-ink overflow-hidden">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 opacity-60 [mask-image:linear-gradient(to_bottom,black,transparent_70%)]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+          }}
+        />
+        <div className="container-custom relative py-20 md:py-28">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/10 border border-white/10">
             {projects.map((project) => (
               <motion.div
                 key={project.id}
@@ -122,53 +136,51 @@ export default function WorkContent() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.6 }}
+                className="bg-ink p-8"
               >
-                <div className="rounded-3xl overflow-hidden border border-white/10">
-                  <div className="flex items-center justify-between px-6 py-5">
-                    <div>
-                      <p className="text-white/40 text-xs uppercase tracking-widest mb-1">
-                        {project.category}
-                      </p>
-                      <span className="text-white font-semibold text-lg">{project.title}</span>
-                    </div>
-                  </div>
-
-                  <div className={`bg-gradient-to-br ${project.gradient} p-6`}>
-                    <p className="text-white/80 leading-relaxed mb-6">{project.description}</p>
-
-                    <div className="grid grid-cols-3 gap-4 mb-6 pb-6 border-b border-white/15">
-                      {project.metrics.map((metric) => (
-                        <div key={metric.label}>
-                          <div className="text-lg md:text-xl font-bold text-white">
-                            {metric.value}
-                          </div>
-                          <div className="text-[11px] text-white/60 leading-tight">
-                            {metric.label}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="flex flex-wrap gap-2 mb-6">
-                      {project.technologies.map((tech) => (
-                        <span
-                          key={tech}
-                          className="px-2.5 py-1 bg-white/10 text-white/80 text-xs font-medium rounded-full"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-
-                    <Link
-                      href={`/contact?source=work_page&projectType=${categoryToProjectType[project.category] ?? "other"}`}
-                      className="group/link inline-flex items-center gap-2 text-white font-semibold text-sm"
-                    >
-                      Learn more
-                      <ArrowUpRight className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
-                    </Link>
-                  </div>
+                <div className="flex items-start justify-between mb-6">
+                  <span className="font-mono-agency text-xs text-white/40 tracking-[0.1em]">
+                    {project.number}
+                  </span>
+                  <span className="font-mono-agency text-white/40 text-xs uppercase tracking-widest">
+                    {project.category}
+                  </span>
                 </div>
+
+                <h3 className="font-display text-2xl font-semibold text-white mb-4">{project.title}</h3>
+                <p className="text-white/60 leading-relaxed mb-6">{project.description}</p>
+
+                <div className="grid grid-cols-3 gap-4 mb-6 pb-6 border-b border-white/10">
+                  {project.metrics.map((metric) => (
+                    <div key={metric.label}>
+                      <div className="font-display text-lg md:text-xl font-bold text-agency-accent">
+                        {metric.value}
+                      </div>
+                      <div className="text-[11px] text-white/50 leading-tight mt-1">
+                        {metric.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap gap-2 mb-6 font-mono-agency">
+                  {project.technologies.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-2.5 py-1 border border-white/15 text-white/70 text-xs rounded-full"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                <Link
+                  href={`/contact?source=work_page&projectType=${categoryToProjectType[project.category] ?? "other"}`}
+                  className="group/link inline-flex items-center gap-2 text-white font-semibold text-sm"
+                >
+                  Learn more
+                  <ArrowUpRight className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                </Link>
               </motion.div>
             ))}
           </div>

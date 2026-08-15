@@ -33,6 +33,12 @@ export default function TrustSection() {
   return (
     <section className="bg-canvas">
       <div className="container-custom py-24 md:py-32">
+        <div className="flex items-center gap-3 mb-6">
+          <span className="w-1.5 h-1.5 rounded-full bg-agency-accent" />
+          <span className="font-mono-agency text-xs text-agency-muted tracking-[0.15em] uppercase">
+            Why us
+          </span>
+        </div>
         <div className="mb-16 md:mb-20 max-w-2xl">
           <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink mb-6">
             Why WebiGeeks Digital.
@@ -42,7 +48,7 @@ export default function TrustSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 border-t-2 border-ink">
           {reasons.map((reason, index) => (
             <motion.div
               key={reason.title}
@@ -50,7 +56,7 @@ export default function TrustSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.5, delay: (index % 3) * 0.05 }}
-              className="py-8 border-t border-ink/10"
+              className="py-8 border-b border-ink/10"
             >
               <h3 className="font-display text-xl font-semibold text-ink mb-2">
                 {reason.title}

@@ -42,13 +42,16 @@ const services = [
 export default function ServicesOverview() {
   return (
     <section className="bg-canvas">
-      <div className="container-custom pb-4">
-        <div className="flex items-baseline justify-between mb-8">
-          <span className="text-sm text-agency-muted uppercase tracking-widest">Our Services</span>
+      <div className="container-custom pb-10">
+        <div className="flex items-center gap-3">
+          <span className="w-1.5 h-1.5 rounded-full bg-agency-accent" />
+          <span className="font-mono-agency text-xs text-agency-muted tracking-[0.15em] uppercase">
+            Capabilities / 01–04
+          </span>
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+      <div className="container-custom">
         {services.map((service) => (
           <motion.div
             key={service.slug}
@@ -56,40 +59,45 @@ export default function ServicesOverview() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6 }}
-            className="bg-white rounded-[32px] md:rounded-[48px] px-6 py-12 sm:px-10 sm:py-16 md:px-16 md:py-20"
+            className="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-6 md:gap-10 py-12 md:py-16 border-t-2 border-ink first:border-t-2"
           >
-            <div className="flex items-center gap-3 mb-6">
-              <span className="text-agency-accent font-display font-semibold text-sm">{service.number}</span>
+            <div>
+              <span className="font-mono-agency text-sm text-agency-accent tracking-[0.1em]">
+                {service.number}
+              </span>
             </div>
 
-            <h3 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink mb-6 max-w-2xl leading-[1.05]">
-              {service.title}
-            </h3>
+            <div>
+              <h3 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-ink mb-6 max-w-2xl leading-[1.05]">
+                {service.title}
+              </h3>
 
-            <div className="flex flex-wrap gap-2 mb-8">
-              {service.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-4 py-1.5 border border-ink/15 rounded-full text-sm text-ink/70"
-                >
-                  {tag}
-                </span>
-              ))}
+              <div className="flex flex-wrap gap-2 mb-8">
+                {service.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="font-mono-agency px-3 py-1.5 border border-ink/15 rounded-full text-xs text-ink/70 tracking-[0.02em]"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <p className="text-lg text-agency-muted max-w-xl mb-10 leading-relaxed">
+                {service.description}
+              </p>
+
+              <Link
+                href={`/services/${service.slug}`}
+                className="group inline-flex items-center gap-2 px-6 py-3 border border-ink/20 hover:border-ink hover:bg-ink hover:text-white rounded-full font-semibold text-ink transition-colors duration-300"
+              >
+                Find out more
+                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </Link>
             </div>
-
-            <p className="text-lg text-agency-muted max-w-xl mb-10 leading-relaxed">
-              {service.description}
-            </p>
-
-            <Link
-              href={`/services/${service.slug}`}
-              className="group inline-flex items-center gap-2 px-6 py-3 border border-ink/20 hover:border-ink hover:bg-ink hover:text-white rounded-full font-semibold text-ink transition-colors duration-300"
-            >
-              Find out more
-              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </Link>
           </motion.div>
         ))}
+        <div className="border-t-2 border-ink" aria-hidden="true" />
       </div>
     </section>
   );
