@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import AboutContent from "./AboutContent";
 import { pageMetadata } from "@/lib/seo";
+import AboutContent from "./AboutContent";
 
 export const metadata: Metadata = pageMetadata({
   title: "About Us",
   description:
-    "Learn about WebiGeeks, your AI skill partner in practical, AI-integrated training for Data Science, MERN Stack, Python, and more.",
+    "WebiGeeks Digital is a premium digital agency building world-class solutions for international businesses.",
   path: "/about",
 });
 

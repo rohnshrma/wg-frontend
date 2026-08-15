@@ -1,317 +1,352 @@
 "use client";
 
 import { useState } from "react";
-import { API_BASE_URL } from "@/lib/apiBaseUrl";
-import { motion } from "framer-motion";
-import {
-  Send,
-  Phone,
-  Mail,
-  MapPin,
-  Clock,
-  MessageSquare,
-  User,
-  CheckCircle2,
-  ArrowRight,
-} from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/config/site";
-import dynamic from "next/dynamic";
-const Hero3DBackground = dynamic(() => import("@/components/three/Hero3DBackground"), { ssr: false });
 
-const contactInfo = [
-  {
-    icon: Phone,
-    title: "Call Us",
-    value: siteConfig.contact.phone,
-    action: `tel:${siteConfig.contact.phone}`,
-    color: "from-primary to-primary-dark",
-  },
-  {
-    icon: Phone,
-    title: "Alternate No.",
-    value: siteConfig.contact.phone2,
-    action: `tel:${siteConfig.contact.phone2}`,
-    color: "from-violet-500 to-purple-600",
-  },
-  {
-    icon: Mail,
-    title: "Email Us",
-    value: siteConfig.contact.email,
-    action: `mailto:${siteConfig.contact.email}`,
-    color: "from-secondary to-secondary-dark",
-  },
-  {
-    icon: MapPin,
-    title: "Visit Us",
-    value: siteConfig.contact.address,
-    action: siteConfig.contact.mapUrl || "#map",
-    color: "from-accent to-accent-warm",
-    external: true,
-  },
-  {
-    icon: Clock,
-    title: "Working Hours",
-    value: "Mon – Sat: 9:00 AM – 7:00 PM",
-    action: "#",
-    color: "from-success to-emerald-600",
-  },
-];
+const validProjectTypes = new Set([
+  "web-development",
+  "product-engineering",
+  "ai-automation",
+  "design",
+  "other",
+]);
+
+const validSources = new Set([
+  "website_hero",
+  "services_page",
+  "work_page",
+  "contact_form",
+  "social",
+  "referral",
+  "other",
+]);
+
+const initialFormData = {
+  name: "",
+  email: "",
+  phone: "",
+  company: "",
+  website: "",
+  projectType: "",
+  budget: "",
+  timeline: "",
+  message: "",
+};
+
+const inputClass =
+  "w-full px-4 py-3 bg-canvas border border-transparent rounded-xl focus:outline-none focus:border-agency-accent transition-colors";
 
 export default function ContactContent() {
+  const searchParams = useSearchParams();
+  const prefilledProjectType = searchParams.get("projectType");
+  const source = searchParams.get("source");
+
+  const [formData, setFormData] = useState({
+    ...initialFormData,
+    projectType:
+      prefilledProjectType && validProjectTypes.has(prefilledProjectType)
+        ? prefilledProjectType
+        : "",
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    courseInterested: "",
-    message: "",
-  });
+  const [error, setError] = useState<string | null>(null);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
+
     try {
-      await fetch(
-        `${API_BASE_URL}/leads`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...formData, source: "contact_page" }),
-        }
+      // Optional enum fields (budget, timeline) must be omitted rather than
+      // sent as "" — Mongoose enum validation rejects an empty string since
+      // it isn't one of the allowed values, unlike an omitted/undefined field.
+      const payload = Object.fromEntries(
+        Object.entries({
+          ...formData,
+          source: source && validSources.has(source) ? source : "contact_form",
+        }).filter(([, value]) => value !== "")
       );
+
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const body = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        throw new Error(body?.message || "Something went wrong. Please try again.");
+      }
+
       setIsSubmitted(true);
-      setFormData({ name: "", phone: "", email: "", courseInterested: "", message: "" });
-    } catch {
-      /* ignore */
+      setFormData(initialFormData);
+      setTimeout(() => setIsSubmitted(false), 4000);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again or email us directly."
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <>
+    <main>
       {/* Hero */}
-      <section className="gradient-hero text-white py-16 md:py-20 relative overflow-hidden">
-        <div className="absolute top-10 right-20 w-72 h-72 bg-primary/20 rounded-full blur-[100px]" />
-        <Hero3DBackground variant="compact" />
-        <div className="container-custom relative text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-          >
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-sm font-medium mb-6">
-              <MessageSquare className="w-4 h-4" />
-              Get In Touch
-            </span>
-            <h1 className="heading-hero mb-4">
-              We&apos;d Love to{" "}
-              <span className="bg-gradient-to-r from-accent to-accent-warm bg-clip-text text-transparent">
-                Hear From You
-              </span>
-            </h1>
-            <p className="text-white/60 text-lg max-w-xl mx-auto">
-              Book a free demo, ask about courses, or just say hi!
-            </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Contact Cards */}
-      <section className="-mt-8 relative z-10 mb-12">
-        <div className="container-custom">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {contactInfo.map((info, i) => (
-              <motion.a
-                key={info.title}
-                href={info.action}
-                target={info.external ? "_blank" : undefined}
-                rel={info.external ? "noopener noreferrer" : undefined}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                className="bg-white rounded-xl p-5 shadow-lg border border-border card-hover block"
-              >
-                <div
-                  className={`w-11 h-11 rounded-xl bg-gradient-to-br ${info.color} flex items-center justify-center mb-3 shadow-sm`}
-                >
-                  <info.icon className="w-5 h-5 text-white" />
-                </div>
-                <p className="font-bold text-text-primary text-sm mb-1">{info.title}</p>
-                <p className="text-text-secondary text-sm leading-relaxed">{info.value}</p>
-              </motion.a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Form + Map */}
-      <section className="section-padding">
-        <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-10">
-            {/* Form */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="bg-white rounded-2xl shadow-lg border border-border p-8"
-            >
-              <h2 className="text-2xl font-extrabold text-text-primary mb-2">
-                Send Us a Message
-              </h2>
-              <p className="text-text-secondary text-sm mb-6">
-                Fill out the form and we&apos;ll get back to you within 30 minutes.
-              </p>
-
-              {isSubmitted ? (
-                <div className="text-center py-12">
-                  <CheckCircle2 className="w-16 h-16 text-success mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-text-primary mb-2">Message Sent! 🎉</h3>
-                  <p className="text-text-secondary">Our team will contact you shortly.</p>
-                  <button
-                    onClick={() => setIsSubmitted(false)}
-                    className="mt-4 text-primary font-semibold text-sm hover:underline"
-                  >
-                    Send another message
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-                      <input
-                        type="text"
-                        placeholder="Your Name"
-                        required
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full pl-10 pr-4 py-3 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                      />
-                    </div>
-                    <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-                      <input
-                        type="tel"
-                        placeholder="Phone Number"
-                        required
-                        value={formData.phone}
-                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        className="w-full pl-10 pr-4 py-3 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                      />
-                    </div>
-                  </div>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
-                    <input
-                      type="email"
-                      placeholder="Email Address"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full pl-10 pr-4 py-3 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                    />
-                  </div>
-                  <select
-                    required
-                    value={formData.courseInterested}
-                    onChange={(e) => setFormData({ ...formData, courseInterested: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none"
-                  >
-                    <option value="">Select Course of Interest</option>
-                    {siteConfig.courses.map((c) => (
-                      <option key={c} value={c}>{c}</option>
-                    ))}
-                    <option value="Other">Other</option>
-                  </select>
-                  <textarea
-                    placeholder="Your Message"
-                    rows={4}
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-3 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary resize-none"
-                  />
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full py-3.5 rounded-xl gradient-primary text-white font-bold shadow-md hover:shadow-glow transition-all disabled:opacity-50 flex items-center justify-center gap-2"
-                  >
-                    {isSubmitting ? (
-                      <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    ) : (
-                      <>
-                        <Send className="w-4 h-4" />
-                        Send Message
-                      </>
-                    )}
-                  </button>
-                </form>
-              )}
-            </motion.div>
-
-            {/* Map */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="rounded-2xl overflow-hidden shadow-lg border border-border h-[500px] lg:h-auto relative"
-              id="map"
-            >
-              <iframe
-                src="https://maps.google.com/maps?q=WebiGeeks,+M-18,+Ground+Floor,+Old+DLF+Colony,+Sector-14,+Gurugram,+Haryana&t=&z=16&ie=UTF8&iwloc=&output=embed"
-                width="100%"
-                height="100%"
-                style={{ border: 0, minHeight: "500px" }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="WebiGeeks Location — Sector 14, Gurugram"
-              />
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
-                <a
-                  href={siteConfig.contact.mapUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-6 py-3 rounded-xl bg-white text-text-primary font-bold shadow-xl border border-border hover:bg-gray-50 transition-colors flex items-center gap-2 whitespace-nowrap"
-                >
-                  <MapPin className="w-5 h-5 text-primary" />
-                  Open in Google Maps
-                </a>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Quick CTA */}
-      <section className="py-12 bg-primary-50">
-        <div className="container-custom text-center">
-          <h3 className="text-2xl font-bold text-text-primary mb-3">
-            Prefer a Quick Call?
-          </h3>
-          <p className="text-text-secondary mb-6">
-            Call us directly or WhatsApp us for instant support.
+      <section className="bg-canvas">
+        <div className="container-custom pt-16 pb-16 md:pt-20 md:pb-24">
+          <p className="text-sm text-agency-muted uppercase tracking-widest mb-6">Get in touch</p>
+          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-ink max-w-3xl leading-[1.05]">
+            Let&apos;s talk.
+          </h1>
+          <p className="text-lg text-agency-muted max-w-xl mt-8 leading-relaxed">
+            Tell us about your project. We&apos;ll respond within 24 hours to discuss how we can help.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <a
-              href={`tel:${siteConfig.contact.phone}`}
-              className="px-6 py-3 rounded-xl gradient-primary text-white font-semibold shadow-md hover:shadow-glow transition-shadow flex items-center gap-2"
-            >
-              <Phone className="w-4 h-4" />
-              Call Now
-            </a>
-            <a
-              href={`https://wa.me/${siteConfig.contact.whatsapp.replace(/[^0-9]/g, "")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-3 rounded-xl bg-[#25D366] text-white font-semibold shadow-md hover:opacity-90 transition-opacity flex items-center gap-2"
-            >
-              <MessageSquare className="w-4 h-4" />
-              WhatsApp
-            </a>
+        </div>
+      </section>
+
+      {/* Contact panel */}
+      <section className="bg-canvas">
+        <div className="px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto pb-24">
+          <div className="bg-white rounded-[32px] md:rounded-[48px] px-6 py-12 sm:px-10 sm:py-16 md:px-16 md:py-20">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+              {/* Contact Info */}
+              <div className="lg:col-span-1">
+                <h2 className="font-display text-2xl font-bold text-ink mb-8">Contact details</h2>
+
+                <div className="space-y-8">
+                  <div>
+                    <div className="text-agency-muted text-xs uppercase tracking-widest mb-2">Email</div>
+                    <a
+                      href={`mailto:${siteConfig.contact.email}`}
+                      className="text-ink hover:text-agency-accent transition-colors font-medium"
+                    >
+                      {siteConfig.contact.email}
+                    </a>
+                  </div>
+
+                  <div>
+                    <div className="text-agency-muted text-xs uppercase tracking-widest mb-2">Phone</div>
+                    <a
+                      href={`tel:${siteConfig.contact.phone}`}
+                      className="text-ink hover:text-agency-accent transition-colors font-medium"
+                    >
+                      {siteConfig.contact.phone}
+                    </a>
+                  </div>
+
+                  <div>
+                    <div className="text-agency-muted text-xs uppercase tracking-widest mb-2">WhatsApp</div>
+                    <a
+                      href={`https://wa.me/${siteConfig.contact.whatsapp.replace(/\D/g, "")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-ink hover:text-agency-accent transition-colors font-medium"
+                    >
+                      {siteConfig.contact.whatsapp}
+                    </a>
+                  </div>
+
+                  <div>
+                    <div className="text-agency-muted text-xs uppercase tracking-widest mb-2">Location</div>
+                    <p className="text-ink font-medium leading-relaxed">{siteConfig.contact.address}</p>
+                  </div>
+
+                  <div className="pt-6 border-t border-ink/10">
+                    <p className="text-sm text-agency-muted">
+                      <span className="text-ink font-semibold">Expected response:</span> within 24
+                      hours during business hours
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Form */}
+              <div className="lg:col-span-2">
+                {isSubmitted ? (
+                  <div className="bg-canvas rounded-3xl p-10 text-center">
+                    <div className="text-4xl mb-4">✓</div>
+                    <h3 className="font-display text-2xl font-bold text-ink mb-2">Thank you!</h3>
+                    <p className="text-agency-muted">
+                      We&apos;ve received your project inquiry. Our team will review it and
+                      get back to you within 24 hours.
+                    </p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-semibold text-ink mb-2">Your Name</label>
+                        <input
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          required
+                          className={inputClass}
+                          placeholder="John Doe"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-ink mb-2">Email Address</label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          required
+                          className={inputClass}
+                          placeholder="john@company.com"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-semibold text-ink mb-2">Phone Number</label>
+                        <input
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          required
+                          className={inputClass}
+                          placeholder="+1 555 123 4567"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-ink mb-2">Company Name</label>
+                        <input
+                          type="text"
+                          name="company"
+                          value={formData.company}
+                          onChange={handleChange}
+                          className={inputClass}
+                          placeholder="Your Company"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-ink mb-2">Website (optional)</label>
+                      <input
+                        type="url"
+                        name="website"
+                        value={formData.website}
+                        onChange={handleChange}
+                        className={inputClass}
+                        placeholder="https://yourcompany.com"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-ink mb-2">
+                        What are you looking to build?
+                      </label>
+                      <select
+                        name="projectType"
+                        value={formData.projectType}
+                        onChange={handleChange}
+                        required
+                        className={inputClass}
+                      >
+                        <option value="">Select a project type</option>
+                        <option value="web-development">Web Development</option>
+                        <option value="product-engineering">Product Engineering / SaaS</option>
+                        <option value="ai-automation">AI & Automation</option>
+                        <option value="design">Design & Branding</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-semibold text-ink mb-2">
+                          Approximate Budget
+                        </label>
+                        <select
+                          name="budget"
+                          value={formData.budget}
+                          onChange={handleChange}
+                          className={inputClass}
+                        >
+                          <option value="">Select budget range</option>
+                          <option value="$5k-10k">$5,000 - $10,000</option>
+                          <option value="$10k-25k">$10,000 - $25,000</option>
+                          <option value="$25k-50k">$25,000 - $50,000</option>
+                          <option value="$50k+">$50,000+</option>
+                          <option value="not-specified">Not sure yet</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-ink mb-2">Timeline</label>
+                        <select
+                          name="timeline"
+                          value={formData.timeline}
+                          onChange={handleChange}
+                          className={inputClass}
+                        >
+                          <option value="">Select timeline</option>
+                          <option value="asap">ASAP (within 2 weeks)</option>
+                          <option value="1-3m">1-3 months</option>
+                          <option value="3-6m">3-6 months</option>
+                          <option value="flexible">Flexible</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-ink mb-2">
+                        Tell us more about your project
+                      </label>
+                      <textarea
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        rows={6}
+                        className={`${inputClass} resize-none`}
+                        placeholder="Describe your project, goals, and any specific requirements..."
+                      />
+                    </div>
+
+                    {error && (
+                      <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-800">
+                        {error}
+                      </div>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="group w-full px-8 py-4 bg-ink hover:bg-agency-accent disabled:opacity-50 text-white font-semibold rounded-full transition-colors duration-300 flex items-center justify-center gap-2"
+                    >
+                      {isSubmitting ? "Sending..." : "Send Inquiry"}
+                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    </button>
+
+                    <p className="text-xs text-agency-muted text-center">
+                      We respect your privacy. Your information will only be used to
+                      discuss your project.
+                    </p>
+                  </form>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </section>
-    </>
+    </main>
   );
 }

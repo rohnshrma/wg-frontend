@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 
-const BRAND_SUFFIX = "WebiGeeks Gurugram";
+const BRAND_SUFFIX = "WebiGeeks Digital";
 
 /**
  * Builds page metadata with Open Graph, Twitter Card and a self-referencing

@@ -24,11 +24,11 @@ export default function FloatingButtons() {
     /[^0-9]/g,
     ""
   )}?text=${encodeURIComponent(
-    "Hi! I'm interested in your courses. Please share more details."
+    "Hi! I'd like to discuss a project. Please share more details."
   )}`;
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col-reverse items-center gap-4">
+    <div className="fixed bottom-6 left-6 z-50 flex flex-col-reverse items-center gap-4">
       {/* WhatsApp — bottom of the stack */}
       <a
         href={whatsappUrl}
@@ -45,7 +45,7 @@ export default function FloatingButtons() {
       {/* Call — middle of the stack */}
       <a
         href={`tel:${siteConfig.contact.phone}`}
-        className="w-14 h-14 rounded-full bg-secondary text-white shadow-xl flex items-center justify-center hover:scale-110 transition-transform"
+        className="w-14 h-14 rounded-full bg-black text-white shadow-xl flex items-center justify-center hover:scale-110 transition-transform"
         aria-label="Call us"
       >
         <Phone className="w-6 h-6" />

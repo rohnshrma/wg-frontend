@@ -1,38 +1,23 @@
 import HeroSection from "@/components/home/HeroSection";
-import WhyChooseUs from "@/components/home/WhyChooseUs";
-import StatsCounter from "@/components/home/StatsCounter";
-import FeaturedCourses from "@/components/home/FeaturedCourses";
-import TestimonialsCarousel from "@/components/home/TestimonialsCarousel";
-import HomeFAQ from "@/components/home/HomeFAQ";
-import InquiryPopup from "@/components/popups/InquiryPopup";
-import ExitIntentPopup from "@/components/popups/ExitIntentPopup";
-import { getCourses } from "@/lib/courses";
-import { getTestimonials } from "@/lib/testimonials";
+import ServicesOverview from "@/components/home/ServicesOverview";
+import ProcessSection from "@/components/home/ProcessSection";
+import WorkPreview from "@/components/home/WorkPreview";
+import TrustSection from "@/components/home/TrustSection";
 
-// Lives inside the (public) route group specifically so it shares the same
-// persisted Navbar/Footer instance as every other public page — it used to
-// render its own separate <Navbar> at app/page.tsx, which meant navigating
-// Home -> any other page unmounted one Navbar and mounted a different one.
-// That broke the animated underline's layoutId shared-element transition
-// (framer-motion can't smoothly bridge two different component instances
-// the way it does between pages that share one), which is what caused the
-// "weird" underline behavior specifically on the Home <-> About transition.
-export default async function HomePage() {
-  const [featuredCourses, testimonials] = await Promise.all([
-    getCourses({ featured: true }),
-    getTestimonials(),
-  ]);
+export const metadata = {
+  title: "WebiGeeks Digital | Premium Digital Solutions",
+  description:
+    "Premium digital solutions for international businesses. Web development, product engineering, AI automation, and design.",
+};
 
+export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <WhyChooseUs />
-      <StatsCounter />
-      <FeaturedCourses courses={featuredCourses} />
-      <TestimonialsCarousel testimonials={testimonials} />
-      <HomeFAQ />
-      <InquiryPopup />
-      <ExitIntentPopup />
+      <ServicesOverview />
+      <ProcessSection />
+      <WorkPreview />
+      <TrustSection />
     </>
   );
 }

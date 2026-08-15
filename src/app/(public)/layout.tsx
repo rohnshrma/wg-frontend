@@ -1,19 +1,16 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import FloatingButtons from "@/components/layout/FloatingButtons";
-import StickyCallbackCTA from "@/components/layout/StickyCallbackCTA";
-import { getCourses } from "@/lib/courses";
+import StickyProjectCta from "@/components/layout/StickyProjectCta";
 
-export default async function PublicLayout({ children }: { children: React.ReactNode }) {
-  const courses = await getCourses();
-
+export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navbar />
-      <main>{children}</main>
-      <Footer courses={courses.map((c) => ({ title: c.title, slug: c.slug }))} />
+      <main className="bg-canvas">{children}</main>
+      <Footer />
       <FloatingButtons />
-      <StickyCallbackCTA />
+      <StickyProjectCta />
     </>
   );
 }

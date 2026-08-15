@@ -1,50 +1,35 @@
 export const siteConfig = {
-  name: "WebiGeeks",
-  tagline: "Your AI Skill Partner",
+  name: "WebiGeeks Digital",
+  tagline: "Premium Digital Solutions for International Businesses",
   description:
-    "Become industry-ready with AI-integrated courses in Data Science, Data Analytics, MERN Stack, Python, Power BI, and more. 100% practical training with placement assistance.",
-  url: "https://webigeeks.com",
+    "WebiGeeks Digital builds premium websites, web applications, AI solutions, and digital products for international businesses. We deliver technology that drives real business outcomes.",
+  url: "https://webigeeksdigital.com",
   ogImage: "/images/og-image.jpg",
 
   contact: {
     phone: "+91 8766367815",
-    phone2: "+91 9871257943",
-    email: "webigeeksofficial@gmail.com",
+    email: "hello@webigeeksdigital.com",
     whatsapp: "+918766367815",
-    address:
-      "M-18, Ground Floor, Old DLF Colony, Sector-14, Gurugram, Haryana",
-    mapUrl: "https://maps.app.goo.gl/h2T6wqvd4njcGM2K7",
+    address: "Remote • India-based team serving global clients",
   },
 
   social: {
-    instagram: "https://instagram.com/webigeeks",
-    facebook: "https://facebook.com/webigeeks",
-    linkedin: "https://linkedin.com/company/webigeeks",
-    youtube: "https://youtube.com/@webigeeks",
-    twitter: "https://twitter.com/webigeeks",
+    linkedin: "https://linkedin.com/company/webigeeks-digital",
+    twitter: "https://twitter.com/webigeeksdigital",
+    github: "https://github.com/webigeeks-digital",
   },
 
-  courses: [
-    "Full Stack / MERN Stack Development",
-    "Data Analytics with Python",
-    "Data Science",
-    "Artificial Intelligence",
-    "Python Programming",
-    "Power BI",
-    "SQL",
-    "Java Programming",
-    "C/C++",
-    "MS Excel",
+  services: [
+    { name: "Web Development", slug: "web-development" },
+    { name: "Product Engineering", slug: "product-engineering" },
+    { name: "AI & Automation", slug: "ai-automation" },
+    { name: "UI/UX Design", slug: "design" },
   ],
 
-  // studentsPlaced deliberately removed — a specific headcount of "placed"
-  // students isn't a claim we can stand behind, so it's not tracked as a
-  // stat anywhere on the site. Use "students trained" in prose instead,
-  // with no attached number.
   stats: {
     yearsExperience: 6,
-    courses: 10,
-    batchesCompleted: 100,
+    projectsCompleted: 50,
+    clientsSatisfied: 40,
   },
 } as const;
 

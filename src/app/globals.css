@@ -58,6 +58,18 @@
 
   /* Font Family */
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-hanken), "Inter", system-ui, -apple-system, sans-serif;
+
+  /* Colors - Studio system (public marketing site only — see AGENCY_* below).
+     Kept separate from the --color-* tokens above, which /admin, /dashboard,
+     and the legacy *-course-gurugram pages still depend on. */
+  --color-canvas: #EEF1F6;
+  --color-canvas-warm: #EDEEEC;
+  --color-ink: #0A0E1A;
+  --color-ink-soft: #12172A;
+  --color-agency-muted: #6B7280;
+  --color-agency-accent: #2454E0;
+  --color-agency-accent-soft: #E8EDFD;
 
   /* Extra-small breakpoint for the 320–400px band, where the default `sm`
      (640px) is far too late to make layout decisions. */

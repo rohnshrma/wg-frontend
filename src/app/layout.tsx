@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Hanken_Grotesk } from "next/font/google";
 import JsonLd from "@/components/seo/JsonLd";
 import GoogleAnalytics from "@/components/seo/GoogleAnalytics";
 import { organizationSchema } from "@/lib/schema";
@@ -9,48 +9,54 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
+
+// Display face for the (public) marketing site — kept as an opt-in variable
+// rather than the global default so /admin and /dashboard keep rendering in
+// Inter untouched.
+const hankenGrotesk = Hanken_Grotesk({
+  variable: "--font-hanken",
+  subsets: ["latin"],
+  display: "swap",
   weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://webigeeks.com"),
+  metadataBase: new URL("https://webigeeksdigital.com"),
   title: {
-    default: "WebiGeeks — Coding Institute in Gurugram | MERN & Python",
-    template: "%s | WebiGeeks Gurugram",
+    default: "WebiGeeks Digital | Premium Digital Solutions",
+    template: "%s | WebiGeeks Digital",
   },
   description:
-    "AI-integrated coding classes in Sector-14, Gurugram — MERN, Python, Data Analytics & Power BI. Offline and online batches, 100% placement assistance.",
+    "Premium digital solutions for international businesses. Web development, product engineering, AI automation, and design.",
   keywords: [
-    "coding institute Gurgaon",
-    "MERN course Gurugram",
-    "python course Gurgaon",
-    "full stack developer course near me",
-    "IT training institute Gurgaon",
-    "data analytics course Gurgaon",
-    "power bi training Gurgaon",
-    "offline coding classes Gurgaon",
-    "programming classes Gurgaon",
-    "WebiGeeks",
+    "web development",
+    "product engineering",
+    "SaaS development",
+    "AI automation",
+    "UI/UX design",
+    "digital agency",
+    "web application development",
+    "software development",
+    "digital transformation",
   ],
-  authors: [{ name: "WebiGeeks" }],
-  creator: "WebiGeeks",
-  alternates: { canonical: "https://webigeeks.com" },
+  authors: [{ name: "WebiGeeks Digital" }],
+  creator: "WebiGeeks Digital",
+  alternates: { canonical: "https://webigeeksdigital.com" },
   openGraph: {
     type: "website",
-    locale: "en_IN",
-    url: "https://webigeeks.com",
-    siteName: "WebiGeeks — Coding Institute in Gurugram",
-    title: "WebiGeeks — Coding Institute in Gurugram",
+    locale: "en_US",
+    url: "https://webigeeksdigital.com",
+    siteName: "WebiGeeks Digital",
+    title: "WebiGeeks Digital | Premium Digital Solutions",
     description:
-      "100% practical MERN, Python & Data Analytics training in Sector-14, Gurugram. Offline and online batches, with real placement assistance.",
-    // No `images` array here — the app/opengraph-image.tsx file convention
-    // (next/og) auto-generates and wires this up; setting it manually here
-    // too would create a conflicting/duplicate og:image tag.
+      "Premium digital solutions for international businesses. Web development, product engineering, AI automation, and design.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "WebiGeeks — Coding Institute in Gurugram",
-    description: "AI-Integrated MERN, Python & Data Analytics Courses in Sector-14, Gurugram",
+    title: "WebiGeeks Digital | Premium Digital Solutions",
+    description: "Premium digital solutions for international businesses.",
   },
   robots: {
     index: true,
@@ -76,7 +82,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${inter.variable} ${hankenGrotesk.variable} h-full antialiased`}
+      suppressHydrationWarning
+    >
       <head>
         <link rel="icon" href="/favicon.ico" />
         <meta name="theme-color" content="#1672B8" />

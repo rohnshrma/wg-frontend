@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
-import ContactContent from "./ContactContent";
+import { Suspense } from "react";
 import { pageMetadata } from "@/lib/seo";
+import ContactContent from "./ContactContent";
 
 export const metadata: Metadata = pageMetadata({
   title: "Contact Us",
   description:
-    "Get in touch with WebiGeeks — Book a free demo class, ask about our courses, or visit our campus. We respond within 30 minutes!",
+    "Tell us about your project. WebiGeeks Digital responds within 24 hours to discuss how we can help.",
   path: "/contact",
 });
 
 export default function ContactPage() {
-  return <ContactContent />;
+  return (
+    <Suspense>
+      <ContactContent />
+    </Suspense>
+  );
 }
