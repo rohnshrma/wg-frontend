@@ -41,11 +41,11 @@ const services = [
 
 export default function ServicesOverview() {
   return (
-    <section className="bg-canvas">
+    <section className="bg-ink">
       <div className="container-custom pb-10">
         <div className="flex items-center gap-3">
           <span className="w-1.5 h-1.5 rounded-full bg-agency-accent" />
-          <span className="font-mono-agency text-xs text-agency-muted tracking-[0.15em] uppercase">
+          <span className="font-mono-agency text-xs text-white/50 tracking-[0.15em] uppercase">
             Capabilities / 01–04
           </span>
         </div>
@@ -59,7 +59,7 @@ export default function ServicesOverview() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.6 }}
-            className="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-6 md:gap-10 py-12 md:py-16 border-t-2 border-ink first:border-t-2"
+            className="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-6 md:gap-10 py-12 md:py-16 border-t-2 border-white first:border-t-2"
           >
             <div>
               <span className="font-mono-agency text-sm text-agency-accent tracking-[0.1em]">
@@ -68,7 +68,7 @@ export default function ServicesOverview() {
             </div>
 
             <div>
-              <h3 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-ink mb-6 max-w-2xl leading-[1.05]">
+              <h3 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white mb-6 max-w-2xl leading-[1.05]">
                 {service.title}
               </h3>
 
@@ -76,20 +76,20 @@ export default function ServicesOverview() {
                 {service.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="font-mono-agency px-3 py-1.5 border border-ink/15 rounded-full text-xs text-ink/70 tracking-[0.02em]"
+                    className="font-mono-agency px-3 py-1.5 border border-white/15 rounded-full text-xs text-white/70 tracking-[0.02em]"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
 
-              <p className="text-lg text-agency-muted max-w-xl mb-10 leading-relaxed">
+              <p className="text-lg text-white/60 max-w-xl mb-10 leading-relaxed">
                 {service.description}
               </p>
 
               <Link
                 href={`/services/${service.slug}`}
-                className="group inline-flex items-center gap-2 px-6 py-3 border border-ink/20 hover:border-ink hover:bg-ink hover:text-white rounded-full font-semibold text-ink transition-colors duration-300"
+                className="group inline-flex items-center gap-2 px-6 py-3 border border-white/20 hover:border-white hover:bg-white hover:text-ink rounded-full font-semibold text-white transition-colors duration-300"
               >
                 Find out more
                 <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -97,7 +97,7 @@ export default function ServicesOverview() {
             </div>
           </motion.div>
         ))}
-        <div className="border-t-2 border-ink" aria-hidden="true" />
+        <div className="border-t-2 border-white" aria-hidden="true" />
       </div>
     </section>
   );

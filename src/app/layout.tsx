@@ -82,7 +82,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#0A0E1A",
+  themeColor: "#0D0D0D",
 };
 
 export default function RootLayout({
@@ -98,7 +98,7 @@ export default function RootLayout({
     >
       <head>
         <link rel="icon" href="/favicon.ico" />
-        <meta name="theme-color" content="#0A0E1A" />
+        <meta name="theme-color" content="#0D0D0D" />
         <JsonLd data={organizationSchema} />
       </head>
       <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>

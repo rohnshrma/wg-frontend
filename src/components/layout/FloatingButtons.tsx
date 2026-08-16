@@ -45,7 +45,7 @@ export default function FloatingButtons() {
       {/* Call — middle of the stack */}
       <a
         href={`tel:${siteConfig.contact.phone}`}
-        className="w-14 h-14 rounded-full bg-black text-white shadow-xl flex items-center justify-center hover:scale-110 transition-transform"
+        className="w-14 h-14 rounded-full bg-white text-ink shadow-xl flex items-center justify-center hover:scale-110 transition-transform"
         aria-label="Call us"
       >
         <Phone className="w-6 h-6" />
@@ -59,7 +59,7 @@ export default function FloatingButtons() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.5, y: 10 }}
             onClick={scrollToTop}
-            className="w-14 h-14 rounded-full bg-white shadow-xl border border-border flex items-center justify-center hover:scale-110 transition-all text-text-secondary hover:text-primary"
+            className="w-14 h-14 rounded-full bg-white shadow-xl border border-white/10 flex items-center justify-center hover:scale-110 transition-all text-ink/60 hover:text-agency-accent"
             aria-label="Scroll to top"
           >
             <ChevronUp className="w-6 h-6" />

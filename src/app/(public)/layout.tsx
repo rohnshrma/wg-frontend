@@ -13,7 +13,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
     // without each component needing its own useReducedMotion() check.
     <MotionConfig reducedMotion="user">
       <Navbar />
-      <main className="bg-canvas">{children}</main>
+      <main className="bg-ink">{children}</main>
       <Footer />
       <FloatingButtons />
       <StickyProjectCta />

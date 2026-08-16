@@ -36,7 +36,7 @@ const initialFormData = {
 };
 
 const inputClass =
-  "w-full px-4 py-3 bg-canvas border border-transparent rounded-xl focus:outline-none focus:border-agency-accent transition-colors";
+  "w-full px-4 py-3 bg-ink text-white border border-white/10 rounded-xl placeholder:text-white/30 focus:outline-none focus:border-agency-accent transition-colors";
 
 export default function ContactContent() {
   const searchParams = useSearchParams();
@@ -105,73 +105,73 @@ export default function ContactContent() {
   return (
     <main>
       {/* Hero */}
-      <section className="bg-canvas">
+      <section className="bg-ink">
         <div className="container-custom pt-16 pb-16 md:pt-20 md:pb-24">
           <div className="flex items-center gap-3 mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-agency-accent animate-pulse" />
-            <span className="font-mono-agency text-xs text-agency-muted tracking-[0.15em] uppercase">
+            <span className="font-mono-agency text-xs text-white/50 tracking-[0.15em] uppercase">
               WGD / 005 — Get in touch
             </span>
           </div>
-          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-ink max-w-3xl leading-[1.05]">
+          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white max-w-3xl leading-[1.05]">
             Let&apos;s talk.
           </h1>
-          <p className="text-lg text-agency-muted max-w-xl mt-8 leading-relaxed">
+          <p className="text-lg text-white/60 max-w-xl mt-8 leading-relaxed">
             Tell us about your project. We&apos;ll respond within 24 hours to discuss how we can help.
           </p>
         </div>
       </section>
 
       {/* Contact panel */}
-      <section className="bg-canvas">
+      <section className="bg-ink">
         <div className="px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto pb-24">
-          <div className="bg-white rounded-[32px] md:rounded-[48px] px-6 py-12 sm:px-10 sm:py-16 md:px-16 md:py-20">
+          <div className="bg-ink-soft rounded-[32px] md:rounded-[48px] px-6 py-12 sm:px-10 sm:py-16 md:px-16 md:py-20">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
               {/* Contact Info */}
               <div className="lg:col-span-1">
-                <h2 className="font-display text-2xl font-bold text-ink mb-8">Contact details</h2>
+                <h2 className="font-display text-2xl font-bold text-white mb-8">Contact details</h2>
 
                 <div className="space-y-8">
                   <div>
-                    <div className="text-agency-muted text-xs uppercase tracking-widest mb-2">Email</div>
+                    <div className="text-white/50 text-xs uppercase tracking-widest mb-2">Email</div>
                     <a
                       href={`mailto:${siteConfig.contact.email}`}
-                      className="text-ink hover:text-agency-accent transition-colors font-medium"
+                      className="text-white hover:text-agency-accent transition-colors font-medium"
                     >
                       {siteConfig.contact.email}
                     </a>
                   </div>
 
                   <div>
-                    <div className="text-agency-muted text-xs uppercase tracking-widest mb-2">Phone</div>
+                    <div className="text-white/50 text-xs uppercase tracking-widest mb-2">Phone</div>
                     <a
                       href={`tel:${siteConfig.contact.phone}`}
-                      className="text-ink hover:text-agency-accent transition-colors font-medium"
+                      className="text-white hover:text-agency-accent transition-colors font-medium"
                     >
                       {siteConfig.contact.phone}
                     </a>
                   </div>
 
                   <div>
-                    <div className="text-agency-muted text-xs uppercase tracking-widest mb-2">WhatsApp</div>
+                    <div className="text-white/50 text-xs uppercase tracking-widest mb-2">WhatsApp</div>
                     <a
                       href={`https://wa.me/${siteConfig.contact.whatsapp.replace(/\D/g, "")}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-ink hover:text-agency-accent transition-colors font-medium"
+                      className="text-white hover:text-agency-accent transition-colors font-medium"
                     >
                       {siteConfig.contact.whatsapp}
                     </a>
                   </div>
 
                   <div>
-                    <div className="text-agency-muted text-xs uppercase tracking-widest mb-2">Location</div>
-                    <p className="text-ink font-medium leading-relaxed">{siteConfig.contact.address}</p>
+                    <div className="text-white/50 text-xs uppercase tracking-widest mb-2">Location</div>
+                    <p className="text-white font-medium leading-relaxed">{siteConfig.contact.address}</p>
                   </div>
 
-                  <div className="pt-6 border-t border-ink/10">
-                    <p className="text-sm text-agency-muted">
-                      <span className="text-ink font-semibold">Expected response:</span> within 24
+                  <div className="pt-6 border-t border-white/10">
+                    <p className="text-sm text-white/50">
+                      <span className="text-white font-semibold">Expected response:</span> within 24
                       hours during business hours
                     </p>
                   </div>
@@ -181,10 +181,10 @@ export default function ContactContent() {
               {/* Form */}
               <div className="lg:col-span-2">
                 {isSubmitted ? (
-                  <div className="bg-canvas rounded-3xl p-10 text-center">
+                  <div className="bg-ink rounded-3xl p-10 text-center">
                     <div className="text-4xl mb-4">✓</div>
-                    <h3 className="font-display text-2xl font-bold text-ink mb-2">Thank you!</h3>
-                    <p className="text-agency-muted">
+                    <h3 className="font-display text-2xl font-bold text-white mb-2">Thank you!</h3>
+                    <p className="text-white/50">
                       We&apos;ve received your project inquiry. Our team will review it and
                       get back to you within 24 hours.
                     </p>
@@ -193,7 +193,7 @@ export default function ContactContent() {
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-semibold text-ink mb-2">Your Name</label>
+                        <label className="block text-sm font-semibold text-white mb-2">Your Name</label>
                         <input
                           type="text"
                           name="name"
@@ -205,7 +205,7 @@ export default function ContactContent() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold text-ink mb-2">Email Address</label>
+                        <label className="block text-sm font-semibold text-white mb-2">Email Address</label>
                         <input
                           type="email"
                           name="email"
@@ -220,7 +220,7 @@ export default function ContactContent() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-semibold text-ink mb-2">Phone Number</label>
+                        <label className="block text-sm font-semibold text-white mb-2">Phone Number</label>
                         <input
                           type="tel"
                           name="phone"
@@ -232,7 +232,7 @@ export default function ContactContent() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold text-ink mb-2">Company Name</label>
+                        <label className="block text-sm font-semibold text-white mb-2">Company Name</label>
                         <input
                           type="text"
                           name="company"
@@ -245,7 +245,7 @@ export default function ContactContent() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-ink mb-2">Website (optional)</label>
+                      <label className="block text-sm font-semibold text-white mb-2">Website (optional)</label>
                       <input
                         type="url"
                         name="website"
@@ -257,7 +257,7 @@ export default function ContactContent() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-ink mb-2">
+                      <label className="block text-sm font-semibold text-white mb-2">
                         What are you looking to build?
                       </label>
                       <select
@@ -278,7 +278,7 @@ export default function ContactContent() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-semibold text-ink mb-2">
+                        <label className="block text-sm font-semibold text-white mb-2">
                           Approximate Budget
                         </label>
                         <select
@@ -296,7 +296,7 @@ export default function ContactContent() {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold text-ink mb-2">Timeline</label>
+                        <label className="block text-sm font-semibold text-white mb-2">Timeline</label>
                         <select
                           name="timeline"
                           value={formData.timeline}
@@ -313,7 +313,7 @@ export default function ContactContent() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-ink mb-2">
+                      <label className="block text-sm font-semibold text-white mb-2">
                         Tell us more about your project
                       </label>
                       <textarea
@@ -327,7 +327,7 @@ export default function ContactContent() {
                     </div>
 
                     {error && (
-                      <div className="bg-red-50 border border-red-200 rounded-xl p-4 text-sm text-red-800">
+                      <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 text-sm text-red-400">
                         {error}
                       </div>
                     )}
@@ -335,13 +335,13 @@ export default function ContactContent() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="group w-full px-8 py-4 bg-ink hover:bg-agency-accent disabled:opacity-50 text-white font-semibold rounded-full transition-colors duration-300 flex items-center justify-center gap-2"
+                      className="group w-full px-8 py-4 bg-white hover:bg-agency-accent disabled:opacity-50 text-ink hover:text-white font-semibold rounded-full transition-colors duration-300 flex items-center justify-center gap-2"
                     >
                       {isSubmitting ? "Sending..." : "Send Inquiry"}
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                     </button>
 
-                    <p className="text-xs text-agency-muted text-center">
+                    <p className="text-xs text-white/50 text-center">
                       We respect your privacy. Your information will only be used to
                       discuss your project.
                     </p>

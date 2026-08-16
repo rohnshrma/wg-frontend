@@ -10,16 +10,16 @@ export default function TestimonialsContent({ testimonials }: { testimonials: Te
   return (
     <main>
       {/* Hero */}
-      <section className="bg-canvas">
+      <section className="bg-ink">
         <div className="container-custom pt-16 pb-16 md:pt-20 md:pb-24">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <div className="flex items-center gap-3 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-agency-accent" />
-              <span className="font-mono-agency text-xs text-agency-muted tracking-[0.15em] uppercase">
+              <span className="font-mono-agency text-xs text-white/50 tracking-[0.15em] uppercase">
                 WGD / 007 — Testimonials
               </span>
             </div>
-            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-ink max-w-3xl leading-[1.05]">
+            <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white max-w-3xl leading-[1.05]">
               What people say about working with us.
             </h1>
           </motion.div>
@@ -27,15 +27,15 @@ export default function TestimonialsContent({ testimonials }: { testimonials: Te
       </section>
 
       {/* Testimonials Grid */}
-      <section className="bg-canvas">
+      <section className="bg-ink">
         <div className="container-custom pb-24 md:pb-32">
           {testimonials.length === 0 ? (
-            <div className="text-center py-20 border-t-2 border-ink">
-              <h3 className="font-display text-2xl font-bold text-ink mb-2">Stories coming soon</h3>
-              <p className="text-agency-muted">Check back soon — we&apos;re adding new stories.</p>
+            <div className="text-center py-20 border-t-2 border-white">
+              <h3 className="font-display text-2xl font-bold text-white mb-2">Stories coming soon</h3>
+              <p className="text-white/50">Check back soon — we&apos;re adding new stories.</p>
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 border-t-2 border-ink pt-12">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 border-t-2 border-white pt-12">
               {testimonials.map((t, i) => (
                 <motion.div
                   key={t._id}
@@ -43,35 +43,35 @@ export default function TestimonialsContent({ testimonials }: { testimonials: Te
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: (i % 6) * 0.05 }}
-                  className="bg-white rounded-2xl p-6"
+                  className="bg-ink-soft rounded-2xl p-6"
                 >
                   {/* Stars */}
                   <div className="flex gap-0.5 mb-4">
                     {Array.from({ length: 5 }).map((_, j) => (
-                      <Star key={j} className={`w-4 h-4 ${j < t.rating ? "text-agency-accent fill-agency-accent" : "text-ink/10"}`} />
+                      <Star key={j} className={`w-4 h-4 ${j < t.rating ? "text-agency-accent fill-agency-accent" : "text-white/10"}`} />
                     ))}
                   </div>
 
                   {/* Text */}
-                  <p className="text-sm text-ink/70 leading-relaxed mb-5 italic">
+                  <p className="text-sm text-white/70 leading-relaxed mb-5 italic">
                     &ldquo;{t.testimonialText}&rdquo;
                   </p>
 
                   {/* Author */}
-                  <div className="flex items-center justify-between pt-4 border-t border-ink/10">
+                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
                     <div className="flex items-center gap-3">
                       {t.photoUrl ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={t.photoUrl} alt={t.studentName} className="w-10 h-10 rounded-full object-cover" />
                       ) : (
-                        <div className="w-10 h-10 rounded-full bg-ink flex items-center justify-center text-white font-bold text-sm">
+                        <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-ink font-bold text-sm">
                           {t.studentName[0]}
                         </div>
                       )}
                       <div>
-                        <p className="font-semibold text-ink text-sm">{t.studentName}</p>
+                        <p className="font-semibold text-white text-sm">{t.studentName}</p>
                         {(t.designation || t.companyPlaced) && (
-                          <p className="font-mono-agency text-xs text-agency-muted">
+                          <p className="font-mono-agency text-xs text-white/50">
                             {t.designation}{t.designation && t.companyPlaced ? " at " : ""}{t.companyPlaced}
                           </p>
                         )}
@@ -79,7 +79,7 @@ export default function TestimonialsContent({ testimonials }: { testimonials: Te
                     </div>
                     {t.source === "google" && (
                       <div
-                        className="w-8 h-8 rounded-full bg-canvas border border-ink/10 flex items-center justify-center shrink-0"
+                        className="w-8 h-8 rounded-full bg-white border border-white/10 flex items-center justify-center shrink-0"
                         title="Verified Google review"
                       >
                         <GoogleLogo className="w-4 h-4" />

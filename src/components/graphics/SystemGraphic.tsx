@@ -43,7 +43,7 @@ export default function SystemGraphic() {
               cy={20 + row * 36}
               r="1"
               fill="currentColor"
-              className="text-ink/10"
+              className="text-white/10"
             />
           ))
         )}
@@ -61,7 +61,7 @@ export default function SystemGraphic() {
             fill="none"
             stroke="currentColor"
             strokeWidth="1.5"
-            className="text-ink/25"
+            className="text-white/25"
           />
         ))}
 
@@ -77,7 +77,7 @@ export default function SystemGraphic() {
             y2={node.y}
             stroke="currentColor"
             strokeWidth="1"
-            className="text-ink/25"
+            className="text-white/25"
           />
         ))}
 
@@ -96,7 +96,7 @@ export default function SystemGraphic() {
           x={HUB.x}
           y={HUB.y + 34}
           textAnchor="middle"
-          className="fill-ink font-mono-agency"
+          className="fill-white font-mono-agency"
           style={{ fontSize: 10, letterSpacing: "0.08em" }}
         >
           WGD
@@ -109,18 +109,18 @@ export default function SystemGraphic() {
               cx={node.x}
               cy={node.y}
               r="5"
-              fill="var(--color-ink)"
+              fill="var(--color-canvas)"
               initial={{ scale: 0 }}
               whileInView={{ scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.3 + i * 0.12 }}
             />
-            <circle cx={node.x} cy={node.y} r="11" fill="none" stroke="currentColor" strokeWidth="1" className="text-ink/20" />
+            <circle cx={node.x} cy={node.y} r="11" fill="none" stroke="currentColor" strokeWidth="1" className="text-white/20" />
             <text
               x={node.x}
               y={node.y - 20}
               textAnchor="middle"
-              className="fill-ink/50 font-mono-agency"
+              className="fill-white/50 font-mono-agency"
               style={{ fontSize: 9, letterSpacing: "0.1em" }}
             >
               {String(i + 1).padStart(2, "0")}
@@ -129,7 +129,7 @@ export default function SystemGraphic() {
               x={node.x}
               y={node.y + 26}
               textAnchor="middle"
-              className="fill-ink/60 font-mono-agency"
+              className="fill-white/60 font-mono-agency"
               style={{ fontSize: 9, letterSpacing: "0.08em" }}
             >
               {node.label}

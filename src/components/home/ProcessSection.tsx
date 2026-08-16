@@ -37,24 +37,24 @@ const steps = [
 
 export default function ProcessSection() {
   return (
-    <section className="bg-canvas">
+    <section className="bg-ink">
       <div className="container-custom py-24 md:py-32">
         <div className="flex items-center gap-3 mb-6">
           <span className="w-1.5 h-1.5 rounded-full bg-agency-accent" />
-          <span className="font-mono-agency text-xs text-agency-muted tracking-[0.15em] uppercase">
+          <span className="font-mono-agency text-xs text-white/50 tracking-[0.15em] uppercase">
             Process / 01–06
           </span>
         </div>
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-16 md:mb-20">
-          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink max-w-2xl">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white max-w-2xl">
             Our brand-to-build framework.
           </h2>
-          <p className="text-agency-muted max-w-sm">
+          <p className="text-white/50 max-w-sm">
             A proven methodology that delivers results, from discovery through launch.
           </p>
         </div>
 
-        <div className="border-t-2 border-ink">
+        <div className="border-t-2 border-white">
           {steps.map((step, index) => (
             <motion.div
               key={step.number}
@@ -62,15 +62,15 @@ export default function ProcessSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.5, delay: (index % 3) * 0.05 }}
-              className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-10 py-8 border-b border-ink/10 group"
+              className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-10 py-8 border-b border-white/10 group"
             >
               <span className="font-mono-agency text-agency-accent text-sm w-10 shrink-0 tracking-[0.1em]">
                 {step.number}
               </span>
-              <h3 className="font-display text-2xl sm:text-3xl font-semibold text-ink sm:w-64 shrink-0">
+              <h3 className="font-display text-2xl sm:text-3xl font-semibold text-white sm:w-64 shrink-0">
                 {step.title}
               </h3>
-              <p className="text-agency-muted leading-relaxed sm:max-w-xl">{step.description}</p>
+              <p className="text-white/50 leading-relaxed sm:max-w-xl">{step.description}</p>
             </motion.div>
           ))}
         </div>

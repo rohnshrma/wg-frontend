@@ -41,18 +41,16 @@ export default function Navbar() {
     <>
       <header
         className={cn(
-          "sticky top-0 z-50 w-full transition-all duration-300 font-display",
-          isScrolled ? "bg-canvas/80 backdrop-blur-lg" : "bg-transparent"
+          "sticky top-0 z-50 w-full bg-ink transition-all duration-300 font-display",
+          isScrolled && "bg-ink/80 backdrop-blur-lg"
         )}
       >
         <div className="container-custom">
           <nav className="flex items-center justify-between h-20 lg:h-24">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2.5 group min-w-0">
-              <div className="w-10 h-10 border-2 border-ink rounded-xl flex items-center justify-center shrink-0 overflow-hidden bg-white">
-                <Image src="/images/logo-mark.png" alt="WebiGeeks Digital" width={28} height={28} className="w-6 h-6 object-contain" loading="eager" />
-              </div>
-              <span className="text-lg font-bold tracking-tight text-ink leading-tight hidden xs:block">
+              <Image src="/images/brand-mark.png" alt="WebiGeeks Digital" width={40} height={40} className="w-9 h-9 shrink-0" loading="eager" />
+              <span className="text-lg font-bold tracking-tight text-white leading-tight hidden xs:block">
                 WebiGeeks Digital
               </span>
             </Link>
@@ -61,7 +59,7 @@ export default function Navbar() {
             <div className="flex items-center gap-3">
               <Link
                 href="/contact"
-                className="hidden sm:inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-ink hover:bg-agency-accent rounded-full transition-colors duration-300"
+                className="hidden sm:inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-ink bg-white hover:bg-agency-accent hover:text-white rounded-full transition-colors duration-300"
               >
                 Start a project
                 <ArrowUpRight className="w-4 h-4" />
@@ -69,10 +67,10 @@ export default function Navbar() {
 
               <button
                 onClick={() => setIsMenuOpen(true)}
-                className="w-12 h-12 rounded-full border border-ink/20 hover:border-ink flex items-center justify-center transition-colors"
+                className="w-12 h-12 rounded-full border border-white/20 hover:border-white flex items-center justify-center transition-colors"
                 aria-label="Open menu"
               >
-                <Menu className="w-5 h-5 text-ink" />
+                <Menu className="w-5 h-5 text-white" />
               </button>
             </div>
           </nav>
@@ -92,9 +90,7 @@ export default function Navbar() {
             <div className="container-custom">
               <div className="flex items-center justify-between h-20 lg:h-24">
                 <Link href="/" className="flex items-center gap-2.5" onClick={() => setIsMenuOpen(false)}>
-                  <div className="w-10 h-10 border-2 border-white/30 rounded-xl flex items-center justify-center bg-white/5">
-                    <Image src="/images/logo-mark.png" alt="WebiGeeks Digital" width={24} height={24} className="w-6 h-6 object-contain" />
-                  </div>
+                  <Image src="/images/brand-mark.png" alt="WebiGeeks Digital" width={40} height={40} className="w-9 h-9" />
                   <span className="text-lg font-bold text-white">WebiGeeks Digital</span>
                 </Link>
                 <button

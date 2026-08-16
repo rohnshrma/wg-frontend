@@ -102,15 +102,15 @@ export default function WorkContent() {
   return (
     <main>
       {/* Hero */}
-      <section className="bg-canvas">
+      <section className="bg-ink">
         <div className="container-custom pt-16 pb-16 md:pt-20 md:pb-24">
           <div className="flex items-center gap-3 mb-6">
             <span className="w-1.5 h-1.5 rounded-full bg-agency-accent" />
-            <span className="font-mono-agency text-xs text-agency-muted tracking-[0.15em] uppercase">
+            <span className="font-mono-agency text-xs text-white/50 tracking-[0.15em] uppercase">
               WGD / 003 — Case studies
             </span>
           </div>
-          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-ink max-w-3xl leading-[1.05]">
+          <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white max-w-3xl leading-[1.05]">
             Projects built for ambitious businesses worldwide.
           </h1>
         </div>
@@ -188,17 +188,17 @@ export default function WorkContent() {
       </section>
 
       {/* CTA */}
-      <section className="bg-canvas">
+      <section className="bg-ink">
         <div className="container-custom py-24 md:py-32 text-center">
-          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink mb-6">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-6">
             Build something remarkable together.
           </h2>
-          <p className="text-lg text-agency-muted mb-10 max-w-xl mx-auto leading-relaxed">
+          <p className="text-lg text-white/60 mb-10 max-w-xl mx-auto leading-relaxed">
             These are just a few examples. Let&apos;s discuss how we can help bring your vision to life.
           </p>
           <Link
             href="/contact?source=work_page"
-            className="group inline-flex items-center gap-2 px-8 py-4 bg-ink hover:bg-agency-accent text-white font-semibold rounded-full transition-colors duration-300"
+            className="group inline-flex items-center gap-2 px-8 py-4 bg-white hover:bg-agency-accent text-ink hover:text-white font-semibold rounded-full transition-colors duration-300"
           >
             Start a project
             <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />

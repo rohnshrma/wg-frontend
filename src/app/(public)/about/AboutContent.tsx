@@ -61,22 +61,22 @@ export default function AboutContent() {
   return (
     <main>
       {/* Hero */}
-      <section className="bg-canvas">
+      <section className="bg-ink">
         <div className="container-custom pt-16 pb-16 md:pt-20 md:pb-24">
           <motion.div initial="hidden" animate="show" variants={container}>
             <motion.div variants={item} className="flex items-center gap-3 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-agency-accent" />
-              <span className="font-mono-agency text-xs text-agency-muted tracking-[0.15em] uppercase">
+              <span className="font-mono-agency text-xs text-white/50 tracking-[0.15em] uppercase">
                 WGD / 004 — About us
               </span>
             </motion.div>
             <motion.h1
               variants={item}
-              className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-ink max-w-3xl leading-[1.05] mb-8"
+              className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white max-w-3xl leading-[1.05] mb-8"
             >
               A team of senior engineers, designers, and strategists.
             </motion.h1>
-            <motion.p variants={item} className="text-lg text-agency-muted max-w-xl leading-relaxed">
+            <motion.p variants={item} className="text-lg text-white/60 max-w-xl leading-relaxed">
               Building premium digital solutions for ambitious businesses worldwide.
             </motion.p>
           </motion.div>
@@ -84,11 +84,11 @@ export default function AboutContent() {
       </section>
 
       {/* Story panel */}
-      <section className="bg-canvas">
+      <section className="bg-ink">
         <div className="px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto pb-4">
-          <div className="bg-white rounded-[32px] md:rounded-[48px] px-6 py-12 sm:px-10 sm:py-16 md:px-16 md:py-20">
+          <div className="bg-ink-soft rounded-[32px] md:rounded-[48px] px-6 py-12 sm:px-10 sm:py-16 md:px-16 md:py-20">
             <span className="text-agency-accent font-display font-semibold text-sm">Our story</span>
-            <div className="mt-6 space-y-6 text-lg text-agency-muted leading-relaxed max-w-2xl">
+            <div className="mt-6 space-y-6 text-lg text-white/60 leading-relaxed max-w-2xl">
               <p>
                 WebiGeeks Digital was founded with a simple mission: to prove that
                 great digital products don&apos;t require choosing between quality and
@@ -113,13 +113,13 @@ export default function AboutContent() {
       </section>
 
       {/* Stats */}
-      <section className="bg-canvas">
+      <section className="bg-ink">
         <div className="container-custom py-16 md:py-24">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat) => (
-              <div key={stat.label} className="pt-6 border-t border-ink/10">
-                <div className="font-display text-4xl md:text-5xl font-bold text-ink mb-2">{stat.value}</div>
-                <div className="text-agency-muted text-sm">{stat.label}</div>
+              <div key={stat.label} className="pt-6 border-t border-white/10">
+                <div className="font-display text-4xl md:text-5xl font-bold text-white mb-2">{stat.value}</div>
+                <div className="text-white/50 text-sm">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -127,9 +127,9 @@ export default function AboutContent() {
       </section>
 
       {/* Values */}
-      <section className="bg-canvas">
+      <section className="bg-ink">
         <div className="container-custom pb-16 md:pb-24">
-          <h2 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-ink mb-12 md:mb-16">
+          <h2 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white mb-12 md:mb-16">
             Our values.
           </h2>
           <motion.div
@@ -140,17 +140,17 @@ export default function AboutContent() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8"
           >
             {values.map((value) => (
-              <motion.div key={value.title} variants={item} className="py-8 border-t border-ink/10">
-                <h3 className="font-display text-xl font-semibold text-ink mb-2">{value.title}</h3>
-                <p className="text-agency-muted leading-relaxed text-sm">{value.description}</p>
+              <motion.div key={value.title} variants={item} className="py-8 border-t border-white/10">
+                <h3 className="font-display text-xl font-semibold text-white mb-2">{value.title}</h3>
+                <p className="text-white/50 leading-relaxed text-sm">{value.description}</p>
               </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* Who we are — dark */}
-      <section className="bg-ink">
+      {/* Who we are */}
+      <section className="bg-ink-soft">
         <div className="container-custom py-24 md:py-32">
           <h2 className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-white mb-8 max-w-2xl">
             Who we are.
@@ -193,17 +193,17 @@ export default function AboutContent() {
       </section>
 
       {/* CTA */}
-      <section className="bg-canvas">
+      <section className="bg-ink">
         <div className="container-custom py-24 md:py-32 text-center">
-          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-ink mb-6">
+          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-6">
             Ready to partner with us?
           </h2>
-          <p className="text-lg text-agency-muted mb-10 max-w-xl mx-auto leading-relaxed">
+          <p className="text-lg text-white/60 mb-10 max-w-xl mx-auto leading-relaxed">
             Let&apos;s discuss how we can help transform your vision into reality.
           </p>
           <Link
             href="/contact"
-            className="group inline-flex items-center gap-2 px-8 py-4 bg-ink hover:bg-agency-accent text-white font-semibold rounded-full transition-colors duration-300"
+            className="group inline-flex items-center gap-2 px-8 py-4 bg-white hover:bg-agency-accent text-ink hover:text-white font-semibold rounded-full transition-colors duration-300"
           >
             Start a project
             <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />

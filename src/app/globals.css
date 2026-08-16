@@ -69,15 +69,18 @@
      and the legacy *-course-gurugram pages still depend on. */
   --color-canvas: #EEF1F6;
   --color-canvas-warm: #EDEEEC;
-  --color-ink: #0A0E1A;
-  --color-ink-soft: #12172A;
+  /* Brand kit exact values (WebiGeeksDigitalBrandKit/README.md): Black
+     #0D0D0D, Blue #0038FF, White. --color-ink is the brand black, used as
+     the page canvas in the dark "Engineering Precision" theme. */
+  --color-ink: #0D0D0D;
+  --color-ink-soft: #161616;
   --color-agency-muted: #6B7280;
-  --color-agency-accent: #2454E0;
-  --color-agency-accent-soft: #E8EDFD;
+  --color-agency-accent: #0038FF;
+  --color-agency-accent-soft: #E1E8FF;
   /* Brighter tint of --color-agency-accent, used only for glow/blur elements
      (blurred orbs, edge lighting) — kept as a separate token because glow
      needs more luminance than the accent reads at when used as flat fill. */
-  --color-agency-glow: #5B7FFF;
+  --color-agency-glow: #3D5CFF;
 
   /* Extra-small breakpoint for the 320–400px band, where the default `sm`
      (640px) is far too late to make layout decisions. */

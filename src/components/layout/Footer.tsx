@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { useObfuscatedEmail } from "@/lib/useObfuscatedEmail";
@@ -41,9 +42,13 @@ export default function Footer() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 pb-16 border-b border-white/10">
           <div className="col-span-2 md:col-span-1">
-            <div className="w-10 h-10 border-2 border-white/30 rounded-xl flex items-center justify-center bg-white/5 mb-4">
-              <span className="text-sm font-bold">WG</span>
-            </div>
+            <Image
+              src="/images/logo-horizontal-dark.svg"
+              alt="WebiGeeks Digital"
+              width={200}
+              height={60}
+              className="h-8 w-auto mb-4"
+            />
             <p className="text-white/50 text-sm leading-relaxed">
               Premium digital solutions for international businesses.
             </p>
