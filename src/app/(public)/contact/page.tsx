@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { pageMetadata } from "@/lib/seo";
+import { breadcrumbSchema } from "@/lib/schema";
+import JsonLd from "@/components/seo/JsonLd";
 import ContactContent from "./ContactContent";
 
 export const metadata: Metadata = pageMetadata({
@@ -12,8 +14,11 @@ export const metadata: Metadata = pageMetadata({
 
 export default function ContactPage() {
   return (
-    <Suspense>
-      <ContactContent />
-    </Suspense>
+    <>
+      <JsonLd data={breadcrumbSchema("Contact", "/contact")} />
+      <Suspense>
+        <ContactContent />
+      </Suspense>
+    </>
   );
 }

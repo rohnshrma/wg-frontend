@@ -4,7 +4,6 @@ export const siteConfig = {
   description:
     "WebiGeeks Digital builds premium websites, web applications, AI solutions, and digital products for international businesses. We deliver technology that drives real business outcomes.",
   url: "https://webigeeksdigital.com",
-  ogImage: "/images/og-image.jpg",
 
   contact: {
     phone: "+91 8766367815",

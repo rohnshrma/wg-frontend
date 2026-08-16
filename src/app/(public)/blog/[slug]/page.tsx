@@ -10,10 +10,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const blog = await getBlogBySlug(slug);
   if (!blog) return { title: "Article Not Found", robots: { index: false, follow: false } };
 
+  // noindex: see /blog/page.tsx — every post right now is leftover
+  // coding-institute content, unrelated to the agency this site now is.
   return pageMetadata({
     title: blog.metaTitle || blog.title,
     description: blog.metaDescription || blog.excerpt,
     path: `/blog/${blog.slug}`,
+    noindex: true,
   });
 }
 

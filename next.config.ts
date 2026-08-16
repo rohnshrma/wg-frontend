@@ -29,11 +29,23 @@ const nextConfig: NextConfig = {
       // 2026-08-07) — self-canonicalized in metadata but never actually
       // redirected, so any real visitor/backlink using "www." got a
       // separately-cached, worse-performing copy of the site instead of
-      // landing on the canonical, well-cached host.
+      // landing on the canonical, well-cached host. Kept for the old
+      // institute domain, which this same codebase's `main` branch still
+      // serves.
       {
         source: "/:path*",
         has: [{ type: "host", value: "www.webigeeks.com" }],
         destination: "https://webigeeks.com/:path*",
+        permanent: true,
+      },
+      // Same fix, proactively, for the new agency domain — every page's
+      // canonical/OG tags already point at the bare host
+      // (siteConfig.url = "https://webigeeksdigital.com"), so without this
+      // a www. visit or backlink would land on an uncanonicalized duplicate.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.webigeeksdigital.com" }],
+        destination: "https://webigeeksdigital.com/:path*",
         permanent: true,
       },
     ];

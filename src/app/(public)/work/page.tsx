@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
+import { breadcrumbSchema } from "@/lib/schema";
+import JsonLd from "@/components/seo/JsonLd";
 import WorkContent from "./WorkContent";
 
 export const metadata: Metadata = pageMetadata({
@@ -9,5 +11,10 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function WorkPage() {
-  return <WorkContent />;
+  return (
+    <>
+      <JsonLd data={breadcrumbSchema("Work", "/work")} />
+      <WorkContent />
+    </>
+  );
 }

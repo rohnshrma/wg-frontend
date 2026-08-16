@@ -2,7 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Hanken_Grotesk, IBM_Plex_Mono } from "next/font/google";
 import JsonLd from "@/components/seo/JsonLd";
 import GoogleAnalytics from "@/components/seo/GoogleAnalytics";
-import { organizationSchema } from "@/lib/schema";
+import { organizationSchema, websiteSchema } from "@/lib/schema";
+import { siteConfig } from "@/config/site";
 import "./globals.css";
 
 const inter = Inter({
@@ -32,7 +33,7 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://webigeeksdigital.com"),
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: "WebiGeeks Digital | Premium Digital Solutions",
     template: "%s | WebiGeeks Digital",
@@ -40,23 +41,25 @@ export const metadata: Metadata = {
   description:
     "Premium digital solutions for international businesses. Web development, product engineering, AI automation, and design.",
   keywords: [
+    "web development agency",
+    "website development agency",
+    "digital agency",
     "web development",
     "product engineering",
     "SaaS development",
     "AI automation",
     "UI/UX design",
-    "digital agency",
     "web application development",
     "software development",
     "digital transformation",
   ],
   authors: [{ name: "WebiGeeks Digital" }],
   creator: "WebiGeeks Digital",
-  alternates: { canonical: "https://webigeeksdigital.com" },
+  alternates: { canonical: siteConfig.url },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://webigeeksdigital.com",
+    url: siteConfig.url,
     siteName: "WebiGeeks Digital",
     title: "WebiGeeks Digital | Premium Digital Solutions",
     description:
@@ -70,7 +73,13 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true },
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 };
 
@@ -97,9 +106,11 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <link rel="icon" href="/favicon.ico" />
+        {/* No manual favicon <link> — Next's file-convention favicon.ico in
+            src/app/ already generates the correct tag; a hand-written one
+            here just duplicated it. */}
         <meta name="theme-color" content="#0D0D0D" />
-        <JsonLd data={organizationSchema} />
+        <JsonLd data={[organizationSchema, websiteSchema]} />
       </head>
       <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
         {children}
