@@ -10,7 +10,8 @@ type Lead = {
   name: string;
   phone: string;
   email: string;
-  courseInterested: string;
+  courseInterested?: string;
+  projectType?: string;
   source: string;
   status: "new" | "contacted" | "interested" | "converted" | "lost";
   message?: string;
@@ -24,6 +25,13 @@ const sourceLabels: Record<string, string> = {
   exit_intent: "Exit Intent",
   course_page: "Course Page",
   sticky_cta: "Sticky CTA",
+  website_hero: "Website Hero",
+  services_page: "Services Page",
+  work_page: "Work Page",
+  contact_form: "Contact Form",
+  social: "Social",
+  referral: "Referral",
+  other: "Other",
 };
 
 const statusBadgeClass: Record<Lead["status"], string> = {
@@ -52,7 +60,7 @@ export default function AdminLeadsPage() {
         lead.name.toLowerCase().includes(term) ||
         lead.email.toLowerCase().includes(term) ||
         lead.phone.toLowerCase().includes(term) ||
-        lead.courseInterested.toLowerCase().includes(term);
+        (lead.courseInterested ?? lead.projectType ?? "").toLowerCase().includes(term);
       return matchesStatus && matchesSource && matchesSearch;
     });
   }, [leads, search, source, status]);
@@ -138,7 +146,7 @@ export default function AdminLeadsPage() {
                         <a href={`tel:${lead.phone}`} className="flex items-center gap-1 text-text-secondary hover:text-primary"><Phone className="w-3.5 h-3.5" /> {lead.phone}</a>
                         <a href={`mailto:${lead.email}`} className="flex items-center gap-1 text-xs text-text-muted hover:text-primary mt-1"><Mail className="w-3.5 h-3.5" /> {lead.email}</a>
                       </td>
-                      <td className="px-4 py-3 text-text-secondary">{lead.courseInterested}</td>
+                      <td className="px-4 py-3 text-text-secondary">{lead.courseInterested ?? lead.projectType ?? "—"}</td>
                       <td className="px-4 py-3 text-text-secondary max-w-xs">{lead.message || "-"}</td>
                       <td className="px-4 py-3 text-text-secondary">{sourceLabels[lead.source] || lead.source}</td>
                       <td className="px-4 py-3">
@@ -171,7 +179,7 @@ export default function AdminLeadsPage() {
                     <Mail className="w-3.5 h-3.5 shrink-0 text-text-muted" /> <span className="truncate">{lead.email}</span>
                   </a>
                 </div>
-                <p className="text-sm text-text-secondary mb-1">{lead.courseInterested}</p>
+                <p className="text-sm text-text-secondary mb-1">{lead.courseInterested ?? lead.projectType ?? "—"}</p>
                 {lead.message && (
                   <p className="text-xs text-text-muted mt-1.5 line-clamp-2">{lead.message}</p>
                 )}
