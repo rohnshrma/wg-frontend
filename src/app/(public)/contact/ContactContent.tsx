@@ -193,8 +193,9 @@ export default function ContactContent() {
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-semibold text-white mb-2">Your Name</label>
+                        <label htmlFor="contact-name" className="block text-sm font-semibold text-white mb-2">Your Name</label>
                         <input
+                          id="contact-name"
                           type="text"
                           name="name"
                           value={formData.name}
@@ -205,8 +206,9 @@ export default function ContactContent() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold text-white mb-2">Email Address</label>
+                        <label htmlFor="contact-email" className="block text-sm font-semibold text-white mb-2">Email Address</label>
                         <input
+                          id="contact-email"
                           type="email"
                           name="email"
                           value={formData.email}
@@ -220,8 +222,9 @@ export default function ContactContent() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-semibold text-white mb-2">Phone Number</label>
+                        <label htmlFor="contact-phone" className="block text-sm font-semibold text-white mb-2">Phone Number</label>
                         <input
+                          id="contact-phone"
                           type="tel"
                           name="phone"
                           value={formData.phone}
@@ -232,8 +235,9 @@ export default function ContactContent() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold text-white mb-2">Company Name</label>
+                        <label htmlFor="contact-company" className="block text-sm font-semibold text-white mb-2">Company Name</label>
                         <input
+                          id="contact-company"
                           type="text"
                           name="company"
                           value={formData.company}
@@ -245,8 +249,9 @@ export default function ContactContent() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-white mb-2">Website (optional)</label>
+                      <label htmlFor="contact-website" className="block text-sm font-semibold text-white mb-2">Website (optional)</label>
                       <input
+                        id="contact-website"
                         type="url"
                         name="website"
                         value={formData.website}
@@ -257,10 +262,11 @@ export default function ContactContent() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-white mb-2">
+                      <label htmlFor="contact-project-type" className="block text-sm font-semibold text-white mb-2">
                         What are you looking to build?
                       </label>
                       <select
+                        id="contact-project-type"
                         name="projectType"
                         value={formData.projectType}
                         onChange={handleChange}
@@ -278,10 +284,11 @@ export default function ContactContent() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-semibold text-white mb-2">
+                        <label htmlFor="contact-budget" className="block text-sm font-semibold text-white mb-2">
                           Approximate Budget
                         </label>
                         <select
+                          id="contact-budget"
                           name="budget"
                           value={formData.budget}
                           onChange={handleChange}
@@ -296,8 +303,9 @@ export default function ContactContent() {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold text-white mb-2">Timeline</label>
+                        <label htmlFor="contact-timeline" className="block text-sm font-semibold text-white mb-2">Timeline</label>
                         <select
+                          id="contact-timeline"
                           name="timeline"
                           value={formData.timeline}
                           onChange={handleChange}
@@ -313,10 +321,11 @@ export default function ContactContent() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-white mb-2">
+                      <label htmlFor="contact-message" className="block text-sm font-semibold text-white mb-2">
                         Tell us more about your project
                       </label>
                       <textarea
+                        id="contact-message"
                         name="message"
                         value={formData.message}
                         onChange={handleChange}

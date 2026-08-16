@@ -14,10 +14,9 @@ const quickLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-const legalLinks = [
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Terms of Service", href: "/terms" },
-];
+// No /privacy or /terms pages exist yet (no real legal copy to publish —
+// not fabricating placeholder legal text), so there's nothing to link to
+// here. Add this back once those pages are real.
 
 export default function Footer() {
   const email = useObfuscatedEmail();
@@ -55,7 +54,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white/40 text-xs uppercase tracking-widest mb-4">Navigate</h4>
+            <h2 className="text-white/60 text-xs uppercase tracking-widest mb-4">Navigate</h2>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.href}>
@@ -68,12 +67,12 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white/40 text-xs uppercase tracking-widest mb-4">Services</h4>
+            <h2 className="text-white/60 text-xs uppercase tracking-widest mb-4">Services</h2>
             <ul className="space-y-3">
               {siteConfig.services.map((service) => (
                 <li key={service.slug}>
                   <Link
-                    href={`/services/${service.slug}`}
+                    href={`/services#${service.slug}`}
                     className="text-white/70 hover:text-white transition-colors text-sm"
                   >
                     {service.name}
@@ -84,7 +83,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white/40 text-xs uppercase tracking-widest mb-4">Contact</h4>
+            <h2 className="text-white/60 text-xs uppercase tracking-widest mb-4">Contact</h2>
             <ul className="space-y-3 text-sm">
               <li>
                 <a
@@ -105,7 +104,7 @@ export default function Footer() {
         </div>
 
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8">
-          <p className="text-white/40 text-xs">
+          <p className="text-white/60 text-xs">
             &copy; {new Date().getFullYear()} WebiGeeks Digital. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
@@ -115,15 +114,10 @@ export default function Footer() {
                 href={url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/40 hover:text-white text-xs capitalize transition-colors"
+                className="text-white/60 hover:text-white text-xs capitalize transition-colors"
               >
                 {platform}
               </a>
-            ))}
-            {legalLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="text-white/40 hover:text-white text-xs transition-colors">
-                {link.label}
-              </Link>
             ))}
           </div>
         </div>

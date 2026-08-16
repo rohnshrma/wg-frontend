@@ -88,7 +88,7 @@ export default function ServicesOverview() {
               </p>
 
               <Link
-                href={`/services/${service.slug}`}
+                href={`/services#${service.slug}`}
                 className="group inline-flex items-center gap-2 px-6 py-3 border border-white/20 hover:border-white hover:bg-white hover:text-ink rounded-full font-semibold text-white transition-colors duration-300"
               >
                 Find out more

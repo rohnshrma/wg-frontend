@@ -139,21 +139,21 @@ export default function WorkContent() {
                 className="bg-ink p-8"
               >
                 <div className="flex items-start justify-between mb-6">
-                  <span className="font-mono-agency text-xs text-white/40 tracking-[0.1em]">
+                  <span className="font-mono-agency text-xs text-white/60 tracking-[0.1em]">
                     {project.number}
                   </span>
-                  <span className="font-mono-agency text-white/40 text-xs uppercase tracking-widest">
+                  <span className="font-mono-agency text-white/60 text-xs uppercase tracking-widest">
                     {project.category}
                   </span>
                 </div>
 
-                <h3 className="font-display text-2xl font-semibold text-white mb-4">{project.title}</h3>
+                <h2 className="font-display text-2xl font-semibold text-white mb-4">{project.title}</h2>
                 <p className="text-white/60 leading-relaxed mb-6">{project.description}</p>
 
                 <div className="grid grid-cols-3 gap-4 mb-6 pb-6 border-b border-white/10">
                   {project.metrics.map((metric) => (
                     <div key={metric.label}>
-                      <div className="font-display text-lg md:text-xl font-bold text-agency-accent">
+                      <div className="font-display text-lg md:text-xl font-bold text-agency-accent-text">
                         {metric.value}
                       </div>
                       <div className="text-[11px] text-white/50 leading-tight mt-1">
@@ -178,7 +178,13 @@ export default function WorkContent() {
                   href={`/contact?source=work_page&projectType=${categoryToProjectType[project.category] ?? "other"}`}
                   className="group/link inline-flex items-center gap-2 text-white font-semibold text-sm"
                 >
-                  Learn more
+                  {/* Visible text stays "Learn more" for the compact card
+                      layout, but the sr-only suffix is what actually makes
+                      each of these 6 links distinct instead of identical
+                      boilerplate — both to screen readers and to search
+                      engines, which read the visible-DOM text, not aria-label,
+                      when judging link-text quality. */}
+                  Learn more<span className="sr-only"> about {project.title}</span>
                   <ArrowUpRight className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
                 </Link>
               </motion.div>

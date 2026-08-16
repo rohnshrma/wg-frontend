@@ -81,6 +81,14 @@
      (blurred orbs, edge lighting) — kept as a separate token because glow
      needs more luminance than the accent reads at when used as flat fill. */
   --color-agency-glow: #3D5CFF;
+  /* The brand's literal #0038FF fails WCAG AA as small/body text on both
+     dark surfaces (2.59:1 on --color-ink-soft, 2.78:1 on --color-ink —
+     confirmed via Lighthouse, both well under the 4.5:1 minimum). Large
+     bold headline-scale text clears the looser 3:1 large-text threshold at
+     #0038FF, so this tint is only for small text: labels, numbers,
+     percentages, badges. #5C7CFF measured 4.98:1 against --color-ink-soft
+     (the lighter of the two dark surfaces, so the harder case). */
+  --color-agency-accent-text: #5C7CFF;
 
   /* Extra-small breakpoint for the 320–400px band, where the default `sm`
      (640px) is far too late to make layout decisions. */

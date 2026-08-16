@@ -87,7 +87,7 @@ export default function AboutContent() {
       <section className="bg-ink">
         <div className="px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto pb-4">
           <div className="bg-ink-soft rounded-[32px] md:rounded-[48px] px-6 py-12 sm:px-10 sm:py-16 md:px-16 md:py-20">
-            <span className="text-agency-accent font-display font-semibold text-sm">Our story</span>
+            <span className="text-agency-accent-text font-display font-semibold text-sm">Our story</span>
             <div className="mt-6 space-y-6 text-lg text-white/60 leading-relaxed max-w-2xl">
               <p>
                 WebiGeeks Digital was founded with a simple mission: to prove that

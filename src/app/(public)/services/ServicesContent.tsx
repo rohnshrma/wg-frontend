@@ -29,13 +29,16 @@ export default function ServicesContent() {
           {serviceDetails.map((service) => (
             <motion.div
               key={service.slug}
+              id={service.slug}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.6 }}
-              className="bg-ink-soft rounded-[32px] md:rounded-[48px] px-6 py-12 sm:px-10 sm:py-16 md:px-16 md:py-20"
+              // scroll-mt so the sticky header (h-20/h-24) doesn't cover the
+              // panel's top when landing here via #slug from the footer/homepage
+              className="scroll-mt-28 bg-ink-soft rounded-[32px] md:rounded-[48px] px-6 py-12 sm:px-10 sm:py-16 md:px-16 md:py-20"
             >
-              <span className="text-agency-accent font-display font-semibold text-sm">
+              <span className="text-agency-accent-text font-display font-semibold text-sm">
                 {service.number}
               </span>
 
