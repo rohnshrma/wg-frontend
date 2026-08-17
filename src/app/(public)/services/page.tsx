@@ -8,7 +8,7 @@ import { serviceDetails } from "./serviceDetails";
 export const metadata: Metadata = pageMetadata({
   title: "Services",
   description:
-    "Premium digital services including web development, product engineering, AI automation, and design.",
+    "Full-service web development agency offering web development, product engineering, AI automation, and design.",
   path: "/services",
 });
 

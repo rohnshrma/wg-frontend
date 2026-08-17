@@ -117,7 +117,8 @@ export default function ContactContent() {
             Let&apos;s talk.
           </h1>
           <p className="text-lg text-white/60 max-w-xl mt-8 leading-relaxed">
-            Tell us about your project. We&apos;ll respond within 24 hours to discuss how we can help.
+            Tell us about your project. Our digital agency team responds within 24 hours to
+            discuss how we can help.
           </p>
         </div>
       </section>

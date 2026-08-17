@@ -77,7 +77,8 @@ export default function AboutContent() {
               A team of senior engineers, designers, and strategists.
             </motion.h1>
             <motion.p variants={item} className="text-lg text-white/60 max-w-xl leading-relaxed">
-              Building premium digital solutions for ambitious businesses worldwide.
+              WebiGeeks Digital is a web development agency building premium digital solutions for
+              ambitious businesses worldwide.
             </motion.p>
           </motion.div>
         </div>
@@ -90,7 +91,7 @@ export default function AboutContent() {
             <span className="text-agency-accent-text font-display font-semibold text-sm">Our story</span>
             <div className="mt-6 space-y-6 text-lg text-white/60 leading-relaxed max-w-2xl">
               <p>
-                WebiGeeks Digital was founded with a simple mission: to prove that
+                WebiGeeks Digital is a digital agency founded with a simple mission: to prove that
                 great digital products don&apos;t require choosing between quality and
                 efficiency. Over the past six years, we&apos;ve built 50+ projects for
                 40+ satisfied clients across the globe.

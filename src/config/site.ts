@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "WebiGeeks Digital",
   tagline: "Premium Digital Solutions for International Businesses",
   description:
-    "WebiGeeks Digital builds premium websites, web applications, AI solutions, and digital products for international businesses. We deliver technology that drives real business outcomes.",
+    "WebiGeeks Digital is a web development agency building premium websites, web applications, AI solutions, and digital products for international businesses. We deliver technology that drives real business outcomes.",
   url: "https://webigeeksdigital.com",
 
   contact: {

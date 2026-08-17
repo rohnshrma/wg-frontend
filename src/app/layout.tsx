@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     template: "%s | WebiGeeks Digital",
   },
   description:
-    "Premium digital solutions for international businesses. Web development, product engineering, AI automation, and design.",
+    "WebiGeeks Digital is a web development agency for international businesses — web development, product engineering, AI automation, and design.",
   keywords: [
     "web development agency",
     "website development agency",
@@ -63,12 +63,12 @@ export const metadata: Metadata = {
     siteName: "WebiGeeks Digital",
     title: "WebiGeeks Digital | Premium Digital Solutions",
     description:
-      "Premium digital solutions for international businesses. Web development, product engineering, AI automation, and design.",
+      "WebiGeeks Digital is a web development agency for international businesses — web development, product engineering, AI automation, and design.",
   },
   twitter: {
     card: "summary_large_image",
     title: "WebiGeeks Digital | Premium Digital Solutions",
-    description: "Premium digital solutions for international businesses.",
+    description: "A web development agency for international businesses.",
   },
   robots: {
     index: true,

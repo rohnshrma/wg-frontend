@@ -7,7 +7,7 @@ import TrustSection from "@/components/home/TrustSection";
 import { siteConfig } from "@/config/site";
 
 const description =
-  "Premium digital solutions for international businesses. Web development, product engineering, AI automation, and design.";
+  "WebiGeeks Digital is a web development agency for international businesses — web development, product engineering, AI automation, and design.";
 
 // Deliberately doesn't use the pageMetadata() helper (or set `title`) here —
 // the root layout's title.default already IS this exact string, and

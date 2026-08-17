@@ -20,6 +20,10 @@ export default function ServicesContent() {
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white max-w-3xl leading-[1.05]">
             Services built around real business outcomes.
           </h1>
+          <p className="text-lg text-white/60 max-w-xl mt-8 leading-relaxed">
+            As a full-service web development agency, we cover everything from marketing sites to
+            AI-powered platforms — one team, one point of contact.
+          </p>
         </div>
       </section>
 

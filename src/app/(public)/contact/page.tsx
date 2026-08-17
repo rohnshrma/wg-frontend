@@ -8,7 +8,7 @@ import ContactContent from "./ContactContent";
 export const metadata: Metadata = pageMetadata({
   title: "Contact Us",
   description:
-    "Tell us about your project. WebiGeeks Digital responds within 24 hours to discuss how we can help.",
+    "Tell us about your project. Our digital agency team responds within 24 hours to discuss how we can help.",
   path: "/contact",
 });
 

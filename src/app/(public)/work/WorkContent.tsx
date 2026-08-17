@@ -113,6 +113,10 @@ export default function WorkContent() {
           <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white max-w-3xl leading-[1.05]">
             Projects built for ambitious businesses worldwide.
           </h1>
+          <p className="text-lg text-white/60 max-w-xl mt-8 leading-relaxed">
+            A selection of what our web development agency has shipped for founders and teams
+            who needed more than a template.
+          </p>
         </div>
       </section>
 

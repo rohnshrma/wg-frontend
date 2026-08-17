@@ -107,8 +107,9 @@ export default function HeroSection() {
             variants={item}
             className="font-display text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight text-white/60 max-w-3xl mb-16 leading-tight"
           >
-            Shaping how ambitious companies build, ship, and scale their
-            digital products.
+            WebiGeeks Digital is the web development agency ambitious
+            companies call on to build, ship, and scale their digital
+            products.
           </motion.h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
