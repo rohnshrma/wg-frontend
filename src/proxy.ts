@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+// webigeeks.in is a single-purpose ads domain — its root should always show
+// the Data Analytics landing page, regardless of the rest of this app's
+// routes. webigeeks.com is untouched: this only ever matches the ad domain.
+const AD_DOMAINS = new Set(["webigeeks.in", "www.webigeeks.in"]);
+
 /**
  * Coarse, cookie-presence gate for protected sections. This only checks that
  * the httpOnly auth cookie exists — it cannot verify the JWT signature or
@@ -10,6 +15,16 @@ import type { NextRequest } from "next/server";
  * layout resolves the actual user (and role) via `GET /auth/me`.
  */
 export function proxy(request: NextRequest) {
+  if (request.nextUrl.pathname === "/") {
+    const hostname = (request.headers.get("host") || "").split(":")[0];
+    if (AD_DOMAINS.has(hostname)) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/lp/data-analytics-course";
+      return NextResponse.rewrite(url);
+    }
+    return NextResponse.next();
+  }
+
   const hasSession = request.cookies.has("token");
 
   if (!hasSession) {
@@ -22,5 +37,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*", "/counsellor/:path*"],
+  matcher: ["/", "/dashboard/:path*", "/admin/:path*", "/counsellor/:path*"],
 };
