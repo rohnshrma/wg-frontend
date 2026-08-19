@@ -26,7 +26,7 @@ import StickyCta from "./StickyCta";
 export const metadata: Metadata = {
   title: "Data Analytics Course in Gurgaon | Free Demo — WebiGeeks",
   description:
-    "Master Data Analytics in 6 months — Excel, SQL, Power BI, Tableau & Python. Offline in Gurgaon or live online. 98% placement assistance. Book a free demo.",
+    "Master Data Analytics in 6 months — Excel, SQL, Power BI, Tableau & Python. AI-powered, mentor-led training in Gurgaon or live online. Book a free demo.",
   robots: { index: false, follow: false },
 };
 
@@ -101,7 +101,7 @@ const differentiators = [
   { title: "Small Batches", body: "Max 15 students per batch, so your mentor has time to understand your strengths and where you're struggling." },
   { title: "AI-Integrated Curriculum", body: "Learn to work with ChatGPT, Claude and GitHub Copilot inside real tasks — not as a separate add-on topic." },
   { title: "Placement Assistance", body: "Resume building, mock interviews, LinkedIn optimisation, and direct introductions to 1000+ hiring partners." },
-  { title: "Guaranteed ROI", body: "98% job placement within 3 months. If you don't get hired within 3 months, 50% of your fees are refunded.*" },
+  { title: "AI-Ready Career Outcomes", body: "Graduate with practical AI + data skills employers are actively hiring for — our students typically move into ₹3.5–10 LPA data analyst roles, backed by real mentorship and placement support, not empty guarantees." },
 ];
 
 
@@ -122,8 +122,8 @@ const faqs = [
   { q: "Do I need prior knowledge to join the course?", a: "No. You can start from the basics — we begin with Excel fundamentals in Week 1. Already comfortable with Excel? You can start from Phase 2 and skip the fundamentals." },
   { q: "Which is better for me: Data Analytics or Full Stack Development?", a: "Data Analytics suits you if you enjoy working with data and numbers, finding trends, and creating dashboards. Full Stack is better if you enjoy building websites/apps, coding, and backend problem-solving." },
   { q: "How practical are the training sessions?", a: "100% hands-on. Every major concept is backed by practical work — you'll build the dashboard or write the code yourself, with 1-on-1 mentor feedback on every lab." },
-  { q: "What jobs can I get after completing the course?", a: "Roles like Data Analyst, Business Analyst, and BI Developer — our students have gone on to companies including KPMG, Adobe, and Streams Solutions Pvt. Ltd.\n\nSalary range: ₹18–45 LPA depending on background and experience." },
-  { q: "Is placement guaranteed?", a: "98% of recent graduates got placed within 3 months. Support includes resume review, mock interviews across 3 rounds, LinkedIn optimisation, introductions to 1000+ hiring partners, and a 6-week internship. If you're not hired within 3 months of completing the course, 50% of your fees are refunded, subject to the placement guarantee terms." },
+  { q: "What jobs can I get after completing the course?", a: "Roles like Data Analyst, Business Analyst, and BI Developer — our students have gone on to companies including KPMG, Adobe, and Streams Solutions Pvt. Ltd.\n\nSalary range: ₹3.5–10 LPA depending on background and experience." },
+  { q: "Is placement guaranteed?", a: "We don't promise a guaranteed job — no responsible training program can. What we do provide: resume review with hiring managers, mock interviews across 3 rounds, LinkedIn optimisation, introductions to 1000+ hiring partners, and a 6-week internship. Our focus is giving you every real advantage in the job search, not an empty guarantee." },
   { q: "What's included in the course fee?", a: "All course materials & recordings, 10+ industry-standard projects, a 6-week paid internship, personalised career guidance, 3 mock interview rounds, placement assistance, lifetime access to recordings, and alumni community access.\n\nNot included: optional certifications (extra cost), and your own laptop." },
   { q: "Can I pay the course fee in installments?", a: "Yes — full payment (5% bonus + free advanced module), monthly EMI (no interest, no hidden charges), or 50% upfront + 50% after 1 month. All options give the same course access." },
   { q: "How much time should I dedicate to the course?", a: "2–3 hours/day, roughly 15–20 hours/week — mentor-led classes, project work and self-study combined. Designed to be manageable alongside a job." },
@@ -230,7 +230,7 @@ export default async function DataAnalyticsAdsPage() {
         <div className="container-custom max-w-3xl">
           <h2 className="heading-section text-text-primary mb-3">Why You Need This Course</h2>
           <p className="text-primary font-bold text-lg mb-4">
-            Data Analytics Skills = ₹18–45 LPA Salary Range in India
+            Data Analytics Skills = ₹3.5–10 LPA Salary Range in India
           </p>
           <p className="text-text-secondary leading-relaxed mb-2">
             Every business generates data — sales, customers, marketing, finance, operations, websites, apps. But
