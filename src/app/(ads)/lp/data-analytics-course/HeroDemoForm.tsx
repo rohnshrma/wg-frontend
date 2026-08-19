@@ -128,7 +128,7 @@ export default function HeroDemoForm() {
             placeholder="Full name *"
             value={form.name}
             onChange={(e) => setField("name", e.target.value)}
-            className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 ${errors.name ? "border-destructive" : "border-border focus:border-primary"}`}
+            className={`w-full px-3.5 py-2.5 rounded-lg border text-sm bg-white text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/20 ${errors.name ? "border-destructive" : "border-border focus:border-primary"}`}
           />
           {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
         </div>
@@ -141,7 +141,7 @@ export default function HeroDemoForm() {
               placeholder="Mobile number *"
               value={form.phone}
               onChange={(e) => setField("phone", e.target.value.replace(/\D/g, "").slice(0, 10))}
-              className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 ${errors.phone ? "border-destructive" : "border-border focus:border-primary"}`}
+              className={`w-full px-3.5 py-2.5 rounded-lg border text-sm bg-white text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/20 ${errors.phone ? "border-destructive" : "border-border focus:border-primary"}`}
             />
             {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
           </div>
@@ -151,7 +151,7 @@ export default function HeroDemoForm() {
               placeholder="Email *"
               value={form.email}
               onChange={(e) => setField("email", e.target.value)}
-              className={`w-full px-3.5 py-2.5 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 ${errors.email ? "border-destructive" : "border-border focus:border-primary"}`}
+              className={`w-full px-3.5 py-2.5 rounded-lg border text-sm bg-white text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-primary/20 ${errors.email ? "border-destructive" : "border-border focus:border-primary"}`}
             />
             {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
           </div>
