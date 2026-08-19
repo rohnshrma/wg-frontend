@@ -11,6 +11,9 @@ import {
   MapPin,
   Monitor,
   Shuffle,
+  Code2,
+  Sigma,
+  Layers,
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { getTestimonials } from "@/lib/testimonials";
@@ -26,7 +29,7 @@ import StickyCta from "./StickyCta";
 export const metadata: Metadata = {
   title: "Data Analytics Course in Gurgaon | Free Demo — WebiGeeks",
   description:
-    "Master Data Analytics in 6 months — Excel, SQL, Power BI, Tableau & Python. AI-powered, mentor-led training in Gurgaon or live online. Book a free demo.",
+    "Master Data Analytics in 6-7 months — Excel, SQL, Python, Power BI, Tableau & MongoDB. AI-powered, mentor-led training in Gurgaon or live online. Book a free demo.",
   robots: { index: false, follow: false },
 };
 
@@ -55,45 +58,71 @@ const whyChecklist = [
 const modules = [
   {
     icon: BookOpen,
-    tag: "3–4 Weeks",
-    title: "Excel & Data Analytics Foundations",
+    tag: "~3 Weeks",
+    title: "Excel & Data Fundamentals",
     subtitle: "Master the tool most businesses still depend on",
-    points: ["Advanced Excel formulas & Pivot Tables", "Data cleaning, charts & dashboards", "MIS reporting & Power Query", "VBA fundamentals"],
-    outcome: "Turn a messy spreadsheet into a structured report a business can act on.",
-    tools: "Excel · Power Query · VBA",
-  },
-  {
-    icon: BarChart3,
-    tag: "6–7 Weeks",
-    title: "Power BI, Tableau & Data Visualization",
-    subtitle: "Turn raw numbers into dashboards people can understand",
-    points: ["Power BI & Tableau", "DAX and data modeling", "Interactive dashboards & KPIs", "Data storytelling"],
-    outcome: "Build a dashboard that surfaces trends, gaps and opportunities at a glance.",
-    tools: "Power BI · Tableau · DAX",
+    points: ["Advanced formulas, lookups & dynamic arrays", "PivotTables, PivotCharts & data cleaning", "Power Query for automated data import", "Built-in AI: Ideas, Copilot features"],
+    outcome: "Turn a messy spreadsheet into an executive-ready PivotTable dashboard.",
+    tools: "Excel · Power Query",
   },
   {
     icon: Database,
-    tag: "5–6 Weeks",
-    title: "SQL & Python for Data Analytics",
+    tag: "~3–4 Weeks",
+    title: "SQL & Relational Databases",
+    subtitle: "The universal language of data",
+    points: ["SELECT, filtering, aggregation & CASE logic", "Joins — inner, outer, cross & self", "Window functions (RANK, LAG/LEAD)", "Subqueries, CTEs & recursive queries"],
+    outcome: "Write production-level SQL queries against real relational databases.",
+    tools: "SQL",
+  },
+  {
+    icon: Code2,
+    tag: "~6 Weeks",
+    title: "Python, Pandas & Exploratory Analysis",
     subtitle: "Go beyond spreadsheets and work with real data",
-    points: ["SQL: queries, joins, aggregations", "Python fundamentals, Pandas, NumPy", "Data cleaning & EDA", "Data visualization"],
-    outcome: "Query a database, analyse it in Python, and turn findings into business insight.",
-    tools: "SQL · Python · Pandas · NumPy",
+    points: ["Python fundamentals & core data structures", "Pandas: reading, cleaning & transforming data", "Handling missing data & outlier treatment", "EDA and Matplotlib visualizations"],
+    outcome: "Clean, explore and visualize a real dataset end-to-end in Python.",
+    tools: "Python · Pandas · Matplotlib",
+  },
+  {
+    icon: Sigma,
+    tag: "~3 Weeks",
+    title: "Advanced Analytics — NumPy, Seaborn & Statistics",
+    subtitle: "Back insights with statistical rigor, not guesswork",
+    points: ["NumPy for numerical computing", "Seaborn: heatmaps, pair plots & regression plots", "Hypothesis testing with SciPy (t-tests, ANOVA)", "Correlation analysis for validating insights"],
+    outcome: "Validate business insights with real statistical testing, not just a hunch.",
+    tools: "NumPy · Seaborn · SciPy",
+  },
+  {
+    icon: BarChart3,
+    tag: "~6–7 Weeks",
+    title: "Power BI & Tableau",
+    subtitle: "Turn raw numbers into dashboards people can understand",
+    points: ["Data modeling, star schemas & DAX", "Interactive dashboards, drill-through & bookmarks", "Forecasting & AI visuals in Power BI", "Tableau: LOD expressions & Story Points"],
+    outcome: "Build enterprise-grade, interactive dashboards in both major BI tools.",
+    tools: "Power BI · Tableau · DAX",
+  },
+  {
+    icon: Layers,
+    tag: "~2 Weeks",
+    title: "MongoDB — NoSQL for Analytics",
+    subtitle: "Not all data lives in tables",
+    points: ["Document model vs. relational tables", "CRUD operations & query operators", "Aggregation pipelines for analytics", "Connect MongoDB to Python via PyMongo"],
+    outcome: "Work with modern, flexible-schema data alongside traditional SQL.",
+    tools: "MongoDB · PyMongo",
   },
 ];
 
 const projects = [
-  "COVID-19 Sales Trend Analysis",
-  "E-commerce Customer Segmentation",
-  "Financial Dashboard for Banks",
-  "Retail Inventory Optimization",
+  "End-to-end data analysis project — raw CSV to executive-ready insights",
+  "Business case studies across retail, finance, healthcare & e-commerce",
+  "Portfolio development — published to GitHub for recruiters",
 ];
 
 const phases = [
-  { phase: "Phase 1", title: "Build Your Foundation", days: "8 days · ~2 hrs/day", body: "Excel + data concepts — the fundamentals that make everything else easier." },
-  { phase: "Phase 2", title: "Turn Data Into Visual Insights", days: "24 days · ~3 hrs/day", body: "Move from spreadsheets into modern BI — Power BI + Tableau." },
-  { phase: "Phase 3", title: "Add SQL + Python", days: "20 days · ~3 hrs/day", body: "Work with data at a deeper level — Python, SQL, analysis." },
-  { phase: "Phase 4", title: "Build Your Capstone", days: "30 days · ~2 hrs/day", body: "Everything comes together in one portfolio-ready deliverable." },
+  { phase: "Phase 1", title: "Excel & SQL Foundations", days: "~6–7 weeks · ~2 hrs/day", body: "Spreadsheet mastery and relational databases — the fundamentals that make everything else easier." },
+  { phase: "Phase 2", title: "Python, Pandas & Statistics", days: "~9 weeks · ~3 hrs/day", body: "Core programming, data cleaning, EDA, and statistical validation with NumPy, Seaborn & SciPy." },
+  { phase: "Phase 3", title: "Power BI, Tableau & MongoDB", days: "~9 weeks · ~3 hrs/day", body: "Build enterprise-grade dashboards and work with modern NoSQL data." },
+  { phase: "Phase 4", title: "Capstone Project & Portfolio", days: "~4 weeks · ~2 hrs/day", body: "Everything comes together in one portfolio-ready deliverable, published to GitHub." },
 ];
 
 const differentiators = [
@@ -122,12 +151,12 @@ const faqs = [
   { q: "Do I need prior knowledge to join the course?", a: "No. You can start from the basics — we begin with Excel fundamentals in Week 1. Already comfortable with Excel? You can start from Phase 2 and skip the fundamentals." },
   { q: "Which is better for me: Data Analytics or Full Stack Development?", a: "Data Analytics suits you if you enjoy working with data and numbers, finding trends, and creating dashboards. Full Stack is better if you enjoy building websites/apps, coding, and backend problem-solving." },
   { q: "How practical are the training sessions?", a: "100% hands-on. Every major concept is backed by practical work — you'll build the dashboard or write the code yourself, with 1-on-1 mentor feedback on every lab." },
-  { q: "What jobs can I get after completing the course?", a: "Roles like Data Analyst, Business Analyst, and BI Developer — our students have gone on to companies including KPMG, Adobe, and Streams Solutions Pvt. Ltd.\n\nSalary range: ₹3.5–10 LPA depending on background and experience." },
+  { q: "What jobs can I get after completing the course?", a: "Roles like Data Analyst, Business Analyst, and Junior Data Scientist — our students have gone on to companies including KPMG, Adobe, and Streams Solutions Pvt. Ltd.\n\nSalary range: ₹3.5–10 LPA depending on background and experience." },
   { q: "Is placement guaranteed?", a: "We don't promise a guaranteed job — no responsible training program can. What we do provide: resume review with hiring managers, mock interviews across 3 rounds, LinkedIn optimisation, introductions to 1000+ hiring partners, and a 6-week internship. Our focus is giving you every real advantage in the job search, not an empty guarantee." },
   { q: "What's included in the course fee?", a: "All course materials & recordings, 10+ industry-standard projects, a 6-week paid internship, personalised career guidance, 3 mock interview rounds, placement assistance, lifetime access to recordings, and alumni community access.\n\nNot included: optional certifications (extra cost), and your own laptop." },
   { q: "Can I pay the course fee in installments?", a: "Yes — full payment (5% bonus + free advanced module), monthly EMI (no interest, no hidden charges), or 50% upfront + 50% after 1 month. All options give the same course access." },
   { q: "How much time should I dedicate to the course?", a: "2–3 hours/day, roughly 15–20 hours/week — mentor-led classes, project work and self-study combined. Designed to be manageable alongside a job." },
-  { q: "How long is the course?", a: "6 months total: Foundations (4 weeks), Visualization (6 weeks), Analytics (6 weeks), Capstone (10 weeks). New batches roll every 2 weeks." },
+  { q: "How long is the course?", a: "6-7 months across 10 modules — Excel, SQL, Python, Pandas, EDA & visualization, advanced analytics (NumPy/Seaborn/SciPy), Power BI, Tableau, MongoDB, and real-world projects. New batches roll every 2 weeks." },
 ];
 
 export default async function DataAnalyticsAdsPage() {
@@ -164,9 +193,9 @@ export default async function DataAnalyticsAdsPage() {
             <span className="inline-flex px-3 py-1 rounded-full glass text-xs font-medium mb-4">
               Sector-14, Gurugram Campus &amp; Online
             </span>
-            <h1 className="heading-hero mb-4">Master Data Analytics in 6 Months</h1>
+            <h1 className="heading-hero mb-4">Master Data Analytics in 6-7 Months</h1>
             <p className="text-white/70 text-lg mb-6 leading-relaxed">
-              Go from beginner to job-ready with hands-on training in Excel, SQL, Power BI, Tableau and Python.
+              Go from beginner to job-ready with hands-on training in Excel, SQL, Python, Power BI, Tableau and MongoDB.
               Learn at our Gurgaon campus or join live online classes.
             </p>
 
@@ -294,15 +323,14 @@ export default async function DataAnalyticsAdsPage() {
           </div>
 
           <div className="mt-8 p-6 rounded-xl bg-white border border-border">
-            <p className="font-bold text-text-primary mb-3">You&apos;ll build 10+ practical projects, including:</p>
-            <div className="grid sm:grid-cols-2 gap-2">
+            <p className="font-bold text-text-primary mb-3">Real-world projects & portfolio building:</p>
+            <div className="space-y-2">
               {projects.map((p) => (
                 <p key={p} className="text-sm text-text-secondary flex items-start gap-2">
                   <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" /> {p}
                 </p>
               ))}
             </div>
-            <p className="text-xs text-text-muted mt-2">...and 6 more industry-scenario projects.</p>
           </div>
         </div>
       </section>
@@ -403,7 +431,7 @@ export default async function DataAnalyticsAdsPage() {
             <div className="bg-white rounded-xl border border-border p-6">
               <p className="text-xs font-semibold text-text-muted mb-1">STANDARD BATCH</p>
               <p className="text-3xl font-extrabold text-text-primary mb-1">₹40,000</p>
-              <p className="text-xs text-text-muted mb-4">Complete 6-month program · 282 hours</p>
+              <p className="text-xs text-text-muted mb-4">Complete 6–7 month program · 10 modules</p>
               <ul className="space-y-2 mb-4">
                 {["Complete Data Analytics Curriculum", "10+ Industry-Relevant Projects", "Internship Included", "Placement Assistance", "Course Certificate"].map((f) => (
                   <li key={f} className="text-sm text-text-secondary flex items-start gap-2">
