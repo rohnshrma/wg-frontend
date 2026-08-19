@@ -13,6 +13,7 @@ import {
   Shuffle,
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
+import { getTestimonials } from "@/lib/testimonials";
 import HeroDemoForm from "./HeroDemoForm";
 import CurriculumDownload from "./CurriculumDownload";
 import FaqAccordion from "./FaqAccordion";
@@ -102,12 +103,6 @@ const differentiators = [
   { title: "Guaranteed ROI", body: "98% job placement within 3 months. If you don't get hired within 3 months, 50% of your fees are refunded.*" },
 ];
 
-const stories = [
-  { name: "Ravi Kumar", outcome: "Senior Software Developer @ Adobe", quote: "Thanks to the brilliant guidance from Rohan, my teacher at WebiGeeks, I transformed my theoretical knowledge into industry-ready skills. His practical projects and mentorship were absolute game-changers, enabling me to land my dream role at a world-class company like Adobe." },
-  { name: "Abhishek Keshri", outcome: "Senior Analyst @ KPMG", quote: "Grateful to Rohan Sharma and the entire WebiGeeks team for shaping my journey! The mentors here not only cleared my doubts but also boosted my confidence. Their support helped me grow beyond academics and achieve milestones I'm truly proud of." },
-  { name: "Akshay Baldia", outcome: "Senior Software Engineer @ Streams Solutions Pvt. Ltd.", quote: "The course gave me a strong foundation and boosted my confidence to build a successful career in software development." },
-];
-
 
 const modes = [
   { icon: MapPin, title: "Offline", body: "Live training in Gurgaon with direct mentor interaction and hands-on practice.", points: ["Sector-14 Gurgaon Campus", "Morning, Evening & Weekend Batches", "Live Practical Training"], best: "Students & professionals who prefer classroom learning." },
@@ -134,7 +129,30 @@ const faqs = [
   { q: "How long is the course?", a: "6 months total: Foundations (4 weeks), Visualization (6 weeks), Analytics (6 weeks), Capstone (10 weeks). New batches roll every 2 weeks." },
 ];
 
-export default function DataAnalyticsAdsPage() {
+export default async function DataAnalyticsAdsPage() {
+  // Real, DB-backed testimonials only — company-placed ones (manual entries
+  // with companyPlaced/designation set) surface first since they're the
+  // strongest social proof, then Google reviews fill the rest.
+  const allTestimonials = await getTestimonials();
+  const seenNames = new Set<string>();
+  const stories = [...allTestimonials]
+    .sort((a, b) => (a.companyPlaced ? 0 : 1) - (b.companyPlaced ? 0 : 1))
+    .filter((t) => {
+      // Same student can appear twice (a manual entry with company info
+      // *and* their own Google review) — the sort above puts the
+      // richer, company-attributed record first, so keep that one.
+      const key = t.studentName.trim().toLowerCase();
+      if (seenNames.has(key)) return false;
+      seenNames.add(key);
+      return true;
+    })
+    .slice(0, 6)
+    .map((t) => ({
+      name: t.studentName,
+      outcome: t.companyPlaced ? `${t.designation ? `${t.designation} @ ` : ""}${t.companyPlaced}` : t.courseName,
+      quote: t.testimonialText,
+    }));
+
   return (
     <main>
       {/* Hero */}
