@@ -193,9 +193,10 @@ export default async function DataAnalyticsAdsPage() {
             <span className="inline-flex px-3 py-1 rounded-full glass text-xs font-medium mb-4">
               Sector-14, Gurugram Campus &amp; Online
             </span>
-            <h1 className="heading-hero mb-4">Master Data Analytics in 6-7 Months</h1>
+            <h1 className="heading-hero mb-2">Become an AI-Powered Data Analyst</h1>
+            <p className="text-accent font-bold text-lg sm:text-xl mb-4">Trained by a Mentor, Not a Video.</p>
             <p className="text-white/70 text-lg mb-6 leading-relaxed">
-              Go from beginner to job-ready with hands-on training in Excel, SQL, Python, Power BI, Tableau and MongoDB.
+              A 6-7 month, hands-on Data Analytics program — Excel, SQL, Python, Power BI, Tableau and MongoDB.
               Learn at our Gurgaon campus or join live online classes.
             </p>
 
