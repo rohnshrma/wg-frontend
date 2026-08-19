@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import {
   CheckCircle2,
-  Star,
   Sparkles,
   BookOpen,
   BarChart3,
@@ -104,16 +103,11 @@ const differentiators = [
 ];
 
 const stories = [
-  { name: "Priya Sharma", bg: "Marketing professional with Excel skills", outcome: "Senior Data Analyst @ Google India", quote: "I went from creating reports in Excel to building dashboards in Power BI in 3 months. The mentorship here was like having a colleague reviewing every project. Got hired within 2 weeks of finishing." },
-  { name: "Rajesh Patel", bg: "Fresh graduate (B.Tech)", outcome: "Business Analyst @ Amazon · ₹26 LPA", quote: "I had zero real-world experience. The capstone project became my portfolio piece. Amazon recruiter loved it. Got 3 job offers — chose Amazon." },
-  { name: "Deepak Kumar", bg: "IT Support (non-technical)", outcome: "Data Analyst @ PharmEasy", quote: "Career changer here. I was scared I couldn't code. The Python modules made it so easy. My mentor debugged my first scripts. Now I own dashboards for the entire East region." },
+  { name: "Ravi Kumar", outcome: "Senior Software Developer @ Adobe", quote: "Thanks to the brilliant guidance from Rohan, my teacher at WebiGeeks, I transformed my theoretical knowledge into industry-ready skills. His practical projects and mentorship were absolute game-changers, enabling me to land my dream role at a world-class company like Adobe." },
+  { name: "Abhishek Keshri", outcome: "Senior Analyst @ KPMG", quote: "Grateful to Rohan Sharma and the entire WebiGeeks team for shaping my journey! The mentors here not only cleared my doubts but also boosted my confidence. Their support helped me grow beyond academics and achieve milestones I'm truly proud of." },
+  { name: "Akshay Baldia", outcome: "Senior Software Engineer @ Streams Solutions Pvt. Ltd.", quote: "The course gave me a strong foundation and boosted my confidence to build a successful career in software development." },
 ];
 
-const quotes = [
-  { name: "Ananya Singh", role: "Data Analyst @ Flipkart", quote: "Best decision I made. Mentors pushed me to code cleanly, think like an analyst. Worth every rupee." },
-  { name: "Sanjay Dutta", role: "Senior Analyst @ Deloitte", quote: "The internship was already a job. WebiGeeks has placement locked with their hiring partners." },
-  { name: "Meera Gupta", role: "Analyst @ Unilever", quote: "Flexible schedule. Small batch. Real projects. Exactly what I needed for a career change at 32." },
-];
 
 const modes = [
   { icon: MapPin, title: "Offline", body: "Live training in Gurgaon with direct mentor interaction and hands-on practice.", points: ["Sector-14 Gurgaon Campus", "Morning, Evening & Weekend Batches", "Live Practical Training"], best: "Students & professionals who prefer classroom learning." },
@@ -341,29 +335,12 @@ export default function DataAnalyticsAdsPage() {
           <h2 className="heading-section text-text-primary text-center mb-2">Student Success Stories</h2>
           <p className="text-text-secondary text-center mb-10">Real students. Real career transformations.</p>
 
-          <div className="grid sm:grid-cols-3 gap-5 mb-10">
+          <div className="grid sm:grid-cols-3 gap-5">
             {stories.map((s) => (
               <div key={s.name} className="bg-white rounded-xl border border-border p-5">
                 <p className="font-bold text-text-primary text-sm">{s.name}</p>
-                <p className="text-xs text-text-muted mb-2">{s.bg}</p>
-                <p className="text-xs font-semibold text-primary mb-3">→ {s.outcome}</p>
+                <p className="text-xs font-semibold text-primary mb-3">{s.outcome}</p>
                 <p className="text-sm text-text-secondary leading-relaxed italic">&ldquo;{s.quote}&rdquo;</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="grid sm:grid-cols-3 gap-5">
-            {quotes.map((q) => (
-              <div key={q.name} className="p-5 rounded-xl bg-gray-50 border border-border">
-                <div className="flex gap-0.5 mb-2">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-accent text-accent" />
-                  ))}
-                </div>
-                <p className="text-sm text-text-secondary mb-3">&ldquo;{q.quote}&rdquo;</p>
-                <p className="text-sm font-bold text-text-primary">
-                  {q.name} <span className="font-normal text-text-muted">— {q.role}</span>
-                </p>
               </div>
             ))}
           </div>
