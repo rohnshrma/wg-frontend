@@ -17,6 +17,7 @@ import { getTestimonials } from "@/lib/testimonials";
 import HeroDemoForm from "./HeroDemoForm";
 import CurriculumDownload from "./CurriculumDownload";
 import FaqAccordion from "./FaqAccordion";
+import StickyCta from "./StickyCta";
 
 // Ad-traffic landing page — deliberately not part of the organic
 // /data-analytics-course-gurugram SEO page (which links out to /contact
@@ -488,8 +489,9 @@ export default async function DataAnalyticsAdsPage() {
         </div>
       </section>
 
-      {/* Minimal footer — contact only, no site nav, so there's nowhere for a paid click to wander off to */}
-      <footer className="py-8 bg-black text-white/60 text-center text-sm">
+      {/* Minimal footer — contact only, no site nav, so there's nowhere for a paid click to wander off to.
+          Extra bottom padding keeps the disclaimer text clear of the sticky CTA bar. */}
+      <footer className="py-8 pb-24 bg-black text-white/60 text-center text-sm">
         <p className="mb-1">
           <MapPin className="w-3.5 h-3.5 inline mr-1.5" />
           {CONTACT.address}
@@ -499,6 +501,8 @@ export default async function DataAnalyticsAdsPage() {
         </p>
         <p className="text-xs text-white/30 mt-3">*Terms and conditions apply. See counselor for details.</p>
       </footer>
+
+      <StickyCta />
     </main>
   );
 }
