@@ -214,13 +214,9 @@ export default async function DataAnalyticsAdsPage() {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <a
-                href="#demo-form"
-                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl gradient-accent text-white font-bold shadow-lg hover:shadow-glow-accent transition-shadow"
-              >
-                Book My Free Demo <ArrowRight className="w-4 h-4" />
-              </a>
-              <CurriculumDownload />
+              <CurriculumDownload
+                buttonClassName="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl gradient-accent text-white font-bold shadow-lg hover:shadow-glow-accent transition-shadow"
+              />
               <a
                 href={`tel:${CONTACT.phone1}`}
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl glass text-white font-semibold hover:bg-white/15 transition-colors"
