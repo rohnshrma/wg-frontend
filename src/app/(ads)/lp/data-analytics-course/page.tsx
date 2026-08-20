@@ -119,10 +119,10 @@ const projects = [
 ];
 
 const phases = [
-  { phase: "Phase 1", title: "Excel & SQL Foundations", days: "~6–7 weeks · ~2 hrs/day", body: "Spreadsheet mastery and relational databases — the fundamentals that make everything else easier." },
-  { phase: "Phase 2", title: "Python, Pandas & Statistics", days: "~9 weeks · ~3 hrs/day", body: "Core programming, data cleaning, EDA, and statistical validation with NumPy, Seaborn & SciPy." },
-  { phase: "Phase 3", title: "Power BI, Tableau & MongoDB", days: "~9 weeks · ~3 hrs/day", body: "Build enterprise-grade dashboards and work with modern NoSQL data." },
-  { phase: "Phase 4", title: "Capstone Project & Portfolio", days: "~4 weeks · ~2 hrs/day", body: "Everything comes together in one portfolio-ready deliverable, published to GitHub." },
+  { phase: "Phase 1", title: "Excel & SQL Foundations", days: "~6–7 weeks · 1 hr live class/day + practice", body: "Spreadsheet mastery and relational databases — the fundamentals that make everything else easier." },
+  { phase: "Phase 2", title: "Python, Pandas & Statistics", days: "~9 weeks · 1 hr live class/day + practice", body: "Core programming, data cleaning, EDA, and statistical validation with NumPy, Seaborn & SciPy." },
+  { phase: "Phase 3", title: "Power BI, Tableau & MongoDB", days: "~9 weeks · 1 hr live class/day + practice", body: "Build enterprise-grade dashboards and work with modern NoSQL data." },
+  { phase: "Phase 4", title: "Capstone Project & Portfolio", days: "~4 weeks · 1 hr mentor review/day + practice", body: "Everything comes together in one portfolio-ready deliverable, published to GitHub." },
 ];
 
 const differentiators = [
@@ -155,7 +155,7 @@ const faqs = [
   { q: "Is placement guaranteed?", a: "We don't promise a guaranteed job — no responsible training program can. What we do provide: resume review with hiring managers, mock interviews across 3 rounds, LinkedIn optimisation, introductions to 1000+ hiring partners, and a 6-week internship. Our focus is giving you every real advantage in the job search, not an empty guarantee." },
   { q: "What's included in the course fee?", a: "All course materials & recordings, 10+ industry-standard projects, a 6-week paid internship, personalised career guidance, 3 mock interview rounds, placement assistance, lifetime access to recordings, and alumni community access.\n\nNot included: optional certifications (extra cost), and your own laptop." },
   { q: "Can I pay the course fee in installments?", a: "Yes — full payment (5% bonus + free advanced module), monthly EMI (no interest, no hidden charges), or 50% upfront + 50% after 1 month. All options give the same course access." },
-  { q: "How much time should I dedicate to the course?", a: "2–3 hours/day, roughly 15–20 hours/week — mentor-led classes, project work and self-study combined. Designed to be manageable alongside a job." },
+  { q: "How much time should I dedicate to the course?", a: "1 hour of live, mentor-led class per day, plus 2-3 hours of self-practice and project work — roughly 15-20 hours/week total. Designed to be manageable alongside a job." },
   { q: "How long is the course?", a: "6-7 months across 10 modules — Excel, SQL, Python, Pandas, EDA & visualization, advanced analytics (NumPy/Seaborn/SciPy), Power BI, Tableau, MongoDB, and real-world projects. New batches roll every 2 weeks." },
 ];
 
