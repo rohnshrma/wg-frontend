@@ -342,8 +342,8 @@ export default async function DataAnalyticsAdsPage() {
       {/* Success stories */}
       <section className="section-padding bg-gray-50">
         <div className="container-custom max-w-5xl">
-          <h2 className="heading-section text-text-primary text-center mb-2">Student Success Stories</h2>
-          <p className="text-text-secondary text-center mb-10">Real students. Real career transformations.</p>
+          <h2 className="heading-section text-text-primary text-center mb-2">What Our Students Say</h2>
+          <p className="text-text-secondary text-center mb-10">Real reviews from real WebiGeeks students.</p>
 
           <div className="grid sm:grid-cols-3 gap-5">
             {stories.map((s) => (
