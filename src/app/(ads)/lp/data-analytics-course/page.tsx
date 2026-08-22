@@ -15,22 +15,22 @@ import {
   Sigma,
   Layers,
 } from "lucide-react";
+import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { getTestimonials } from "@/lib/testimonials";
 import HeroDemoForm from "./HeroDemoForm";
 import CurriculumDownload from "./CurriculumDownload";
 import FaqAccordion from "./FaqAccordion";
 import StickyCta from "./StickyCta";
+import WhatsAppButton from "./WhatsAppButton";
 
-// Ad-traffic landing page — deliberately not part of the organic
-// /data-analytics-course-gurugram SEO page (which links out to /contact
-// instead of capturing the lead inline). Kept out of the search index so it
-// never competes with that page for rankings.
+// Ad-traffic landing page for webigeeks.in — indexed (index/follow) so it
+// can also surface in organic search, not just paid clicks.
 export const metadata: Metadata = {
   title: "Data Analytics Course in Gurgaon | Free Demo — WebiGeeks",
   description:
     "Master Data Analytics in 6-7 months — Excel, SQL, Python, Power BI, Tableau & MongoDB. AI-powered, mentor-led training in Gurgaon or live online. Book a free demo.",
-  robots: { index: false, follow: false },
+  robots: { index: true, follow: true },
 };
 
 const CONTACT = {
@@ -43,9 +43,8 @@ const CONTACT = {
 const trustStats = [
   { value: "100+", label: "Students Trained" },
   { value: "4.8★", label: "Student Rating" },
-  { value: "100%", label: "Placement Assistance" },
   { value: "15 Max", label: "Students Per Batch" },
-  { value: "1000+", label: "Hiring Partners" },
+  { value: "6-7 Mo", label: "Program Duration" },
 ];
 
 const whyChecklist = [
@@ -129,7 +128,7 @@ const differentiators = [
   { title: "Personal Mentorship", body: "Direct access to your trainer — ask questions, get feedback, work through problems 1-on-1. You're not just a name on a screen." },
   { title: "Small Batches", body: "Max 15 students per batch, so your mentor has time to understand your strengths and where you're struggling." },
   { title: "AI-Integrated Curriculum", body: "Learn to work with ChatGPT, Claude and GitHub Copilot inside real tasks — not as a separate add-on topic." },
-  { title: "Placement Assistance", body: "Resume building, mock interviews, LinkedIn optimisation, and direct introductions to 1000+ hiring partners." },
+  { title: "Placement Assistance", body: "Resume building, mock interviews, LinkedIn optimisation, and direct introductions within our hiring network." },
   { title: "AI-Ready Career Outcomes", body: "Graduate with practical AI + data skills employers are actively hiring for — our students typically move into ₹3.5–10 LPA data analyst roles, backed by real mentorship and placement support, not empty guarantees." },
 ];
 
@@ -140,19 +139,12 @@ const modes = [
   { icon: Shuffle, title: "Hybrid", body: "Combine the convenience of online learning with in-person training in Gurgaon.", points: ["Switch Between Online & Offline", "Direct Mentor Access", "No Compromise on Content"], best: "Professionals and career changers who need maximum flexibility." },
 ];
 
-const comparison = [
-  { row: "Batch Size", us: "Max 15", a: "200+", b: "50", c: "Unlimited" },
-  { row: "Placement", us: "100%*", a: "Job Board", b: "Referrals", c: "Self-search" },
-  { row: "Mentoring", us: "Personal 1-on-1", a: "Group Chat", b: "TA Support", c: "Forums" },
-  { row: "Cost", us: "₹28K–40K", a: "₹50K–80K", b: "₹45K", c: "₹15K–25K" },
-];
-
 const faqs = [
   { q: "Do I need prior knowledge to join the course?", a: "No. You can start from the basics — we begin with Excel fundamentals in Week 1. Already comfortable with Excel? You can start from Phase 2 and skip the fundamentals." },
   { q: "Which is better for me: Data Analytics or Full Stack Development?", a: "Data Analytics suits you if you enjoy working with data and numbers, finding trends, and creating dashboards. Full Stack is better if you enjoy building websites/apps, coding, and backend problem-solving." },
   { q: "How practical are the training sessions?", a: "100% hands-on. Every major concept is backed by practical work — you'll build the dashboard or write the code yourself, with 1-on-1 mentor feedback on every lab." },
   { q: "What jobs can I get after completing the course?", a: "Roles like Data Analyst, Business Analyst, and Junior Data Scientist — our students have gone on to companies including KPMG, Adobe, and Streams Solutions Pvt. Ltd.\n\nSalary range: ₹3.5–10 LPA depending on background and experience." },
-  { q: "Is placement guaranteed?", a: "We don't promise a guaranteed job — no responsible training program can. What we do provide: resume review with hiring managers, mock interviews across 3 rounds, LinkedIn optimisation, introductions to 1000+ hiring partners, and a 6-week internship. Our focus is giving you every real advantage in the job search, not an empty guarantee." },
+  { q: "Is placement guaranteed?", a: "We don't promise a guaranteed job — no responsible training program can. What we do provide: placement support including resume review with hiring managers, mock interviews across 3 rounds, LinkedIn optimisation, introductions within our hiring network, and a 6-week internship. Our focus is giving you every real advantage in the job search, not an empty guarantee." },
   { q: "What's included in the course fee?", a: "All course materials & recordings, 10+ industry-standard projects, a 6-week paid internship, personalised career guidance, 3 mock interview rounds, placement assistance, lifetime access to recordings, and alumni community access.\n\nNot included: optional certifications (extra cost), and your own laptop." },
   { q: "Can I pay the course fee in installments?", a: "Yes — full payment (5% bonus + free advanced module), monthly EMI (no interest, no hidden charges), or 50% upfront + 50% after 1 month. All options give the same course access." },
   { q: "How much time should I dedicate to the course?", a: "1 hour of live, mentor-led class per day, plus 2-3 hours of self-practice and project work — roughly 15-20 hours/week total. Designed to be manageable alongside a job." },
@@ -228,7 +220,7 @@ export default async function DataAnalyticsAdsPage() {
 
             <div className="flex flex-wrap gap-x-6 gap-y-1.5 mt-6 text-xs text-white/60">
               <span className="inline-flex items-center gap-1.5">
-                <Flame className="w-3.5 h-3.5 text-accent" /> Next batch: 15 Aug 2026
+                <Flame className="w-3.5 h-3.5 text-accent" /> Next batch: 1 September 2026
               </span>
               <span>Only 12 seats remaining</span>
               <span>Free 1-on-1 career counseling included</span>
@@ -241,7 +233,7 @@ export default async function DataAnalyticsAdsPage() {
 
       {/* Trust bar */}
       <section className="py-8 border-b border-border bg-white">
-        <div className="container-custom grid grid-cols-2 sm:grid-cols-5 gap-6 text-center">
+        <div className="container-custom grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
           {trustStats.map((s) => (
             <div key={s.label}>
               <p className="text-2xl font-extrabold text-primary">{s.value}</p>
@@ -424,62 +416,23 @@ export default async function DataAnalyticsAdsPage() {
         <div className="container-custom max-w-4xl">
           <h2 className="heading-section text-text-primary text-center mb-10">Course Fees &amp; Payment Options</h2>
 
-          <div className="grid sm:grid-cols-2 gap-6 mb-10">
-            <div className="bg-white rounded-xl border border-border p-6">
-              <p className="text-xs font-semibold text-text-muted mb-1">STANDARD BATCH</p>
-              <p className="text-3xl font-extrabold text-text-primary mb-1">₹40,000</p>
-              <p className="text-xs text-text-muted mb-4">Complete 6–7 month program · 10 modules</p>
-              <ul className="space-y-2 mb-4">
-                {["Complete Data Analytics Curriculum", "10+ Industry-Relevant Projects", "Internship Included", "Placement Assistance", "Course Certificate"].map((f) => (
-                  <li key={f} className="text-sm text-text-secondary flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" /> {f}
-                  </li>
-                ))}
-              </ul>
-              <p className="text-sm text-text-secondary">EMI: ₹6,666/month × 6 months</p>
+          <div className="max-w-sm mx-auto bg-primary-50 rounded-xl border-2 border-primary p-6 relative">
+            <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-accent text-white text-[11px] font-bold flex items-center gap-1 whitespace-nowrap">
+              <Flame className="w-3 h-3" /> LIMITED TIME PRICE
+            </span>
+            <div className="text-center mt-2 mb-1">
+              <span className="text-lg text-text-muted line-through mr-2">₹29,999</span>
+              <span className="text-3xl font-extrabold text-text-primary">₹19,999</span>
             </div>
-
-            <div className="bg-primary-50 rounded-xl border-2 border-primary p-6 relative">
-              <span className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-accent text-white text-[11px] font-bold flex items-center gap-1">
-                <Flame className="w-3 h-3" /> EARLY BIRD
-              </span>
-              <p className="text-xs font-semibold text-primary mb-1 mt-1">SAVE ₹12,000</p>
-              <p className="text-3xl font-extrabold text-text-primary mb-1">₹28,000</p>
-              <p className="text-xs text-text-muted mb-4">Offer ends August 31</p>
-              <ul className="space-y-2 mb-4">
-                {["All Course Modules", "10+ Practical Projects", "Internship", "Placement Assistance", "Course Certificate"].map((f) => (
-                  <li key={f} className="text-sm text-text-secondary flex items-start gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" /> {f}
-                  </li>
-                ))}
-              </ul>
-              <p className="text-sm text-text-secondary">EMI: ₹4,666/month × 6 months</p>
-            </div>
-          </div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm border border-border rounded-xl overflow-hidden">
-              <thead>
-                <tr className="bg-gray-50">
-                  <th className="text-left px-4 py-3 font-semibold text-text-secondary"></th>
-                  <th className="text-left px-4 py-3 font-semibold text-primary">WebiGeeks</th>
-                  <th className="text-left px-4 py-3 font-semibold text-text-secondary">UpGrad</th>
-                  <th className="text-left px-4 py-3 font-semibold text-text-secondary">Coding Ninjas</th>
-                  <th className="text-left px-4 py-3 font-semibold text-text-secondary">Coursera</th>
-                </tr>
-              </thead>
-              <tbody>
-                {comparison.map((row) => (
-                  <tr key={row.row} className="border-t border-border">
-                    <td className="px-4 py-3 font-semibold text-text-primary">{row.row}</td>
-                    <td className="px-4 py-3 text-primary font-semibold bg-primary-50/50">{row.us}</td>
-                    <td className="px-4 py-3 text-text-secondary">{row.a}</td>
-                    <td className="px-4 py-3 text-text-secondary">{row.b}</td>
-                    <td className="px-4 py-3 text-text-secondary">{row.c}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <p className="text-xs text-text-muted text-center mb-4">Complete 6–7 month program · 10 modules</p>
+            <ul className="space-y-2 mb-4">
+              {["Complete Data Analytics Curriculum", "10+ Industry-Relevant Projects", "Internship Included", "Placement Assistance", "Course Certificate"].map((f) => (
+                <li key={f} className="text-sm text-text-secondary flex items-start gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" /> {f}
+                </li>
+              ))}
+            </ul>
+            <p className="text-sm text-text-secondary text-center">EMI: ₹3,333/month × 6 months</p>
           </div>
         </div>
       </section>
@@ -499,8 +452,8 @@ export default async function DataAnalyticsAdsPage() {
           <h2 className="text-2xl sm:text-3xl font-extrabold mb-3">
             Ready to Take the Next Step in Your Data Analytics Career?
           </h2>
-          <p className="text-white/70 mb-2">🔥 Get ₹12,000 off on the Early Bird offer — valid till August 31</p>
-          <p className="text-white/60 text-sm mb-8">Next batch: 15 August 2026 · Only 12 seats available</p>
+          <p className="text-white/70 mb-2">🔥 Limited Time Price — ₹19,999 instead of ₹29,999</p>
+          <p className="text-white/60 text-sm mb-8">Next batch: 1 September 2026 · Only 12 seats available</p>
           <div className="flex flex-wrap justify-center gap-4">
             <a
               href="#demo-form"
@@ -524,10 +477,16 @@ export default async function DataAnalyticsAdsPage() {
         <p>
           {CONTACT.phone1} · {CONTACT.phone2} · {CONTACT.email}
         </p>
+        <p className="mt-2">
+          <Link href="/privacy-policy" className="underline hover:text-white/90">
+            Privacy Policy
+          </Link>
+        </p>
         <p className="text-xs text-white/30 mt-3">*Terms and conditions apply. See counselor for details.</p>
       </footer>
 
       <StickyCta />
+      <WhatsAppButton />
     </main>
   );
 }

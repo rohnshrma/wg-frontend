@@ -233,8 +233,11 @@ export default function Footer({
       {/* Bottom Bar */}
       <div className="border-t border-white/10">
         <div className="container-custom py-5 flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="text-sm text-white/40">
+          <p className="text-sm text-white/40 flex items-center gap-2">
             © {new Date().getFullYear()} WebiGeeks. All rights reserved.
+            <Link href="/privacy-policy" className="hover:text-white/80 transition-colors">
+              Privacy Policy
+            </Link>
           </p>
           <p className="text-sm text-white/40 flex items-center gap-1">
             Made with <Heart className="w-3.5 h-3.5 text-destructive fill-destructive" /> by WebiGeeks

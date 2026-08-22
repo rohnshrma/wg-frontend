@@ -4,28 +4,19 @@ import { useState } from "react";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { EMAIL_REGEX, MOBILE_REGEX, downloadCurriculum, submitLead } from "./submitLead";
 
-const ROLE_OPTIONS = [
-  "Student",
-  "Working Professional (0-2 yrs)",
-  "Working Professional (2-5 yrs)",
-  "Experienced (5+ yrs)",
-  "Career Changer",
-];
+const ROLE_OPTIONS = ["Student", "Working Professional", "Career Changer"];
 
-const COURSE_OPTIONS = ["Data Analytics", "Full Stack (MERN)", "Python Programming", "Both (Combo)"];
-
-const MODE_OPTIONS = ["Offline (Gurgaon Campus)", "Online Live", "Hybrid"];
-
-const URGENCY_OPTIONS = ["Planning for 3 months", "Planning for 1-2 months", "Want to start ASAP (Next Batch)"];
+// Course/mode/urgency used to be separate form fields — dropped from the UI
+// to shorten the form, but kept here as fixed defaults so the CRM
+// webhook/email notification (which read them out of `message`) keep
+// getting a value instead of silently losing that context.
+const FIXED_COURSE = "Data Analytics";
 
 const emptyForm = {
   name: "",
   phone: "",
   email: "",
   role: "",
-  course: "Data Analytics",
-  mode: "",
-  urgency: "",
 };
 
 export default function HeroDemoForm() {
@@ -46,7 +37,6 @@ export default function HeroDemoForm() {
     if (!MOBILE_REGEX.test(form.phone.trim())) next.phone = "Enter a valid 10-digit mobile number";
     if (!EMAIL_REGEX.test(form.email.trim())) next.email = "Enter a valid email address";
     if (!form.role) next.role = "Select one";
-    if (!form.mode) next.mode = "Select one";
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -58,20 +48,12 @@ export default function HeroDemoForm() {
     setIsSubmitting(true);
     setServerError("");
 
-    const message = [
-      form.role && `Role: ${form.role}`,
-      form.mode && `Mode: ${form.mode}`,
-      form.urgency && `Urgency: ${form.urgency}`,
-    ]
-      .filter(Boolean)
-      .join(" | ");
-
     const result = await submitLead({
       name: form.name.trim(),
       phone: form.phone.trim(),
       email: form.email.trim(),
-      courseInterested: form.course,
-      message,
+      courseInterested: FIXED_COURSE,
+      message: `Role: ${form.role}`,
     });
 
     setIsSubmitting(false);
@@ -91,7 +73,7 @@ export default function HeroDemoForm() {
         <CheckCircle2 className="w-12 h-12 mx-auto mb-4 text-success" />
         <h3 className="text-xl font-extrabold text-text-primary mb-2">You&apos;re in!</h3>
         <p className="text-text-secondary text-sm mb-1">
-          Your curriculum PDF is downloading now. We&apos;ll call you within 30 minutes.
+          Your curriculum PDF is downloading now. We&apos;ll call you within 2 hours.
         </p>
         <p className="text-text-muted text-xs mt-4">
           Didn&apos;t get the download?{" "}
@@ -163,7 +145,7 @@ export default function HeroDemoForm() {
             onChange={(e) => setField("role", e.target.value)}
             className={`w-full px-3.5 py-2.5 rounded-lg border text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 ${errors.role ? "border-destructive" : "border-border focus:border-primary"} ${!form.role ? "text-text-muted" : "text-text-primary"}`}
           >
-            <option value="">Current role / experience *</option>
+            <option value="">Current role *</option>
             {ROLE_OPTIONS.map((r) => (
               <option key={r} value={r} className="text-text-primary">
                 {r}
@@ -171,52 +153,6 @@ export default function HeroDemoForm() {
             ))}
           </select>
           {errors.role && <p className="mt-1 text-xs text-destructive">{errors.role}</p>}
-        </div>
-
-        <div>
-          <select
-            value={form.course}
-            onChange={(e) => setField("course", e.target.value)}
-            className="w-full px-3.5 py-2.5 rounded-lg border border-border text-sm bg-white text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-          >
-            {COURSE_OPTIONS.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <select
-              value={form.mode}
-              onChange={(e) => setField("mode", e.target.value)}
-              className={`w-full px-3.5 py-2.5 rounded-lg border text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 ${errors.mode ? "border-destructive" : "border-border focus:border-primary"} ${!form.mode ? "text-text-muted" : "text-text-primary"}`}
-            >
-              <option value="">Learning mode *</option>
-              {MODE_OPTIONS.map((m) => (
-                <option key={m} value={m} className="text-text-primary">
-                  {m}
-                </option>
-              ))}
-            </select>
-            {errors.mode && <p className="mt-1 text-xs text-destructive">{errors.mode}</p>}
-          </div>
-          <div>
-            <select
-              value={form.urgency}
-              onChange={(e) => setField("urgency", e.target.value)}
-              className={`w-full px-3.5 py-2.5 rounded-lg border border-border text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary ${!form.urgency ? "text-text-muted" : "text-text-primary"}`}
-            >
-              <option value="">Urgency</option>
-              {URGENCY_OPTIONS.map((u) => (
-                <option key={u} value={u} className="text-text-primary">
-                  {u}
-                </option>
-              ))}
-            </select>
-          </div>
         </div>
       </div>
 
@@ -231,7 +167,7 @@ export default function HeroDemoForm() {
       </button>
 
       <p className="mt-3 text-[11px] text-text-muted text-center">
-        Your details are 100% secure. We&apos;ll call within 30 mins.
+        Your details are 100% secure. We&apos;ll call within 2 hours.
       </p>
     </form>
   );
