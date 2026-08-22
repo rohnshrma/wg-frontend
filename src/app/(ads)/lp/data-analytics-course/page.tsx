@@ -117,13 +117,6 @@ const projects = [
   "Portfolio development — published to GitHub for recruiters",
 ];
 
-const phases = [
-  { phase: "Phase 1", title: "Excel & SQL Foundations", days: "~6–7 weeks · 1 hr live class/day + practice", body: "Spreadsheet mastery and relational databases — the fundamentals that make everything else easier." },
-  { phase: "Phase 2", title: "Python, Pandas & Statistics", days: "~9 weeks · 1 hr live class/day + practice", body: "Core programming, data cleaning, EDA, and statistical validation with NumPy, Seaborn & SciPy." },
-  { phase: "Phase 3", title: "Power BI, Tableau & MongoDB", days: "~9 weeks · 1 hr live class/day + practice", body: "Build enterprise-grade dashboards and work with modern NoSQL data." },
-  { phase: "Phase 4", title: "Capstone Project & Portfolio", days: "~4 weeks · 1 hr mentor review/day + practice", body: "Everything comes together in one portfolio-ready deliverable, published to GitHub." },
-];
-
 const differentiators = [
   { title: "Personal Mentorship", body: "Direct access to your trainer — ask questions, get feedback, work through problems 1-on-1. You're not just a name on a screen." },
   { title: "Small Batches", body: "Max 15 students per batch, so your mentor has time to understand your strengths and where you're struggling." },
@@ -324,27 +317,8 @@ export default async function DataAnalyticsAdsPage() {
         </div>
       </section>
 
-      {/* Learning journey */}
-      <section className="section-padding">
-        <div className="container-custom max-w-5xl">
-          <h2 className="heading-section text-text-primary text-center mb-2">Your Learning Journey</h2>
-          <p className="text-text-secondary text-center mb-10">A clear roadmap from beginner to portfolio-ready</p>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {phases.map((p) => (
-              <div key={p.phase} className="bg-white rounded-xl border border-border p-5">
-                <p className="text-xs font-bold text-primary mb-1">{p.phase}</p>
-                <h3 className="font-bold text-text-primary mb-1">{p.title}</h3>
-                <p className="text-xs text-text-muted mb-3">{p.days}</p>
-                <p className="text-sm text-text-secondary leading-relaxed">{p.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Why WebiGeeks is different */}
-      <section className="section-padding bg-gray-50">
+      <section className="section-padding">
         <div className="container-custom max-w-4xl">
           <h2 className="heading-section text-text-primary text-center mb-2">Why WebiGeeks Is Different</h2>
           <p className="text-text-secondary text-center mb-10 max-w-2xl mx-auto">
@@ -366,7 +340,7 @@ export default async function DataAnalyticsAdsPage() {
       </section>
 
       {/* Success stories */}
-      <section className="section-padding">
+      <section className="section-padding bg-gray-50">
         <div className="container-custom max-w-5xl">
           <h2 className="heading-section text-text-primary text-center mb-2">Student Success Stories</h2>
           <p className="text-text-secondary text-center mb-10">Real students. Real career transformations.</p>
@@ -384,7 +358,7 @@ export default async function DataAnalyticsAdsPage() {
       </section>
 
       {/* Learning modes */}
-      <section className="section-padding bg-gray-50">
+      <section className="section-padding">
         <div className="container-custom max-w-5xl">
           <h2 className="heading-section text-text-primary text-center mb-2">Learning Modes</h2>
           <p className="text-text-secondary text-center mb-10">Learn your way, without putting your career on hold.</p>
@@ -412,7 +386,7 @@ export default async function DataAnalyticsAdsPage() {
       </section>
 
       {/* Pricing */}
-      <section className="section-padding">
+      <section className="section-padding bg-gray-50">
         <div className="container-custom max-w-4xl">
           <h2 className="heading-section text-text-primary text-center mb-10">Course Fees &amp; Payment Options</h2>
 
@@ -438,7 +412,7 @@ export default async function DataAnalyticsAdsPage() {
       </section>
 
       {/* FAQ */}
-      <section className="section-padding bg-gray-50">
+      <section className="section-padding">
         <div className="container-custom max-w-3xl">
           <h2 className="heading-section text-text-primary text-center mb-10">Frequently Asked Questions</h2>
           <FaqAccordion faqs={faqs} />
