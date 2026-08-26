@@ -182,6 +182,8 @@ export default function Navbar() {
         {isMobileMenuOpen && (
           <>
             <motion.div
+              key="mobile-menu-backdrop"
+              data-testid="mobile-menu-backdrop"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -189,6 +191,7 @@ export default function Navbar() {
               onClick={() => setIsMobileMenuOpen(false)}
             />
             <motion.div
+              key="mobile-menu-drawer"
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
@@ -229,6 +232,7 @@ export default function Navbar() {
                   >
                     <Link
                       href={item.href}
+                      data-testid={`mobile-nav-link-${item.label}`}
                       aria-current={isActiveRoute(item.href) ? "page" : undefined}
                       className={cn(
                         "flex items-center justify-between px-4 py-3 rounded-lg mb-1 text-[15px] font-medium transition-colors",
