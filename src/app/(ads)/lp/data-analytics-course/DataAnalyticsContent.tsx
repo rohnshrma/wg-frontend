@@ -1,5 +1,6 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion, useScroll, useSpring, type Variants } from "framer-motion";
 import { siteConfig } from "@/config/site";
@@ -208,6 +209,31 @@ function Eyebrow({ index, label }: { index: number; label: string }) {
   );
 }
 
+/* Matches the `lg:` breakpoint the motifs are gated on. Kept as one string so
+   the CSS and the JS can never drift apart. */
+const DESKTOP_QUERY = "(min-width: 1024px)";
+
+function subscribeToDesktop(onChange: () => void) {
+  const mq = window.matchMedia(DESKTOP_QUERY);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+/**
+ * Whether the viewport is wide enough for the chapter motifs to be visible.
+ *
+ * `useSyncExternalStore` rather than `useState` + `useEffect`: it gives a
+ * server snapshot (`false`) without a set-state-in-effect, so this doesn't add
+ * to the react-hooks lint debt the rest of the app already carries.
+ */
+function useIsDesktop() {
+  return useSyncExternalStore(
+    subscribeToDesktop,
+    () => window.matchMedia(DESKTOP_QUERY).matches,
+    () => false,
+  );
+}
+
 /**
  * One chapter opening: number, title, and the chapter's 3D object beside it.
  *
@@ -233,6 +259,7 @@ function ChapterHeader({
   flip?: boolean;
 }) {
   const fadeUp = useFadeUp();
+  const isDesktop = useIsDesktop();
 
   const copy = (
     <motion.div initial="hidden" whileInView="show" viewport={viewport} variants={fadeUp()}>
@@ -245,9 +272,20 @@ function ChapterHeader({
   // Capped rather than filling its column. Left to span half the band the
   // artwork out-measured the heading it was illustrating and started reading as
   // the subject of the section; ~340px keeps it clearly supporting the copy.
+  //
+  // Mounted only on desktop, not merely hidden there. `hidden lg:flex` alone
+  // still built all six motifs on a phone — 349 DOM nodes, ~33KB of HTML and a
+  // live scroll subscription each, for artwork that viewport never shows. On a
+  // paid-traffic page that's a third of the DOM spent on nothing.
+  //
+  // The box is reserved with the motifs' own 420x300 viewBox ratio so the
+  // column has its full height before anything mounts into it — an aspect
+  // ratio rather than the measured 243px, since that height is a function of
+  // the column width and a hard-coded pixel value would be wrong the moment
+  // the grid changes.
   const art = motif && (
     <div className="hidden lg:flex justify-center">
-      <div className="w-full max-w-[340px]">{motif}</div>
+      <div className="w-full max-w-[340px] aspect-[420/300]">{isDesktop && motif}</div>
     </div>
   );
 
@@ -265,6 +303,7 @@ function ChapterHeader({
 
 export default function DataAnalyticsContent({ stories }: { stories: Story[] }) {
   const fadeUp = useFadeUp();
+  const isDesktop = useIsDesktop();
 
   return (
     <main className="bg-white">
@@ -391,10 +430,11 @@ export default function DataAnalyticsContent({ stories }: { stories: Story[] }) 
             <p className="text-text-secondary leading-relaxed">That&apos;s why at WebiGeeks, you&apos;ll focus on:</p>
           </motion.div>
 
+          {/* Same desktop-only gating and reserved box as ChapterHeader's
+              motifs — this chapter lays its own grid out rather than using
+              ChapterHeader, so the treatment is repeated here deliberately. */}
           <div className="hidden lg:flex justify-center">
-            <div className="w-full max-w-[340px]">
-              <KpiBoard />
-            </div>
+            <div className="w-full max-w-[340px] aspect-[420/300]">{isDesktop && <KpiBoard />}</div>
           </div>
         </div>
 
