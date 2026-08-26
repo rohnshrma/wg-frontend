@@ -63,6 +63,13 @@
      (640px) is far too late to make layout decisions. */
   --breakpoint-xs: 400px;
 
+  /* Easing curves — stronger than the built-in CSS easings, which read as
+     weak/indecisive on deliberate UI motion. Shared across the site; extend
+     this set rather than hand-rolling a cubic-bezier inline. */
+  --ease-snappy: cubic-bezier(0.23, 1, 0.32, 1); /* entrances/exits */
+  --ease-fluid: cubic-bezier(0.77, 0, 0.175, 1); /* on-screen movement/morphing */
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1); /* iOS-style sheet/drawer */
+
   /* Animations */
   --animate-fade-in: fade-in 0.6s ease-out;
   --animate-fade-in-up: fade-in-up 0.6s ease-out;
@@ -386,6 +393,26 @@ svg {
   textarea {
     font-size: 16px;
   }
+}
+
+/* 3D scene utilities.
+   Used by the decorative data-analytics motifs on the ads landing pages, which
+   build real 3D objects (isometric bar charts, data cubes, layered planes) out
+   of CSS transforms rather than shipping a WebGL library to a paid-traffic page. */
+.scene-near {
+  perspective: 800px;
+}
+
+.scene-far {
+  perspective: 1600px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
 }
 
 /* Decorative background patterns — previously inline `style={{ backgroundImage }}`
