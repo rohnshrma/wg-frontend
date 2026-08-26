@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { IconDownload, IconSpinner, IconClose, IconCheck } from "./AppleIcons";
 import { EMAIL_REGEX, MOBILE_REGEX, downloadCurriculum, submitLead } from "./submitLead";
@@ -17,7 +17,7 @@ export default function CurriculumDownload({ buttonClassName }: { buttonClassNam
   const [serverError, setServerError] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const close = () => {
+  const close = useCallback(() => {
     setOpen(false);
     // Reset a beat after the close animation would run, so a re-open
     // never flashes the previous submission's success state.
@@ -27,7 +27,20 @@ export default function CurriculumDownload({ buttonClassName }: { buttonClassNam
       setErrors({});
       setServerError("");
     }, 200);
-  };
+  }, []);
+
+  // Escape closes the modal. Bound on the document rather than the dialog
+  // itself: nothing moves focus into the overlay when it opens, so a
+  // handler on the panel would only fire once the user had already clicked
+  // inside it — which is exactly when they least need the shortcut.
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open, close]);
 
   const setField = (key: keyof typeof form, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -155,6 +168,7 @@ export default function CurriculumDownload({ buttonClassName }: { buttonClassNam
                   <div>
                     <input
                       type="text"
+                      autoComplete="name"
                       placeholder="Full name *"
                       value={form.name}
                       onChange={(e) => setField("name", e.target.value)}
@@ -165,6 +179,7 @@ export default function CurriculumDownload({ buttonClassName }: { buttonClassNam
                   <div>
                     <input
                       type="tel"
+                      autoComplete="tel-national"
                       inputMode="numeric"
                       placeholder="Mobile number *"
                       value={form.phone}
@@ -176,6 +191,7 @@ export default function CurriculumDownload({ buttonClassName }: { buttonClassNam
                   <div>
                     <input
                       type="email"
+                      autoComplete="email"
                       placeholder="Email *"
                       value={form.email}
                       onChange={(e) => setField("email", e.target.value)}

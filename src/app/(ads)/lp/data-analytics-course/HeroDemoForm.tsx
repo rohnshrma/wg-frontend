@@ -129,6 +129,7 @@ export default function HeroDemoForm() {
               <div>
                 <input
                   type="text"
+                  autoComplete="name"
                   placeholder="Full name *"
                   value={form.name}
                   onChange={(e) => setField("name", e.target.value)}
@@ -141,6 +142,7 @@ export default function HeroDemoForm() {
                 <div>
                   <input
                     type="tel"
+                    autoComplete="tel-national"
                     inputMode="numeric"
                     placeholder="Mobile number *"
                     value={form.phone}
@@ -152,6 +154,7 @@ export default function HeroDemoForm() {
                 <div>
                   <input
                     type="email"
+                    autoComplete="email"
                     placeholder="Email *"
                     value={form.email}
                     onChange={(e) => setField("email", e.target.value)}

@@ -1,3 +1,5 @@
+import { siteConfig } from "@/config/site";
+
 declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
@@ -22,6 +24,14 @@ function reportContactConversion() {
   });
 }
 
+// Kept in sync with siteConfig.contact.phone — imported rather than retyped
+// so the number a failing form offers can never drift from the real one.
+const CONTACT_PHONE = siteConfig.contact.phone;
+
+// Shown for anything that is our fault rather than the visitor's. Names the
+// phone number because a lead that can't submit is a lead lost otherwise.
+const FALLBACK_ERROR = `Something went wrong on our end. Please try again, or call us on ${CONTACT_PHONE}.`;
+
 // Posts to the public /api/leads endpoint (Lead model — see backend
 // src/models/Lead.ts / lead.controller.ts). `source: "course_page"` is one
 // of the real deployed enum values; do not invent new ones here without
@@ -41,12 +51,23 @@ export async function submitLead(payload: {
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok) {
-      return { ok: false, error: data?.message || "Something went wrong. Please try again." };
+      // Only a 4xx carries a message worth showing: those are validation
+      // failures phrased for the visitor ("Enter a valid mobile number").
+      // A 5xx message is written for whoever reads the logs — a real 500
+      // here rendered the words "Internal Server Error" into the page,
+      // which tells a paid visitor nothing and loses the lead silently.
+      // Every server-side fault gets the phone number instead, so the
+      // enquiry has somewhere to go when the form itself is broken.
+      const isClientError = res.status >= 400 && res.status < 500;
+      return {
+        ok: false,
+        error: (isClientError && data?.message) || FALLBACK_ERROR,
+      };
     }
     reportContactConversion();
     return { ok: true };
   } catch {
-    return { ok: false, error: "Network error. Please check your connection and try again." };
+    return { ok: false, error: `Network error — check your connection, or call us on ${CONTACT_PHONE}.` };
   }
 }
 
