@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { IconDownload, IconSpinner, IconClose, IconCheck } from "./AppleIcons";
 import { EMAIL_REGEX, MOBILE_REGEX, downloadCurriculum, submitLead } from "./submitLead";
@@ -16,6 +16,8 @@ export default function CurriculumDownload({ buttonClassName }: { buttonClassNam
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [serverError, setServerError] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   const close = useCallback(() => {
     setOpen(false);
@@ -41,6 +43,58 @@ export default function CurriculumDownload({ buttonClassName }: { buttonClassNam
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open, close]);
+
+  // Focus management and scroll lock.
+  //
+  // Without this the dialog opened with focus still on the trigger behind it:
+  // a keyboard user tabbed through the whole page before reaching the form,
+  // and a screen reader was never told a dialog had appeared. On close, focus
+  // returns to the button that opened it rather than resetting to the top of
+  // the document.
+  useEffect(() => {
+    if (!open) return;
+    const panel = panelRef.current;
+    if (!panel) return;
+
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    // Captured now rather than read in cleanup: by then the ref may already
+    // point elsewhere, and the whole point is to return focus to the button
+    // that was clicked to open this.
+    const trigger = triggerRef.current;
+    const focusable = () =>
+      [...panel.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      )].filter((el) => el.offsetParent !== null);
+
+    focusable()[0]?.focus();
+
+    // Tab must cycle inside the dialog — otherwise focus walks out into the
+    // page behind, which is still fully rendered.
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      const items = focusable();
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    panel.addEventListener("keydown", onKeyDown);
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      panel.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = prevOverflow;
+      (trigger ?? previouslyFocused)?.focus?.();
+    };
+  }, [open]);
 
   const setField = (key: keyof typeof form, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -89,6 +143,7 @@ export default function CurriculumDownload({ buttonClassName }: { buttonClassNam
     <>
       <button
         type="button"
+        ref={triggerRef}
         onClick={() => setOpen(true)}
         className={
           buttonClassName ||
@@ -110,6 +165,10 @@ export default function CurriculumDownload({ buttonClassName }: { buttonClassNam
             onClick={close}
           >
             <motion.div
+              ref={panelRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="curriculum-modal-title"
               onClick={(e) => e.stopPropagation()}
               initial={{ opacity: 0, y: sheetOffset, scale: reduceMotion ? 1 : 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -118,7 +177,7 @@ export default function CurriculumDownload({ buttonClassName }: { buttonClassNam
               className="w-full sm:max-w-md bg-white rounded-t-2xl sm:rounded-2xl shadow-xl max-h-[92svh] overflow-y-auto"
             >
               <div className="flex items-center justify-between px-6 py-4 border-b border-border">
-                <h3 className="font-bold text-text-primary">
+                <h3 id="curriculum-modal-title" className="font-bold text-text-primary">
                   {isSubmitted ? "You're all set" : "Get the Curriculum PDF"}
                 </h3>
                 <button
@@ -160,7 +219,10 @@ export default function CurriculumDownload({ buttonClassName }: { buttonClassNam
                   </p>
 
                   {serverError && (
-                    <div className="px-3 py-2.5 rounded-lg bg-destructive-light text-destructive text-xs">
+                    <div
+                      role="alert"
+                      className="px-3 py-2.5 rounded-lg bg-destructive-light text-destructive text-xs"
+                    >
                       {serverError}
                     </div>
                   )}
@@ -172,9 +234,15 @@ export default function CurriculumDownload({ buttonClassName }: { buttonClassNam
                       placeholder="Full name *"
                       value={form.name}
                       onChange={(e) => setField("name", e.target.value)}
+                      aria-invalid={!!errors.name}
+                      aria-describedby={errors.name ? "curriculum-name-error" : undefined}
                       className={`${INPUT_BASE} ${errors.name ? "border-destructive" : "border-border focus:border-primary"}`}
                     />
-                    {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
+                    {errors.name && (
+                      <p id="curriculum-name-error" role="alert" className="mt-1 text-xs text-destructive">
+                        {errors.name}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <input
@@ -184,9 +252,15 @@ export default function CurriculumDownload({ buttonClassName }: { buttonClassNam
                       placeholder="Mobile number *"
                       value={form.phone}
                       onChange={(e) => setField("phone", e.target.value.replace(/\D/g, "").slice(0, 10))}
+                      aria-invalid={!!errors.phone}
+                      aria-describedby={errors.phone ? "curriculum-phone-error" : undefined}
                       className={`${INPUT_BASE} ${errors.phone ? "border-destructive" : "border-border focus:border-primary"}`}
                     />
-                    {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
+                    {errors.phone && (
+                      <p id="curriculum-phone-error" role="alert" className="mt-1 text-xs text-destructive">
+                        {errors.phone}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <input
@@ -195,9 +269,15 @@ export default function CurriculumDownload({ buttonClassName }: { buttonClassNam
                       placeholder="Email *"
                       value={form.email}
                       onChange={(e) => setField("email", e.target.value)}
+                      aria-invalid={!!errors.email}
+                      aria-describedby={errors.email ? "curriculum-email-error" : undefined}
                       className={`${INPUT_BASE} ${errors.email ? "border-destructive" : "border-border focus:border-primary"}`}
                     />
-                    {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
+                    {errors.email && (
+                      <p id="curriculum-email-error" role="alert" className="mt-1 text-xs text-destructive">
+                        {errors.email}
+                      </p>
+                    )}
                   </div>
 
                   <button

@@ -55,6 +55,11 @@ const CONTACT = {
   address: siteConfig.contact.address,
 };
 
+/** RFC 3966 wants a bare dial string — the display number carries spaces
+    ("+91 8766367815") that don't belong in the href. Most dialers cope, but
+    not all, and a `tel:` a paid visitor can't tap is a lost call. */
+const dialable = (phone: string) => phone.replace(/[^\d+]/g, "");
+
 const trustStats = [
   { value: "100+", label: "Students Trained" },
   { value: "4.8★", label: "Student Rating" },
@@ -344,7 +349,7 @@ export default function DataAnalyticsContent({ stories }: { stories: Story[] }) 
             <div className="flex flex-wrap gap-4">
               <CurriculumDownload buttonClassName="inline-flex items-center gap-2 px-7 py-3.5 rounded-full gradient-accent text-white font-bold shadow-lg hover:shadow-glow-accent active:scale-[0.97] transition-[transform,box-shadow] duration-150 ease-snappy" />
               <a
-                href={`tel:${CONTACT.phone1}`}
+                href={`tel:${dialable(CONTACT.phone1)}`}
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full glass text-white font-semibold hover:bg-white/15 active:scale-[0.97] transition-[background-color,transform] duration-150 ease-snappy"
               >
                 <IconPhone className="w-4 h-4" /> {CONTACT.phone1}

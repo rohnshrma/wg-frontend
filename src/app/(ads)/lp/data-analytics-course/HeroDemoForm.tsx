@@ -120,7 +120,10 @@ export default function HeroDemoForm() {
             <p className="text-sm text-text-secondary mb-5">Not sure where to start? We&apos;ll help you.</p>
 
             {serverError && (
-              <div className="mb-4 px-3 py-2.5 rounded-lg bg-destructive-light text-destructive text-xs">
+              <div
+                role="alert"
+                className="mb-4 px-3 py-2.5 rounded-lg bg-destructive-light text-destructive text-xs"
+              >
                 {serverError}
               </div>
             )}
@@ -133,9 +136,15 @@ export default function HeroDemoForm() {
                   placeholder="Full name *"
                   value={form.name}
                   onChange={(e) => setField("name", e.target.value)}
+                  aria-invalid={!!errors.name}
+                  aria-describedby={errors.name ? "demo-name-error" : undefined}
                   className={`${INPUT_BASE} ${errors.name ? "border-destructive" : "border-border focus:border-primary"}`}
                 />
-                {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
+                {errors.name && (
+                  <p id="demo-name-error" role="alert" className="mt-1 text-xs text-destructive">
+                    {errors.name}
+                  </p>
+                )}
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -147,9 +156,15 @@ export default function HeroDemoForm() {
                     placeholder="Mobile number *"
                     value={form.phone}
                     onChange={(e) => setField("phone", e.target.value.replace(/\D/g, "").slice(0, 10))}
+                    aria-invalid={!!errors.phone}
+                    aria-describedby={errors.phone ? "demo-phone-error" : undefined}
                     className={`${INPUT_BASE} ${errors.phone ? "border-destructive" : "border-border focus:border-primary"}`}
                   />
-                  {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
+                  {errors.phone && (
+                    <p id="demo-phone-error" role="alert" className="mt-1 text-xs text-destructive">
+                      {errors.phone}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <input
@@ -158,16 +173,28 @@ export default function HeroDemoForm() {
                     placeholder="Email *"
                     value={form.email}
                     onChange={(e) => setField("email", e.target.value)}
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? "demo-email-error" : undefined}
                     className={`${INPUT_BASE} ${errors.email ? "border-destructive" : "border-border focus:border-primary"}`}
                   />
-                  {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
+                  {errors.email && (
+                    <p id="demo-email-error" role="alert" className="mt-1 text-xs text-destructive">
+                      {errors.email}
+                    </p>
+                  )}
                 </div>
               </div>
 
               <div>
+                {/* The placeholder <option> is not an accessible name — a
+                    <select> has no `placeholder`, so without this the field is
+                    announced only as "combo box". */}
                 <select
                   value={form.role}
                   onChange={(e) => setField("role", e.target.value)}
+                  aria-label="Current role"
+                  aria-invalid={!!errors.role}
+                  aria-describedby={errors.role ? "demo-role-error" : undefined}
                   className={`${INPUT_BASE} ${errors.role ? "border-destructive" : "border-border focus:border-primary"} ${!form.role ? "text-text-muted" : "text-text-primary"}`}
                 >
                   <option value="">Current role *</option>
@@ -177,7 +204,11 @@ export default function HeroDemoForm() {
                     </option>
                   ))}
                 </select>
-                {errors.role && <p className="mt-1 text-xs text-destructive">{errors.role}</p>}
+                {errors.role && (
+                  <p id="demo-role-error" role="alert" className="mt-1 text-xs text-destructive">
+                    {errors.role}
+                  </p>
+                )}
               </div>
             </div>
 
