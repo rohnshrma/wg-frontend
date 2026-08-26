@@ -321,11 +321,15 @@ export default function DataAnalyticsContent({ stories }: { stories: Story[] }) 
         <div className="absolute inset-0 bg-grid-pattern opacity-[0.05]" />
 
         <div className="container-custom relative grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: EASE_SNAPPY }}
-          >
+          {/* Deliberately NOT a motion component. Framer renders its `initial`
+              state into the SSR HTML, so this block shipped as
+              `opacity:0` and stayed invisible until the JS bundle had
+              downloaded, parsed and hydrated — on mobile that read as the page
+              loading late, because the H1 here is the LCP element. A CSS
+              animation starts at first paint instead, and `rise-in` moves
+              without ever touching opacity, so the text is contentful from
+              the very first frame. */}
+          <div className="animate-rise-in motion-reduce:animate-none">
             <span className="inline-flex px-3.5 py-1.5 rounded-full glass text-xs font-medium tracking-wide mb-6">
               Sector-14, Gurugram Campus &amp; Online
             </span>
@@ -363,24 +367,19 @@ export default function DataAnalyticsContent({ stories }: { stories: Story[] }) 
               <span>Only 12 seats remaining</span>
               <span>Free 1-on-1 career counseling included</span>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: EASE_SNAPPY }}
-          >
+          {/* Below the fold on a phone, so a short opacity fade is affordable
+              here — but still CSS, not JS, so it never waits on hydration.
+              `backwards` fill stops the delay from flashing the card at full
+              opacity before the animation starts. */}
+          <div className="animate-fade-in-up [animation-delay:90ms] [animation-fill-mode:backwards] motion-reduce:animate-none">
             <HeroDemoForm />
-          </motion.div>
+          </div>
         </div>
 
         {/* The hook: something to play with, then an explicit push downward. */}
-        <motion.div
-          className="container-custom relative mt-14 lg:mt-16 max-w-4xl"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.25, ease: EASE_SNAPPY }}
-        >
+        <div className="container-custom relative mt-14 lg:mt-16 max-w-4xl animate-fade-in-up [animation-delay:180ms] [animation-fill-mode:backwards] motion-reduce:animate-none">
           <HeroDataScrubber />
 
           <div className="flex justify-center mt-10">
@@ -394,7 +393,7 @@ export default function DataAnalyticsContent({ stories }: { stories: Story[] }) 
               <IconChevronDown className="w-5 h-5 animate-bounce-subtle motion-reduce:animate-none" />
             </a>
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* ---------------- Trust strip ---------------- */}
