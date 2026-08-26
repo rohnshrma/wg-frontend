@@ -59,17 +59,43 @@ export default function HeroDataScrubber() {
 
   useMotionValueEvent(smooth, "change", (v) => setPctLabel(Math.round(v)));
 
-  // A single unprompted sweep on load: without it the divider reads as a
-  // decorative seam and nobody discovers it can be moved.
+  // A single unprompted sweep: without it the divider reads as a decorative
+  // seam and nobody discovers it can be moved.
+  //
+  // Gated on the panel actually being on screen, not on mount. On a phone this
+  // sits ~1.6 viewports down — below both the lead form and the hero CTA — so
+  // a mount-timed hint played to nobody and had already finished by the time a
+  // visitor scrolled to it, leaving exactly the dead seam the hint exists to
+  // prevent. Desktop is unaffected: the panel is in view immediately, so the
+  // observer fires on the first frame.
   useEffect(() => {
     if (reduce) return;
-    hintRef.current = animate(pct, [50, 78, 28, 52], {
-      duration: 2.6,
-      times: [0, 0.34, 0.72, 1],
-      ease: [0.23, 1, 0.32, 1],
-      delay: 1,
-    });
-    return () => hintRef.current?.stop();
+    const el = panelRef.current;
+    if (!el) return;
+
+    const play = () => {
+      hintRef.current = animate(pct, [50, 78, 28, 52], {
+        duration: 2.6,
+        times: [0, 0.34, 0.72, 1],
+        ease: [0.23, 1, 0.32, 1],
+        delay: 0.35,
+      });
+    };
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        io.disconnect(); // once only — a hint that repeats reads as a broken loop
+        play();
+      },
+      { threshold: 0.5 },
+    );
+    io.observe(el);
+
+    return () => {
+      io.disconnect();
+      hintRef.current?.stop();
+    };
   }, [pct, reduce]);
 
   const stopHint = () => {
