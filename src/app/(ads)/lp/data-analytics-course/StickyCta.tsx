@@ -11,13 +11,19 @@ export default function StickyCta() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const heroForm = document.getElementById("demo-form");
-    if (!heroForm) return;
+    // Watch the whole hero, not just the form inside it. On a phone the form
+    // is stacked *below* the headline rather than beside it, so it already
+    // sits outside the viewport at scroll 0 — observing it meant the pill
+    // appeared instantly, on top of the hero it was supposed to wait for.
+    // Desktop never showed this because there the form is next to the copy.
+    const hero = document.getElementById("hero") ?? document.getElementById("demo-form");
+    if (!hero) return;
 
-    const observer = new IntersectionObserver(([entry]) => setVisible(!entry.isIntersecting), {
-      rootMargin: "0px 0px -20% 0px",
-    });
-    observer.observe(heroForm);
+    // No negative bottom margin: that shrinks the root box upward and would
+    // fire while the hero is still partly on screen, which is the same bug
+    // in a smaller form.
+    const observer = new IntersectionObserver(([entry]) => setVisible(!entry.isIntersecting));
+    observer.observe(hero);
     return () => observer.disconnect();
   }, []);
 

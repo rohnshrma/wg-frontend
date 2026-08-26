@@ -315,7 +315,7 @@ export default function DataAnalyticsContent({ stories }: { stories: Story[] }) 
       <ScrollProgress />
 
       {/* ---------------- Hero ---------------- */}
-      <section className="gradient-hero text-white pt-16 pb-20 md:pt-24 md:pb-28 relative overflow-hidden">
+      <section id="hero" className="gradient-hero text-white pt-16 pb-20 md:pt-24 md:pb-28 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[32rem] h-[32rem] bg-primary/25 rounded-full blur-[120px] -translate-y-1/3 translate-x-1/4" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/10 rounded-full blur-[120px] -translate-x-1/3 translate-y-1/3" />
         <div className="absolute inset-0 bg-grid-pattern opacity-[0.05]" />
