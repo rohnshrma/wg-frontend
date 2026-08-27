@@ -90,7 +90,7 @@ export default function HeroDemoForm() {
             className="bg-white rounded-2xl p-8 text-center shadow-xl"
           >
             <IconCheck className="w-12 h-12 mx-auto mb-4 text-success" />
-            <h3 className="text-xl font-extrabold text-text-primary mb-2">You&apos;re in!</h3>
+            <h2 className="text-xl font-extrabold text-text-primary mb-2">You&apos;re in!</h2>
             <p className="text-text-secondary text-sm mb-1">
               Your curriculum PDF is downloading now. We&apos;ll call you within 2 hours.
             </p>
@@ -116,7 +116,11 @@ export default function HeroDemoForm() {
             className="bg-white rounded-2xl p-6 sm:p-7 shadow-xl"
             noValidate
           >
-            <h3 className="text-lg font-extrabold text-text-primary mb-0.5">Get Your Free Demo + Career Roadmap</h3>
+            {/* h2, not h3: this is the first heading after the page's h1, so an h3
+                skipped a level. Screen-reader users navigate by heading level, and a
+                gap reads as a missing section. Visual size is set by classes, so
+                nothing changes on screen. */}
+            <h2 className="text-lg font-extrabold text-text-primary mb-0.5">Get Your Free Demo + Career Roadmap</h2>
             <p className="text-sm text-text-secondary mb-5">Not sure where to start? We&apos;ll help you.</p>
 
             {serverError && (

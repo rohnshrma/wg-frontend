@@ -789,7 +789,10 @@ export default function DataAnalyticsContent({ stories }: { stories: Story[] }) 
             Privacy Policy
           </Link>
         </p>
-        <p className="text-xs text-white/30 mt-3">*Terms and conditions apply. See counselor for details.</p>
+        {/* /50 not /30: over this footer's solid #0F172A that is 5.23:1, where /30
+            measured 2.70 and failed WCAG AA for small text. Fine print still needs
+            to be readable to count as disclosed. */}
+        <p className="text-xs text-white/50 mt-3">*Terms and conditions apply. See counselor for details.</p>
       </footer>
 
       <StickyCta />
