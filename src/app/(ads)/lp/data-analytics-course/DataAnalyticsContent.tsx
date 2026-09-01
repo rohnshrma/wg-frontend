@@ -62,7 +62,7 @@ const CONTACT = {
 const dialable = (phone: string) => phone.replace(/[^\d+]/g, "");
 
 const trustStats = [
-  { value: "100+", label: "Students Trained" },
+  { value: "300+", label: "Students Trained" },
   { value: "4.8★", label: "Student Rating" },
   { value: "15", label: "Max Batch Size" },
   { value: "6-7 Mo", label: "Program Duration" },
