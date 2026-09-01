@@ -438,3 +438,113 @@ svg {
   background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 1px);
   background-size: 40px 40px;
 }
+
+/* ------------------------------------------------------------------ */
+/* MERN course landing page (/mern-course-gurugram)                    */
+/* Everything here is namespaced under .mern-lp so it can't touch any  */
+/* other route. Only additive — no existing rule is changed.           */
+/* ------------------------------------------------------------------ */
+.mern-lp {
+  --mern-ink: #060a14;
+  --mern-panel: #0d1424;
+  --mern-panel-2: #121a2e;
+  --mern-line: rgba(148, 163, 184, 0.16);
+  --mern-line-strong: rgba(148, 163, 184, 0.28);
+  --mern-cyan: #38bdf8;
+  --mern-green: #34d399;
+  --mern-amber: #f59e0b;
+  --mern-text-dim: rgba(226, 232, 240, 0.66);
+  /* Stronger curves than the CSS built-ins (see emil-design-eng). */
+  --mern-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --mern-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.mern-lp .mern-dark {
+  background-color: var(--mern-ink);
+  color: #e2e8f0;
+}
+
+/* Editor / terminal surface */
+.mern-lp .mern-surface {
+  background: linear-gradient(180deg, var(--mern-panel-2) 0%, var(--mern-panel) 100%);
+  border: 1px solid var(--mern-line);
+}
+
+.mern-lp .mern-grid {
+  background-image:
+    linear-gradient(var(--mern-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--mern-line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+}
+
+/* A packet travelling along a connector path (stack diagram, API flow). */
+.mern-lp .mern-wire {
+  stroke: var(--mern-line-strong);
+  stroke-width: 2;
+  fill: none;
+}
+
+.mern-lp .mern-packet {
+  fill: var(--mern-cyan);
+  filter: drop-shadow(0 0 5px var(--mern-cyan));
+  offset-path: var(--mern-path);
+  animation: mern-travel 2.4s linear infinite;
+  animation-delay: var(--mern-delay, 0s);
+}
+
+@keyframes mern-travel {
+  from { offset-distance: 0%; }
+  to { offset-distance: 100%; }
+}
+
+/* Staggered reveal for the hero editor's code lines (plays once on mount). */
+.mern-lp .mern-code-line {
+  opacity: 0;
+  transform: translateY(6px);
+  animation: mern-line-in 360ms var(--mern-ease-out) forwards;
+}
+
+@keyframes mern-line-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Blinking caret for the typed code hero. */
+.mern-lp .mern-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  translate: 0 0.18em;
+  background: var(--mern-cyan);
+  animation: mern-blink 1.1s steps(1) infinite;
+}
+
+@keyframes mern-blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+/* Vertical "data" pulse down the API-flow rail once it's in view. */
+.mern-lp .mern-rail-pulse {
+  animation: mern-rail 1.8s var(--mern-ease-in-out) infinite;
+}
+
+@keyframes mern-rail {
+  0% { transform: translateY(-100%); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(1400%); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mern-lp .mern-packet,
+  .mern-lp .mern-caret,
+  .mern-lp .mern-rail-pulse,
+  .mern-lp .mern-code-line {
+    animation: none;
+  }
+  .mern-lp .mern-code-line { opacity: 1; transform: none; }
+  .mern-lp .mern-caret { opacity: 1; }
+  .mern-lp .mern-packet { offset-distance: 62%; }
+}

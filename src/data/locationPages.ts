@@ -27,11 +27,11 @@ export const locationPages: LocationPageContent[] = [
   {
     courseSlug: "mern-stack-development",
     path: "/mern-course-gurugram",
-    metaTitle: "MERN Course in Gurugram | Full Stack Developer Training",
+    metaTitle: "MERN Stack Course in Gurugram",
     metaDescription:
-      "MERN Stack course at our Sector-14, Gurugram campus — offline or online, 7 months, 10+ live projects, 100% placement assistance. Near Sikanderpur & HUDA City Centre metro.",
+      "MERN Stack course in Gurugram and online. Go from beginner to job-ready full-stack developer in 7 months with React, Node, Express and MongoDB.",
     breadcrumbLabel: "MERN Course in Gurugram",
-    h1: "MERN Stack Course in Gurugram",
+    h1: "Become a Job-Ready Full-Stack Developer",
     heroPitch:
       "A 7-month, project-based MERN Stack programme run from our Sector-14 campus — offline for Gurugram-based students, fully online for everyone else, same instructors and curriculum either way.",
     whyChooseUs: [

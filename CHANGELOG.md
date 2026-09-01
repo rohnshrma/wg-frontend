@@ -2,6 +2,18 @@
 
 Notable changes to the frontend. Full context and rationale for each entry lives in the backend's `ROADMAP.md` (shared source of truth across both repos); this file is a scannable index.
 
+## 2026-08-31
+
+- **New**: full bespoke redesign of `/mern-course-gurugram` (premium dark developer-bootcamp landing page). Own component folder under `src/app/(public)/mern-course-gurugram/` (16 new files); no longer renders the shared `location-pages/CourseLocationPage.tsx` template — the other 11 `*-course-gurugram` pages are untouched. Stays in `(public)` (keeps navbar/footer/canonical/sitemap/reciprocal link).
+- Interactive, MERN-specific sections: clickable React/Express/Node/MongoDB architecture diagram, expandable 16-module curriculum, project cards as tabbed spec sheets (Features / Mongoose schema / REST routes), an "API request → DB → UI" flow where each hop reveals its code, count-up trust stats, code-snippet copy buttons, scroll-reveal + stagger animations (all `prefers-reduced-motion` aware).
+- Conversion mechanics reused from the DA `/lp` page, not duplicated: one `POST /api/leads` (`source: "course_page"`), the same Google Ads "Contact" conversion action, GA4 via the root layout. Lead-gated `CurriculumDownload` modal in the hero / curriculum / bottom CTA; hero form auto-downloads the PDF on success. `public/downloads/mern-stack-curriculum.pdf` is the owner's real brochure.
+- All copy sourced from `courseData["mern-stack-development"]` / `config/site.ts` / the owner's PDF — ₹30,000 → ₹19,999 (owner-confirmed), "placement assistance" never "guaranteed", stats asterisked, nothing invented. Testimonials section renders only if real MERN reviews exist in the DB (none today → hidden).
+- Copy rewritten by hand for plain human cadence (em-dashes ~40→~5, rule-of-three lists broken up, filler cut); verified no invisible Unicode / homoglyphs. Not claimed detector-proof.
+- **SEO**: `<title>` trimmed 82→~50 chars, meta description ~145, primary keyword now leads the hero body, FAQ questions in `<h3>`, `twitter:card` → `summary_large_image`. `StackDiagram` and `ProjectShowcase` panels all render in the DOM (`hidden` toggle, no `AnimatePresence`) so the code samples / schemas / routes are in the server-rendered HTML.
+- **Bug fixes** (this page): `CountUp` counter froze because `value.match()` was an unstable `useEffect` dep restarting the rAF every frame; React duplicate-key crash in the project API tab (`PUT` + `DELETE` both on `/api/students/:id`, keyed by `path`); the sticky enrol bar was translucent so trust numbers ghosted through it half-clipped (that bar was later removed at the user's request); `StickyCallbackCTA` now hides on this route only via a `usePathname` guard.
+- **Edits**: `src/data/locationPages.ts` (MERN entry meta/H1 copy only), `src/app/globals.css` (namespaced `.mern-lp` token/keyframe block, additive), `src/components/layout/StickyCallbackCTA.tsx` (`HIDDEN_ON` pathname guard).
+- Verified: `tsc` + `eslint` + `next build` compile clean; walked in headless Chrome, no console errors. Not verified: live `/api/leads` POST and GA/Ads firing (needs a Vercel preview; no local backend). See `ROADMAP.md` "MERN Stack course page — full premium redesign".
+
 ## 2026-08-19
 
 - **New**: Data Analytics paid-ads landing page at `/lp/data-analytics-course` (outside the `(public)` route group — no site nav/footer, `noindex`), live at `webigeeks.in` via host-based routing in `proxy.ts`. Two lead-capture forms (hero qualifying form + curriculum-download modal), both posting to the real `/api/leads`. Curriculum content and the downloadable PDF match the business owner's actual official curriculum deck.

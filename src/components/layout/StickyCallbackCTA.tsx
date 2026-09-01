@@ -1,12 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, X, Send, User, Mail, CheckCircle2 } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { API_BASE_URL } from "@/lib/apiBaseUrl";
 
+// Routes that bring their own conversion UI and don't want the global
+// bottom-centre pill competing with it.
+const HIDDEN_ON: string[] = ["/mern-course-gurugram"];
+
 export default function StickyCallbackCTA() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,6 +49,8 @@ export default function StickyCallbackCTA() {
       setIsSubmitting(false);
     }
   };
+
+  if (HIDDEN_ON.includes(pathname)) return null;
 
   return (
     <>
