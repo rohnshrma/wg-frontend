@@ -3,7 +3,15 @@ import { Inter } from "next/font/google";
 import JsonLd from "@/components/seo/JsonLd";
 import GoogleAnalytics from "@/components/seo/GoogleAnalytics";
 import { organizationSchema } from "@/lib/schema";
+import { getCurrentTenant } from "@/lib/tenant";
 import "./globals.css";
+
+// Only accept colors that already look like valid CSS hex colors before
+// interpolating them into an inline <style> tag — the value comes from the
+// backend's tenant record (ultimately admin-entered), so this is a guard
+// against malformed/injected CSS rather than a trust boundary we expect to
+// actually trip in practice.
+const isHexColor = (value: string): boolean => /^#[0-9a-fA-F]{3,8}$/.test(value);
 
 const inter = Inter({
   variable: "--font-inter",
@@ -70,17 +78,45 @@ export const viewport: Viewport = {
   themeColor: "#1672B8",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const tenant = await getCurrentTenant();
+
+  // Overriding just the 3 base tokens is enough — every derived shade
+  // (`-dark`, `-light`, `-50`..`-900`) is defined in globals.css as a
+  // color-mix() of its base, so this single override cascades through
+  // hover states, tinted backgrounds, etc. across the whole site. `null`
+  // (backend down, no tenant resolved, local dev) means "do nothing": the
+  // hardcoded globals.css values are already the correct WebiGeeks default.
+  const colors = tenant?.colors;
+  const themeOverrides = colors
+    ? ([
+        ["--color-primary", colors.primary],
+        ["--color-secondary", colors.secondary],
+        ["--color-accent", colors.accent],
+      ] as const).filter(([, value]) => isHexColor(value))
+    : [];
+
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" />
         <meta name="theme-color" content="#1672B8" />
         <JsonLd data={organizationSchema} />
+        {themeOverrides.length > 0 && (
+          <style
+            id="tenant-theme"
+            // Runtime brand override for a resolved tenant — see the
+            // color-mix() derivation in globals.css. Values are checked
+            // against isHexColor() above before interpolation.
+            dangerouslySetInnerHTML={{
+              __html: `:root{${themeOverrides.map(([name, value]) => `${name}:${value};`).join("")}}`,
+            }}
+          />
+        )}
       </head>
       <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
         {children}

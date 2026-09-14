@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/layout/Navbar";
 import ResetPasswordContent from "./ResetPasswordContent";
+import { getCurrentTenant } from "@/lib/tenant";
 
 export const metadata: Metadata = {
   title: "Reset Password",
@@ -13,10 +14,10 @@ export default async function ResetPasswordPage({
 }: {
   params: Promise<{ token: string }>;
 }) {
-  const { token } = await params;
+  const [{ token }, tenant] = await Promise.all([params, getCurrentTenant()]);
   return (
     <>
-      <Navbar />
+      <Navbar tenant={tenant} />
       <main>
         <ResetPasswordContent token={token} />
       </main>

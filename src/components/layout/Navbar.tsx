@@ -16,12 +16,29 @@ import { navItems } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { useObfuscatedEmail } from "@/lib/useObfuscatedEmail";
+import type { TenantBranding } from "@/lib/tenant";
 
-export default function Navbar() {
+interface NavbarProps {
+  // Resolved server-side (see getCurrentTenant()) and passed down by the
+  // page/layout that renders <Navbar/> — undefined/null both mean "no
+  // tenant resolved," so name/logo fall back to the static WebiGeeks
+  // defaults below.
+  tenant?: Pick<TenantBranding, "name" | "logoUrl"> | null;
+}
+
+export default function Navbar({ tenant }: NavbarProps = {}) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const email = useObfuscatedEmail();
+
+  // The "Webi" + colored "Geeks" wordmark is a stylistic treatment specific
+  // to the WebiGeeks brand name — keep it only when that's actually the
+  // name in play (no tenant resolved, or a tenant literally named
+  // "WebiGeeks"). Any other tenant name renders as plain text.
+  const brandName = tenant?.name ?? siteConfig.name;
+  const isDefaultBrand = brandName === siteConfig.name;
+  const logoSrc = tenant?.logoUrl || "/images/logo-mark.png";
 
   // "/" must match exactly, but every other section should stay highlighted on
   // its detail pages too (/courses/react-basics still means "Courses").
@@ -93,10 +110,23 @@ export default function Navbar() {
           <nav className="flex items-center justify-between h-16 lg:h-[72px]">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group min-w-0">
-              <Image src="/images/logo-mark.png" alt="WebiGeeks" width={58} height={36} className="h-8 sm:h-9 w-auto shrink-0" loading="eager" />
+              {tenant?.logoUrl ? (
+                // Tenant-uploaded logos can live on any host, not just the
+                // res.cloudinary.com pattern next.config.ts allows for
+                // next/image — a plain <img> avoids a build-time error for
+                // logos on other domains.
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={logoSrc} alt={brandName} className="h-8 sm:h-9 w-auto shrink-0 object-contain" loading="eager" />
+              ) : (
+                <Image src={logoSrc} alt={brandName} width={58} height={36} className="h-8 sm:h-9 w-auto shrink-0" loading="eager" />
+              )}
               <div className="flex flex-col min-w-0">
                 <span className="text-base sm:text-lg font-extrabold tracking-tight text-text-primary leading-tight">
-                  Webi<span className="text-primary">Geeks</span>
+                  {isDefaultBrand ? (
+                    <>Webi<span className="text-primary">Geeks</span></>
+                  ) : (
+                    brandName
+                  )}
                 </span>
                 {/* Tagline is the first thing to go on a narrow phone — the
                     wordmark alone still identifies the brand. */}
@@ -207,9 +237,18 @@ export default function Navbar() {
                   className="flex items-center gap-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <Image src="/images/logo-mark.png" alt="WebiGeeks" width={52} height={32} className="h-8 w-auto" />
+                  {tenant?.logoUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={logoSrc} alt={brandName} className="h-8 w-auto object-contain" />
+                  ) : (
+                    <Image src={logoSrc} alt={brandName} width={52} height={32} className="h-8 w-auto" />
+                  )}
                   <span className="font-bold text-text-primary">
-                    Webi<span className="text-primary">Geeks</span>
+                    {isDefaultBrand ? (
+                      <>Webi<span className="text-primary">Geeks</span></>
+                    ) : (
+                      brandName
+                    )}
                   </span>
                 </Link>
                 <button

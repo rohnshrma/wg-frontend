@@ -13,6 +13,7 @@ import {
 import { siteConfig } from "@/config/site";
 import { locationPages } from "@/data/locationPages";
 import { useObfuscatedEmail } from "@/lib/useObfuscatedEmail";
+import type { TenantBranding } from "@/lib/tenant";
 
 const quickLinks = [
   { label: "Home", href: "/" },
@@ -41,10 +42,17 @@ const fallbackCourses = [
 
 export default function Footer({
   courses = fallbackCourses,
+  tenant,
 }: {
   courses?: { title: string; slug: string }[];
+  // See Navbar's matching prop — resolved server-side via getCurrentTenant()
+  // and passed down; undefined/null both fall back to the static defaults.
+  tenant?: Pick<TenantBranding, "name" | "logoUrl"> | null;
 }) {
   const email = useObfuscatedEmail();
+  const brandName = tenant?.name ?? siteConfig.name;
+  const isDefaultBrand = brandName === siteConfig.name;
+  const logoSrc = tenant?.logoUrl || "/images/logo-mark.png";
 
   return (
     <footer className="bg-surface-dark text-white/80 relative overflow-hidden">
@@ -82,11 +90,20 @@ export default function Footer({
           <div className="lg:col-span-1">
             <Link href="/" className="flex items-center gap-2.5 mb-5 group">
               <div className="w-10 h-10 rounded-xl bg-white/95 flex items-center justify-center shadow-lg group-hover:shadow-glow transition-shadow p-1.5">
-                <Image src="/images/logo-mark.png" alt="WebiGeeks" width={58} height={36} className="w-full h-full object-contain" />
+                {tenant?.logoUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={logoSrc} alt={brandName} className="w-full h-full object-contain" />
+                ) : (
+                  <Image src={logoSrc} alt={brandName} width={58} height={36} className="w-full h-full object-contain" />
+                )}
               </div>
               <div>
                 <span className="text-xl font-extrabold text-white">
-                  Webi<span className="text-primary-200">Geeks</span>
+                  {isDefaultBrand ? (
+                    <>Webi<span className="text-primary-200">Geeks</span></>
+                  ) : (
+                    brandName
+                  )}
                 </span>
                 <p className="text-[10px] text-white/40 uppercase tracking-widest">
                   Your AI Skill Partner
@@ -234,11 +251,15 @@ export default function Footer({
       <div className="border-t border-white/10">
         <div className="container-custom py-5 flex flex-col md:flex-row items-center justify-between gap-3">
           <p className="text-sm text-white/40 flex items-center gap-2">
-            © {new Date().getFullYear()} WebiGeeks. All rights reserved.
+            © {new Date().getFullYear()} {brandName}. All rights reserved.
             <Link href="/privacy-policy" className="hover:text-white/80 transition-colors">
               Privacy Policy
             </Link>
           </p>
+          {/* Platform attribution — deliberately always "WebiGeeks" (the
+              product vendor), not the tenant's brandName, matching how
+              white-labeled SaaS footers usually keep a "powered by"
+              credit regardless of which tenant is rendering the page. */}
           <p className="text-sm text-white/40 flex items-center gap-1">
             Made with <Heart className="w-3.5 h-3.5 text-destructive fill-destructive" /> by WebiGeeks
           </p>
