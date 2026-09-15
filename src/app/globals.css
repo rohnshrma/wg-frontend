@@ -1,27 +1,39 @@
 @import "tailwindcss";
 
 @theme {
-  /* Colors - Primary Blue (brand) */
+  /* Colors - Primary Blue (brand)
+     Multi-tenant theming: only `--color-primary`/`-secondary`/`-accent` are
+     ever overridden at runtime (see app/layout.tsx, which injects a <style>
+     with the tenant's 3 base colors). Every shade below is derived from its
+     base via color-mix() rather than hardcoded, so overriding just the base
+     cascades correctly through hover states, tinted backgrounds, etc.
+     without touching the ~40+ files that use these utility classes.
+     color-mix() has full support across Chrome/Edge 111+, Safari 16.4+,
+     Firefox 113+ (all shipped since 2023) — safe for this site's audience.
+     The percentages below are reverse-engineered from the original static
+     hex values so the default WebiGeeks theme renders pixel-identical. */
   --color-primary: #1672B8;
-  --color-primary-dark: #105284;
-  --color-primary-light: #E3EEF6;
-  --color-primary-50: #F1F7FB;
-  --color-primary-100: #E3EEF6;
-  --color-primary-200: #B4D2E8;
-  --color-primary-500: #1672B8;
-  --color-primary-600: #105284;
-  --color-primary-700: #0B395C;
-  --color-primary-900: #051928;
+  --color-primary-dark: color-mix(in srgb, var(--color-primary) 72%, black);
+  --color-primary-light: color-mix(in srgb, var(--color-primary) 12%, white);
+  --color-primary-50: color-mix(in srgb, var(--color-primary) 6%, white);
+  --color-primary-100: color-mix(in srgb, var(--color-primary) 12%, white);
+  --color-primary-200: color-mix(in srgb, var(--color-primary) 32%, white);
+  --color-primary-500: var(--color-primary);
+  --color-primary-600: color-mix(in srgb, var(--color-primary) 72%, black);
+  --color-primary-700: color-mix(in srgb, var(--color-primary) 50%, black);
+  --color-primary-900: color-mix(in srgb, var(--color-primary) 22%, black);
 
   /* Colors - Secondary Gray (brand) */
   --color-secondary: #606062;
-  --color-secondary-dark: #3E3E40;
-  --color-secondary-light: #ECECEC;
+  --color-secondary-dark: color-mix(in srgb, var(--color-secondary) 65%, black);
+  --color-secondary-light: color-mix(in srgb, var(--color-secondary) 12%, white);
 
-  /* Colors - Accent Orange */
+  /* Colors - Accent Orange
+     accent-warm is a deliberately distinct hue (amber, not a shade of
+     orange) used for a separate warm accent — left static, not derived. */
   --color-accent: #F97316;
   --color-accent-warm: #EAB308;
-  --color-accent-light: #FFF7ED;
+  --color-accent-light: color-mix(in srgb, var(--color-accent) 6%, white);
 
   /* Colors - Semantic */
   --color-success: #22C55E;

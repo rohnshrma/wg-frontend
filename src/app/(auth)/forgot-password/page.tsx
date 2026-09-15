@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/layout/Navbar";
 import ForgotPasswordContent from "./ForgotPasswordContent";
+import { getCurrentTenant } from "@/lib/tenant";
 
 export const metadata: Metadata = {
   title: "Forgot Password",
@@ -8,10 +9,11 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function ForgotPasswordPage() {
+export default async function ForgotPasswordPage() {
+  const tenant = await getCurrentTenant();
   return (
     <>
-      <Navbar />
+      <Navbar tenant={tenant} />
       <main><ForgotPasswordContent /></main>
     </>
   );
