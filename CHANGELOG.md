@@ -2,6 +2,11 @@
 
 Notable changes to the frontend. Full context and rationale for each entry lives in the backend's `ROADMAP.md` (shared source of truth across both repos); this file is a scannable index.
 
+## 2026-09-15
+
+- **Bug fix**: `InquiryPopup`, `StickyCallbackCTA`, and `CourseDetailContent`'s enroll form all showed "Thank You" and reset silently on any failed `/api/leads` submission (no `res.ok` check, empty `catch`) — a 429/500/validation error was indistinguishable from success. Now checks `res.ok`, shows the backend's message for a 4xx, a phone-number fallback for a 5xx/network failure, matching the pattern already used by the `lp/*/submitLead.ts` helpers.
+- See `ROADMAP.md` "Enquiry Pipeline never received website leads" for full detail — this was a collateral bug found while investigating why website enquiries weren't reaching the admin CRM pipeline.
+
 ## 2026-08-31
 
 - **New**: full bespoke redesign of `/mern-course-gurugram` (premium dark developer-bootcamp landing page). Own component folder under `src/app/(public)/mern-course-gurugram/` (16 new files); no longer renders the shared `location-pages/CourseLocationPage.tsx` template — the other 11 `*-course-gurugram` pages are untouched. Stays in `(public)` (keeps navbar/footer/canonical/sitemap/reciprocal link).
