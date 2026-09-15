@@ -16,6 +16,7 @@ export default function StickyCallbackCTA() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -26,17 +27,28 @@ export default function StickyCallbackCTA() {
   const handleClose = () => {
     setIsOpen(false);
     setIsSubmitted(false);
+    setError(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
     try {
-      await fetch(`${API_BASE_URL}/leads`, {
+      const res = await fetch(`${API_BASE_URL}/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...formData, source: "sticky_cta" }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const isClientError = res.status >= 400 && res.status < 500;
+        setError(
+          (isClientError && data?.message) ||
+            `Something went wrong on our end. Please try again, or call us on ${siteConfig.contact.phone}.`
+        );
+        return;
+      }
       setIsSubmitted(true);
       setTimeout(() => {
         setIsOpen(false);
@@ -44,7 +56,7 @@ export default function StickyCallbackCTA() {
         setFormData({ name: "", phone: "", email: "", courseInterested: "" });
       }, 2500);
     } catch {
-      // silently fail
+      setError(`Network error — check your connection, or call us on ${siteConfig.contact.phone}.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -161,6 +173,11 @@ export default function StickyCallbackCTA() {
                           </option>
                         ))}
                       </select>
+                      {error && (
+                        <p className="text-sm text-destructive text-center" role="alert">
+                          {error}
+                        </p>
+                      )}
                       <button
                         type="submit"
                         disabled={isSubmitting}

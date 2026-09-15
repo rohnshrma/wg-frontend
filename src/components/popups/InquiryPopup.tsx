@@ -20,6 +20,7 @@ export default function InquiryPopup() {
   const [isMinimized, setIsMinimized] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -49,8 +50,9 @@ export default function InquiryPopup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
     try {
-      await fetch(
+      const res = await fetch(
         `${API_BASE_URL}/leads`,
         {
           method: "POST",
@@ -58,13 +60,22 @@ export default function InquiryPopup() {
           body: JSON.stringify({ ...formData, source: "popup" }),
         }
       );
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const isClientError = res.status >= 400 && res.status < 500;
+        setError(
+          (isClientError && data?.message) ||
+            `Something went wrong on our end. Please try again, or call us on ${siteConfig.contact.phone}.`
+        );
+        return;
+      }
       setIsSubmitted(true);
       setTimeout(() => {
         setIsOpen(false);
         setIsMinimized(false);
       }, 3000);
     } catch {
-      // silently fail
+      setError(`Network error — check your connection, or call us on ${siteConfig.contact.phone}.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -191,6 +202,11 @@ export default function InquiryPopup() {
                           </option>
                         ))}
                       </select>
+                      {error && (
+                        <p className="text-sm text-destructive text-center" role="alert">
+                          {error}
+                        </p>
+                      )}
                       <button
                         type="submit"
                         disabled={isSubmitting}

@@ -39,6 +39,7 @@ export default function CourseDetailContent({
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({ name: "", phone: "", email: "" });
 
   const gradient = courseGradient(course.slug);
@@ -52,8 +53,9 @@ export default function CourseDetailContent({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
     try {
-      await fetch(`${API_BASE_URL}/leads`, {
+      const res = await fetch(`${API_BASE_URL}/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -62,9 +64,18 @@ export default function CourseDetailContent({
           source: "course_page",
         }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        const isClientError = res.status >= 400 && res.status < 500;
+        setError(
+          (isClientError && data?.message) ||
+            `Something went wrong on our end. Please try again, or call us on ${siteConfig.contact.phone}.`
+        );
+        return;
+      }
       setIsSubmitted(true);
     } catch {
-      /* ignore */
+      setError(`Network error — check your connection, or call us on ${siteConfig.contact.phone}.`);
     } finally {
       setIsSubmitting(false);
     }
@@ -171,6 +182,11 @@ export default function CourseDetailContent({
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                     <input type="email" placeholder="Email" required value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" />
                   </div>
+                  {error && (
+                    <p className="text-sm text-destructive text-center" role="alert">
+                      {error}
+                    </p>
+                  )}
                   <button type="submit" disabled={isSubmitting} className="w-full py-3 rounded-xl gradient-accent text-white font-bold text-sm shadow-md hover:shadow-glow-accent transition-all disabled:opacity-50 flex items-center justify-center gap-2">
                     {isSubmitting ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><Send className="w-4 h-4" />Enroll Now</>}
                   </button>
