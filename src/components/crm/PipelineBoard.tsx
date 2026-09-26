@@ -8,8 +8,10 @@ import {
   MouseSensor,
   TouchSensor,
   closestCorners,
+  pointerWithin,
   useSensor,
   useSensors,
+  type CollisionDetection,
   type DragEndEvent,
   type DragStartEvent,
 } from "@dnd-kit/core";
@@ -28,6 +30,20 @@ interface Props {
   onRevert: (snapshot: Enquiry[]) => void;
   onError: (message: string) => void;
 }
+
+/**
+ * Whatever is under the pointer wins; closestCorners is only the fallback
+ * (keyboard drags, or a pointer sitting in the gap between columns).
+ * closestCorners on its own compares the dragged card's corners with every
+ * droppable's corners, so a tall *empty* column — whose bottom corners are far
+ * away — always loses to a card-sized neighbour in the next column. That made
+ * an empty stage impossible to drop into: aiming at Demo Done landed the card
+ * in Demo Scheduled or Admitted instead.
+ */
+export const pipelineCollisionDetection: CollisionDetection = (args) => {
+  const underPointer = pointerWithin(args);
+  return underPointer.length > 0 ? underPointer : closestCorners(args);
+};
 
 export default function PipelineBoard({
   enquiries,
@@ -105,7 +121,7 @@ export default function PipelineBoard({
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCorners}
+      collisionDetection={pipelineCollisionDetection}
       // acceleration scales scroll speed linearly — verified against dnd-kit's
       // source (dist/core.esm.js): every 5ms it calls
       // scrollContainer.scrollBy(x, y) where the amount is
