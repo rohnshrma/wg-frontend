@@ -5,7 +5,7 @@ import LoginContent from "./LoginContent";
 
 export const metadata: Metadata = {
   title: "Login",
-  description: "Login to your WebiGeeks student or admin dashboard.",
+  description: "Sign in to your WebiGeeks Digital account.",
   robots: { index: false, follow: false },
 };
 

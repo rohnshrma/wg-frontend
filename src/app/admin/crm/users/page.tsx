@@ -162,7 +162,7 @@ export default function AdminCrmUsersPage() {
               type="email"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              placeholder="name@webigeeks.com"
+              placeholder="name@webigeeksdigital.com"
               className={inputClass("email")}
             />
             {formErrors.email && <p className="mt-1 text-xs text-destructive">{formErrors.email}</p>}

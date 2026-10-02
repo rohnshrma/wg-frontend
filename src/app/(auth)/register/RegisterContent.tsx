@@ -55,7 +55,7 @@ export default function RegisterContent() {
         <Hero3DBackground variant="compact" />
         <div className="relative text-center px-12">
           <div className="w-24 h-24 mx-auto rounded-2xl bg-white/95 flex items-center justify-center mb-6 shadow-2xl p-3">
-            <Image src="/images/logo-mark.png" alt="WebiGeeks" width={116} height={72} className="w-full h-full object-contain" />
+            <Image src="/images/mark-color.png" alt="WebiGeeks Digital" width={116} height={72} className="w-full h-full object-contain" />
           </div>
           <h2 className="text-3xl font-extrabold text-white mb-3">Create Your Account</h2>
           <p className="text-white/50 text-lg leading-relaxed max-w-sm mx-auto">

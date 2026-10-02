@@ -51,16 +51,16 @@ export default function LoginContent() {
         <Hero3DBackground variant="compact" />
         <div className="relative text-center px-12">
           <div className="w-24 h-24 mx-auto rounded-2xl bg-white/95 flex items-center justify-center mb-6 shadow-2xl p-3">
-            <Image src="/images/logo-mark.png" alt="WebiGeeks" width={116} height={72} className="w-full h-full object-contain" />
+            <Image src="/images/mark-color.png" alt="WebiGeeks Digital" width={116} height={72} className="w-full h-full object-contain" />
           </div>
           <h2 className="text-3xl font-extrabold text-white mb-3">Welcome Back!</h2>
           <p className="text-white/50 text-lg leading-relaxed max-w-sm mx-auto">
-            Login to access your dashboard, track your progress, and manage your courses.
+            Sign in to manage outreach, leads, and your site content.
           </p>
           <div className="mt-8 flex justify-center gap-6 text-white/40 text-sm">
-            <span>📊 Track Progress</span>
-            <span>📚 Course Access</span>
-            <span>💳 Payments</span>
+            <span>Outreach CRM</span>
+            <span>Leads</span>
+            <span>Content</span>
           </div>
         </div>
       </div>
@@ -128,13 +128,6 @@ export default function LoginContent() {
           </div>
 
           <GoogleSignInButton label="Continue with Google" />
-
-          <p className="text-center text-sm text-text-secondary mt-6">
-            Don&apos;t have an account?{" "}
-            <Link href="/register" className="text-primary font-semibold hover:underline">
-              Register here
-            </Link>
-          </p>
         </motion.div>
       </div>
     </div>

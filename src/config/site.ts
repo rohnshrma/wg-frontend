@@ -7,7 +7,7 @@ export const siteConfig = {
 
   contact: {
     phone: "+91 8766367815",
-    email: "hello@webigeeksdigital.com",
+    email: "rohan@webigeeksdigital.com",
     whatsapp: "+918766367815",
     address: "Remote • India-based team serving global clients",
   },

@@ -7,26 +7,20 @@ import NextImage from "next/image";
 import {
   LayoutDashboard, Users, UserPlus, BookOpen, CreditCard, MessageSquare,
   Image, PenSquare, Bell, Settings, LogOut, Menu, X, ChevronRight, BarChart3,
-  KanbanSquare, UserCog,
+  KanbanSquare, UserCog, Target,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import { useUnreadNotifications } from "@/hooks/useUnreadNotifications";
 
 const iconMap: Record<string, any> = {
-  LayoutDashboard, Users, UserPlus, BookOpen, CreditCard, MessageSquare, Image, PenSquare, Bell, Settings, BarChart3, KanbanSquare, UserCog,
+  LayoutDashboard, Users, UserPlus, BookOpen, CreditCard, MessageSquare, Image, PenSquare, Bell, Settings, BarChart3, KanbanSquare, UserCog, Target,
 };
 
 const sidebarLinks = [
   { label: "Dashboard", href: "/admin", icon: "LayoutDashboard" },
-  { label: "Analytics", href: "/admin/analytics", icon: "BarChart3" },
-  { label: "CRM", href: "/admin/crm", icon: "LayoutDashboard" },
-  { label: "Enquiry Pipeline", href: "/admin/crm/pipeline", icon: "KanbanSquare" },
-  { label: "Team Accounts", href: "/admin/crm/users", icon: "UserCog" },
-  { label: "Students", href: "/admin/students", icon: "Users" },
-  { label: "Leads", href: "/admin/leads", icon: "UserPlus" },
-  { label: "Courses", href: "/admin/courses", icon: "BookOpen" },
-  { label: "Payments", href: "/admin/payments", icon: "CreditCard" },
+  { label: "Outreach CRM", href: "/admin/outreach", icon: "Target" },
+  { label: "Inbound Leads", href: "/admin/leads", icon: "UserPlus" },
   { label: "Testimonials", href: "/admin/testimonials", icon: "MessageSquare" },
   { label: "Gallery", href: "/admin/gallery", icon: "Image" },
   { label: "Blogs", href: "/admin/blogs", icon: "PenSquare" },
@@ -77,10 +71,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="flex items-center justify-between px-5 h-16 border-b border-white/10">
           <Link href="/admin" className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-white/95 flex items-center justify-center p-1">
-              <NextImage src="/images/logo-mark.png" alt="WebiGeeks" width={58} height={36} className="w-full h-full object-contain" />
+              <NextImage src="/images/mark-color.png" alt="WebiGeeks Digital" width={58} height={36} className="w-full h-full object-contain" />
             </div>
             <div>
-              <span className="font-extrabold text-white text-sm">WebiGeeks</span>
+              <span className="font-extrabold text-white text-sm">WebiGeeks Digital</span>
               <p className="text-[9px] text-white/40 uppercase tracking-widest">Admin Panel</p>
             </div>
           </Link>

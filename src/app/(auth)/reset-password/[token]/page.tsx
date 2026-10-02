@@ -4,7 +4,7 @@ import ResetPasswordContent from "./ResetPasswordContent";
 
 export const metadata: Metadata = {
   title: "Reset Password",
-  description: "Set a new password for your WebiGeeks account.",
+  description: "Set a new password for your WebiGeeks Digital account.",
   robots: { index: false, follow: false },
 };
 

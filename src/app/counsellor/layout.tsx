@@ -49,15 +49,15 @@ export default function CounsellorLayout({ children }: { children: React.ReactNo
           <Link href="/counsellor" className="flex items-center gap-2 min-w-0">
             <div className="w-8 h-8 rounded-lg bg-white/95 flex items-center justify-center p-1 shrink-0">
               <NextImage
-                src="/images/logo-mark.png"
-                alt="WebiGeeks"
+                src="/images/mark-color.png"
+                alt="WebiGeeks Digital"
                 width={58}
                 height={36}
                 className="w-full h-full object-contain"
               />
             </div>
             <div className="min-w-0">
-              <span className="font-extrabold text-white text-sm">WebiGeeks</span>
+              <span className="font-extrabold text-white text-sm">WebiGeeks Digital</span>
               <p className="text-[9px] text-white/40 uppercase tracking-widest">Counsellor</p>
             </div>
           </Link>

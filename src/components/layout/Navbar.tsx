@@ -57,13 +57,6 @@ export default function Navbar() {
 
             {/* Right controls */}
             <div className="flex items-center gap-3">
-              <Link
-                href="/contact"
-                className="hidden sm:inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-ink bg-white hover:bg-agency-accent hover:text-white rounded-full transition-colors duration-300"
-              >
-                Start a project
-                <ArrowUpRight className="w-4 h-4" />
-              </Link>
 
               <button
                 onClick={() => setIsMenuOpen(true)}

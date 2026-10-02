@@ -40,8 +40,8 @@ export default function ResetPasswordContent({ token }: { token: string }) {
     <div className="min-h-[calc(100vh-72px)] flex items-center justify-center px-6 py-12 bg-background">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md">
         <div className="flex items-center gap-2 mb-8">
-          <Image src="/images/logo-mark.png" alt="WebiGeeks" width={58} height={36} className="h-9 w-auto" />
-          <span className="text-lg font-extrabold">Webi<span className="text-primary">Geeks</span></span>
+          <Image src="/images/mark-color.png" alt="WebiGeeks Digital" width={58} height={36} className="h-9 w-auto" />
+          <span className="text-lg font-extrabold">Webi<span className="text-primary">Geeks</span> Digital</span>
         </div>
 
         {isDone ? (

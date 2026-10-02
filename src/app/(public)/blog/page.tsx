@@ -8,7 +8,7 @@ import { pageMetadata } from "@/lib/seo";
 // testimonials/page.tsx — unindex until real agency posts replace them.
 export const metadata: Metadata = pageMetadata({
   title: "Blog",
-  description: "Read articles on Data Science, AI, Web Development, career tips, and tech trends from the WebiGeeks team.",
+  description: "Read articles on Data Science, AI, Web Development, career tips, and tech trends from the WebiGeeks Digital team.",
   path: "/blog",
   noindex: true,
 });

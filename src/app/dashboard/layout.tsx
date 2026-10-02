@@ -68,9 +68,9 @@ export default function DashboardLayout({
         {/* Logo */}
         <div className="flex items-center justify-between px-5 h-16 border-b border-border">
           <Link href="/dashboard" className="flex items-center gap-2">
-            <Image src="/images/logo-mark.png" alt="WebiGeeks" width={58} height={36} className="h-8 w-auto" />
+            <Image src="/images/mark-color.png" alt="WebiGeeks Digital" width={58} height={36} className="h-8 w-auto" />
             <span className="font-extrabold text-text-primary">
-              Webi<span className="text-primary">Geeks</span>
+              Webi<span className="text-primary">Geeks</span> Digital
             </span>
           </Link>
           <button

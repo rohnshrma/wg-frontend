@@ -2,16 +2,16 @@
 
 @theme {
   /* Colors - Primary Blue (brand) */
-  --color-primary: #1672B8;
-  --color-primary-dark: #105284;
-  --color-primary-light: #E3EEF6;
-  --color-primary-50: #F1F7FB;
-  --color-primary-100: #E3EEF6;
-  --color-primary-200: #B4D2E8;
-  --color-primary-500: #1672B8;
-  --color-primary-600: #105284;
-  --color-primary-700: #0B395C;
-  --color-primary-900: #051928;
+  --color-primary: #0038FF;
+  --color-primary-dark: #002BC4;
+  --color-primary-light: #E1E8FF;
+  --color-primary-50: #F0F4FF;
+  --color-primary-100: #E1E8FF;
+  --color-primary-200: #B3C4FF;
+  --color-primary-500: #0038FF;
+  --color-primary-600: #002BC4;
+  --color-primary-700: #001E8A;
+  --color-primary-900: #000A2E;
 
   /* Colors - Secondary Gray (brand) */
   --color-secondary: #606062;
@@ -34,7 +34,7 @@
   /* Colors - Neutral */
   --color-background: #FAFBFF;
   --color-surface: #FFFFFF;
-  --color-surface-dark: #0F172A;
+  --color-surface-dark: #0D0D0D;
   --color-text-primary: #0F172A;
   --color-text-secondary: #475569;
   --color-text-muted: #64748B;
@@ -287,7 +287,7 @@ svg {
 }
 
 .gradient-hero {
-  background: linear-gradient(135deg, #0F172A 0%, #0B395C 40%, #1672B8 100%);
+  background: linear-gradient(135deg, #0D0D0D 0%, #001E8A 40%, #0038FF 100%);
 }
 
 /* Glass effect */
