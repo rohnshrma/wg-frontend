@@ -14,8 +14,10 @@ import {
   GraduationCap,
   Mail,
   MapPin,
+  PauseCircle,
   Pencil,
   Phone,
+  PlayCircle,
   Smartphone,
   Trash2,
   User,
@@ -27,6 +29,8 @@ import api from "@/lib/api";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import InstallmentPlanModal from "@/components/admin/InstallmentPlanModal";
 import ConfirmDeleteModal from "@/components/admin/ConfirmDeleteModal";
+import PauseAccountModal from "@/components/admin/PauseAccountModal";
+import ResumeAccountModal from "@/components/admin/ResumeAccountModal";
 import type { Student } from "@/types/student";
 
 const statusClass: Record<Student["status"], string> = {
@@ -44,6 +48,8 @@ export default function AdminStudentDetailPage() {
   const [isActing, setIsActing] = useState(false);
   const [showInstallments, setShowInstallments] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [showPause, setShowPause] = useState(false);
+  const [showResume, setShowResume] = useState(false);
   const [mandate, setMandate] = useState<{ status: string } | null>(null);
   const [isEditingFees, setIsEditingFees] = useState(false);
   const [feesInput, setFeesInput] = useState("");
@@ -142,6 +148,21 @@ export default function AdminStudentDetailPage() {
               <CalendarClock className="w-3.5 h-3.5" /> Installments
             </button>
           )}
+          {student.isPaused ? (
+            <button
+              onClick={() => setShowResume(true)}
+              className="px-3 py-1.5 rounded-lg bg-success text-white text-xs font-semibold flex items-center gap-1"
+            >
+              <PlayCircle className="w-3.5 h-3.5" /> Resume Account
+            </button>
+          ) : (
+            <button
+              onClick={() => setShowPause(true)}
+              className="px-3 py-1.5 rounded-lg border border-destructive text-destructive text-xs font-semibold flex items-center gap-1 hover:bg-destructive-light"
+            >
+              <PauseCircle className="w-3.5 h-3.5" /> Pause Account
+            </button>
+          )}
           <button
             onClick={() => setShowDelete(true)}
             className="px-3 py-1.5 rounded-lg border border-border text-destructive text-xs font-semibold flex items-center gap-1 hover:bg-destructive-light"
@@ -152,6 +173,19 @@ export default function AdminStudentDetailPage() {
       </div>
 
       {error && <div className="flex items-center gap-2 px-4 py-3 rounded-lg bg-destructive-light text-destructive text-sm"><AlertCircle className="w-4 h-4" /> {error}</div>}
+      {student.isPaused && (
+        <div className="flex items-start gap-2 px-4 py-3 rounded-lg bg-destructive-light text-destructive text-sm">
+          <PauseCircle className="w-4 h-4 mt-0.5 shrink-0" />
+          <div>
+            <p className="font-semibold">This account is paused{student.pausedAt ? ` since ${formatDate(student.pausedAt)}` : ""}.</p>
+            {student.pauseReason && <p className="mt-0.5">Reason: {student.pauseReason}</p>}
+            <p className="mt-0.5 text-xs text-destructive/80">
+              The student can still log in — they&apos;ll see this reason in a popup. It stays paused
+              until you resume it{student.pauseCategory === "fee_payment" ? " with the payment on record" : ""}.
+            </p>
+          </div>
+        </div>
+      )}
       {feesWarning && (
         <div className="flex items-start gap-2 px-4 py-3 rounded-lg bg-warning-light text-warning text-sm">
           <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" /> {feesWarning}
@@ -338,6 +372,33 @@ export default function AdminStudentDetailPage() {
           onConfirm={async () => {
             await api.delete(`/students/${student._id}`);
             router.push("/admin/students");
+          }}
+        />
+      )}
+
+      {showPause && (
+        <PauseAccountModal
+          studentId={student._id}
+          studentName={student.fullName}
+          studentEmail={student.email}
+          onClose={() => setShowPause(false)}
+          onSuccess={async (warning) => {
+            setShowPause(false);
+            setError(warning || "");
+            await load();
+          }}
+        />
+      )}
+
+      {showResume && (
+        <ResumeAccountModal
+          studentId={student._id}
+          studentName={student.fullName}
+          pauseCategory={student.pauseCategory}
+          onClose={() => setShowResume(false)}
+          onSuccess={async () => {
+            setShowResume(false);
+            await load();
           }}
         />
       )}

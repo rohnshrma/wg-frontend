@@ -9,7 +9,9 @@ import {
   LayoutGrid,
   List,
   Mail,
+  PauseCircle,
   Phone,
+  PlayCircle,
   Search,
   Trash2,
   User,
@@ -20,6 +22,8 @@ import {
 import api from "@/lib/api";
 import InstallmentPlanModal from "@/components/admin/InstallmentPlanModal";
 import ConfirmDeleteModal from "@/components/admin/ConfirmDeleteModal";
+import PauseAccountModal from "@/components/admin/PauseAccountModal";
+import ResumeAccountModal from "@/components/admin/ResumeAccountModal";
 
 type CourseSummary = {
   title?: string;
@@ -38,6 +42,8 @@ type Student = {
   createdAt?: string;
   rejectionReason?: string;
   pendingAmount?: number;
+  isPaused?: boolean;
+  pauseCategory?: "fee_payment" | "policy_violation" | "other";
 };
 
 const statusClass: Record<Student["status"], string> = {
@@ -57,6 +63,8 @@ export default function AdminStudentsPage() {
   const [busyId, setBusyId] = useState("");
   const [installmentModalStudent, setInstallmentModalStudent] = useState<Student | null>(null);
   const [deleteModalStudent, setDeleteModalStudent] = useState<Student | null>(null);
+  const [pauseModalStudent, setPauseModalStudent] = useState<Student | null>(null);
+  const [resumeModalStudent, setResumeModalStudent] = useState<Student | null>(null);
   const [view, setView] = useState<"list" | "grid">("list");
 
   useEffect(() => {
@@ -143,6 +151,24 @@ export default function AdminStudentsPage() {
       </button>
     );
 
+    const pauseResumeButton = student.isPaused ? (
+      <button
+        onClick={(e) => { stop(e); setResumeModalStudent(student); }}
+        title="Resume account"
+        className="p-1.5 rounded-lg border border-success text-success hover:bg-success-light"
+      >
+        <PlayCircle className="w-3.5 h-3.5" />
+      </button>
+    ) : (
+      <button
+        onClick={(e) => { stop(e); setPauseModalStudent(student); }}
+        title="Pause account"
+        className="p-1.5 rounded-lg border border-border text-destructive hover:bg-destructive-light"
+      >
+        <PauseCircle className="w-3.5 h-3.5" />
+      </button>
+    );
+
     if (student.status === "pending") {
       return (
         <div className="flex gap-2">
@@ -160,6 +186,7 @@ export default function AdminStudentsPage() {
           >
             <XCircle className="w-3.5 h-3.5" /> Reject
           </button>
+          {pauseResumeButton}
           {deleteButton}
         </div>
       );
@@ -173,6 +200,7 @@ export default function AdminStudentsPage() {
           >
             <CalendarClock className="w-3.5 h-3.5" /> Installments
           </button>
+          {pauseResumeButton}
           {deleteButton}
         </div>
       );
@@ -182,6 +210,7 @@ export default function AdminStudentsPage() {
         <span className="text-xs text-text-muted flex items-center gap-1">
           <UserX className="w-3.5 h-3.5" /> No action
         </span>
+        {pauseResumeButton}
         {deleteButton}
       </div>
     );
@@ -267,9 +296,16 @@ export default function AdminStudentsPage() {
                     <td className="px-4 py-3 text-text-secondary">{student.studentContactNumber || "-"}</td>
                     <td className="px-4 py-3 text-text-secondary">{student.courseId?.title || "-"}</td>
                     <td className="px-4 py-3">
-                      <span className={`px-2.5 py-1 rounded-full text-xs font-semibold capitalize ${statusClass[student.status]}`}>
-                        {student.status}
-                      </span>
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <span className={`px-2.5 py-1 rounded-full text-xs font-semibold capitalize ${statusClass[student.status]}`}>
+                          {student.status}
+                        </span>
+                        {student.isPaused && (
+                          <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-destructive-light text-destructive flex items-center gap-1">
+                            <PauseCircle className="w-3 h-3" /> Paused
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-4 py-3">{actionButtons(student)}</td>
                   </tr>
@@ -309,10 +345,17 @@ export default function AdminStudentsPage() {
                 <p className="text-xs text-text-secondary">{student.courseId?.title || "No course assigned"}</p>
               </div>
 
-              <div className="flex items-center justify-between pt-3 border-t border-border">
-                <span className={`px-2.5 py-1 rounded-full text-xs font-semibold capitalize ${statusClass[student.status]}`}>
-                  {student.status}
-                </span>
+              <div className="flex items-center justify-between pt-3 border-t border-border gap-2">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className={`px-2.5 py-1 rounded-full text-xs font-semibold capitalize ${statusClass[student.status]}`}>
+                    {student.status}
+                  </span>
+                  {student.isPaused && (
+                    <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-destructive-light text-destructive flex items-center gap-1">
+                      <PauseCircle className="w-3 h-3" /> Paused
+                    </span>
+                  )}
+                </div>
                 <div onClick={(e) => e.preventDefault()}>{actionButtons(student, true)}</div>
               </div>
             </Link>
@@ -337,6 +380,33 @@ export default function AdminStudentsPage() {
           onConfirm={async () => {
             await api.delete(`/students/${deleteModalStudent._id}`);
             setDeleteModalStudent(null);
+            await fetchStudents();
+          }}
+        />
+      )}
+
+      {pauseModalStudent && (
+        <PauseAccountModal
+          studentId={pauseModalStudent._id}
+          studentName={pauseModalStudent.fullName}
+          studentEmail={pauseModalStudent.email}
+          onClose={() => setPauseModalStudent(null)}
+          onSuccess={async (warning) => {
+            setPauseModalStudent(null);
+            setError(warning || "");
+            await fetchStudents();
+          }}
+        />
+      )}
+
+      {resumeModalStudent && (
+        <ResumeAccountModal
+          studentId={resumeModalStudent._id}
+          studentName={resumeModalStudent.fullName}
+          pauseCategory={resumeModalStudent.pauseCategory}
+          onClose={() => setResumeModalStudent(null)}
+          onSuccess={async () => {
+            setResumeModalStudent(null);
             await fetchStudents();
           }}
         />

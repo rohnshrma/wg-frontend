@@ -47,6 +47,15 @@ export interface Student {
   rejectionReason?: string;
 
   isProfileLocked: boolean;
+
+  isPaused: boolean;
+  pauseCategory?: "fee_payment" | "policy_violation" | "other";
+  pauseReason?: string;
+  pausedAt?: string;
+  resumedAt?: string;
+  resumePaymentMethod?: "upi" | "cash" | "bank_transfer" | "other";
+  resumeTransactionId?: string;
+
   createdAt: string;
   updatedAt: string;
 }

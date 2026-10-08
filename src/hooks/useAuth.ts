@@ -30,6 +30,9 @@ export function useAuth(options: UseAuthOptions = {}) {
         isActive: res.data.data.user.isActive,
         isEmailVerified: res.data.data.user.isEmailVerified,
         lastLogin: res.data.data.user.lastLogin,
+        isPaused: res.data.data.user.isPaused,
+        pauseReason: res.data.data.user.pauseReason,
+        pauseCategory: res.data.data.user.pauseCategory,
       };
       setUser(fetched);
       return fetched;

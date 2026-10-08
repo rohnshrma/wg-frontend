@@ -8,4 +8,7 @@ export interface User {
   isActive?: boolean;
   isEmailVerified?: boolean;
   lastLogin?: string;
+  isPaused?: boolean;
+  pauseReason?: string;
+  pauseCategory?: "fee_payment" | "policy_violation" | "other";
 }

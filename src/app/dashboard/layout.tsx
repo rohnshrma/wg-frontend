@@ -19,6 +19,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import { useUnreadNotifications } from "@/hooks/useUnreadNotifications";
+import AccountPausedModal from "@/components/shared/AccountPausedModal";
 
 const sidebarLinks = [
   { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
@@ -38,6 +39,13 @@ export default function DashboardLayout({
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { user, isLoading, logout } = useAuth({ requireAuth: true, requireRole: "student" });
   const unreadCount = useUnreadNotifications();
+  const [showPausedModal, setShowPausedModal] = useState(false);
+
+  // Re-arm the popup any time the account is (still) paused — e.g. on a
+  // fresh login or a page refresh, not just the first mount.
+  useEffect(() => {
+    if (user?.isPaused) setShowPausedModal(true);
+  }, [user?.isPaused]);
 
   // Without this, a scroll gesture anywhere over the open mobile sidebar
   // falls through to the page behind it instead of staying inside the
@@ -163,6 +171,14 @@ export default function DashboardLayout({
         {/* Page Content */}
         <main className="flex-1 p-4 lg:p-6 min-w-0">{children}</main>
       </div>
+
+      {showPausedModal && (
+        <AccountPausedModal
+          reason={user.pauseReason}
+          category={user.pauseCategory}
+          onClose={() => setShowPausedModal(false)}
+        />
+      )}
     </div>
   );
 }
