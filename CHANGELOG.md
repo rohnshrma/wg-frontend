@@ -6,6 +6,7 @@ Notable changes to the frontend. Full context and rationale for each entry lives
 
 - **New**: admin UI to pause/resume a student's account, from both `/admin/students` (list + grid) and the student detail page. New `components/admin/PauseAccountModal.tsx` — admin enters a reason, a live-updating email preview (subject + body) is generated from it and is fully editable before sending, confirmed with the admin's password (same `/auth/verify-password` gate `ConfirmDeleteModal` uses). Paused students get a red "Paused" badge plus a banner with the reason on the detail page.
 - Paused students can still log in. New `components/shared/AccountPausedModal.tsx`, shown from `dashboard/layout.tsx` on every dashboard load while `user.isPaused` is true — reason plus call/email buttons (`siteConfig.contact`), re-armed on each fetch of `/auth/me` so it reappears after a refresh, not just right after login.
+- `ResumeAccountModal` takes the **amount received** for a fee pause (alongside method + transaction ID) and shows the student's pending balance, rejecting an amount above it. The payment is recorded for real, so it lands in the student's payments tab, receipt and Paid/Pending figures. A "payment already recorded / waiving it" toggle lifts the pause without recording a second row.
 - Backend: `PATCH /api/students/:id/pause` / `/resume`; `isPaused`/`pauseReason` now flow through `useAuth`'s `User` type from `/auth/login` and `/auth/me`.
 
 ## 2026-09-15

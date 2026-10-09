@@ -395,6 +395,7 @@ export default function AdminStudentDetailPage() {
           studentId={student._id}
           studentName={student.fullName}
           pauseCategory={student.pauseCategory}
+          pendingAmount={student.pendingAmount}
           onClose={() => setShowResume(false)}
           onSuccess={async () => {
             setShowResume(false);

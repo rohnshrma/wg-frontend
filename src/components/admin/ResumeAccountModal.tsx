@@ -4,6 +4,7 @@ import { useState } from "react";
 import { PlayCircle, X } from "lucide-react";
 import api from "@/lib/api";
 import FormInput from "@/components/ui/FormInput";
+import { formatCurrency } from "@/lib/utils";
 
 type PaymentMethod = "upi" | "cash" | "bank_transfer" | "other";
 
@@ -11,8 +12,9 @@ interface ResumeAccountModalProps {
   studentId: string;
   studentName: string;
   pauseCategory?: "fee_payment" | "policy_violation" | "other";
+  pendingAmount?: number;
   onClose: () => void;
-  onSuccess: () => void;
+  onSuccess: (message?: string) => void;
 }
 
 const PAYMENT_METHODS: { value: PaymentMethod; label: string }[] = [
@@ -26,16 +28,26 @@ export default function ResumeAccountModal({
   studentId,
   studentName,
   pauseCategory,
+  pendingAmount,
   onClose,
   onSuccess,
 }: ResumeAccountModalProps) {
   const isFeePayment = pauseCategory === "fee_payment";
+  const [recordPayment, setRecordPayment] = useState(true);
+  const [amount, setAmount] = useState("");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("upi");
   const [transactionId, setTransactionId] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  const canSubmit = !isFeePayment || (paymentMethod && transactionId.trim());
+  const needsPaymentDetails = isFeePayment && recordPayment;
+  const amountValue = Number(amount);
+  const amountExceedsPending =
+    pendingAmount !== undefined && amountValue > pendingAmount && amountValue > 0;
+
+  const canSubmit =
+    !needsPaymentDetails ||
+    (amountValue > 0 && !amountExceedsPending && !!paymentMethod && !!transactionId.trim());
 
   const resume = async () => {
     if (!canSubmit) return;
@@ -43,11 +55,20 @@ export default function ResumeAccountModal({
     setIsSubmitting(true);
     setError("");
     try {
-      await api.patch(
+      const res = await api.patch(
         `/students/${studentId}/resume`,
-        isFeePayment ? { paymentMethod, transactionId: transactionId.trim() } : undefined
+        isFeePayment
+          ? needsPaymentDetails
+            ? {
+                recordPayment: true,
+                amount: amountValue,
+                paymentMethod,
+                transactionId: transactionId.trim(),
+              }
+            : { recordPayment: false }
+          : undefined
       );
-      onSuccess();
+      onSuccess(res.data?.message);
     } catch (err: any) {
       setError(err.response?.data?.message || "Could not resume this account. Please try again.");
     } finally {
@@ -82,42 +103,83 @@ export default function ResumeAccountModal({
             className="space-y-4"
           >
             <p className="text-sm text-text-secondary">
-              This account was paused for a pending fee payment. Record how the payment was received
-              before lifting the pause — this keeps a clear record of why access was restored.
+              This account was paused for a pending fee payment. Record the payment that resolves it
+              — it&apos;s added to their payment history, updates their balance, and sends them a
+              receipt.
             </p>
 
-            <div>
-              <label className="block text-sm font-medium text-text-primary mb-1.5">
-                Payment method
-              </label>
-              <div className="grid grid-cols-2 gap-2">
-                {PAYMENT_METHODS.map((opt) => (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => setPaymentMethod(opt.value)}
-                    className={`px-3 py-2 rounded-lg border text-sm font-semibold transition-colors ${
-                      paymentMethod === opt.value
-                        ? "border-success bg-success-light text-success"
-                        : "border-border text-text-secondary hover:bg-gray-50"
-                    }`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
+            {pendingAmount !== undefined && (
+              <div className="px-4 py-2.5 rounded-lg bg-warning-light text-warning text-sm font-semibold">
+                Pending balance: {formatCurrency(pendingAmount)}
               </div>
-            </div>
+            )}
 
-            <FormInput
-              label="Transaction / reference ID"
-              required
-              autoFocus
-              value={transactionId}
-              onChange={(e) => setTransactionId(e.target.value)}
-              placeholder={
-                paymentMethod === "cash" ? "e.g. Cash receipt #1234" : "e.g. UPI txn ID or bank ref no."
-              }
-            />
+            {recordPayment ? (
+              <>
+                <div>
+                  <FormInput
+                    label="Amount received"
+                    type="number"
+                    min={1}
+                    required
+                    autoFocus
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    placeholder="e.g. 5000"
+                    error={amountExceedsPending ? "More than the pending balance" : undefined}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-text-primary mb-1.5">
+                    Payment method
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {PAYMENT_METHODS.map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => setPaymentMethod(opt.value)}
+                        className={`px-3 py-2 rounded-lg border text-sm font-semibold transition-colors ${
+                          paymentMethod === opt.value
+                            ? "border-success bg-success-light text-success"
+                            : "border-border text-text-secondary hover:bg-gray-50"
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <FormInput
+                  label="Transaction / reference ID"
+                  required
+                  value={transactionId}
+                  onChange={(e) => setTransactionId(e.target.value)}
+                  placeholder={
+                    paymentMethod === "cash"
+                      ? "e.g. Cash receipt #1234"
+                      : "e.g. UPI txn ID or bank ref no."
+                  }
+                />
+              </>
+            ) : (
+              <p className="px-4 py-3 rounded-lg bg-gray-50 border border-border text-sm text-text-secondary">
+                No payment will be recorded — the pause is just lifted. Use this when you&apos;ve
+                already recorded the payment under Payments, or you&apos;re waiving it.
+              </p>
+            )}
+
+            <button
+              type="button"
+              onClick={() => setRecordPayment((v) => !v)}
+              className="text-xs text-primary font-semibold hover:underline"
+            >
+              {recordPayment
+                ? "Payment already recorded / waiving it →"
+                : "← Record the payment here instead"}
+            </button>
 
             <div className="flex gap-2">
               <button
@@ -134,8 +196,10 @@ export default function ResumeAccountModal({
               >
                 {isSubmitting ? (
                   <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : recordPayment ? (
+                  "Record Payment & Resume"
                 ) : (
-                  "Confirm Payment & Resume"
+                  "Resume Account"
                 )}
               </button>
             </div>

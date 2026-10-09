@@ -404,6 +404,7 @@ export default function AdminStudentsPage() {
           studentId={resumeModalStudent._id}
           studentName={resumeModalStudent.fullName}
           pauseCategory={resumeModalStudent.pauseCategory}
+          pendingAmount={resumeModalStudent.pendingAmount}
           onClose={() => setResumeModalStudent(null)}
           onSuccess={async () => {
             setResumeModalStudent(null);
