@@ -12,4 +12,5 @@ export interface Testimonial {
   source?: 'google' | 'manual';
   isActive: boolean;
   displayOrder: number;
+  createdAt: string;
 }

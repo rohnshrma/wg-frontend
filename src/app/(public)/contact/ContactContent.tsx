@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import dynamic from "next/dynamic";
+import { useActiveCourseTitles } from "@/hooks/useActiveCourseTitles";
 const Hero3DBackground = dynamic(() => import("@/components/three/Hero3DBackground"), { ssr: false });
 
 const contactInfo = [
@@ -58,6 +59,7 @@ const contactInfo = [
 ];
 
 export default function ContactContent() {
+  const courseTitles = useActiveCourseTitles();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -219,7 +221,7 @@ export default function ContactContent() {
                     className="w-full px-4 py-3 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none"
                   >
                     <option value="">Select Course of Interest</option>
-                    {siteConfig.courses.map((c) => (
+                    {courseTitles.map((c) => (
                       <option key={c} value={c}>{c}</option>
                     ))}
                     <option value="Other">Other</option>

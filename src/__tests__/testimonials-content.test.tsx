@@ -14,6 +14,7 @@ const makeTestimonial = (overrides: Partial<Testimonial> = {}): Testimonial => (
   rating: 5,
   isActive: true,
   displayOrder: 0,
+  createdAt: "2026-01-01T00:00:00.000Z",
   ...overrides,
 });
 

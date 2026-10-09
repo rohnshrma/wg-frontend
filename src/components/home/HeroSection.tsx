@@ -15,8 +15,8 @@ import {
   MessageSquare,
 } from "lucide-react";
 import Link from "next/link";
-import { siteConfig } from "@/config/site";
 import dynamic from "next/dynamic";
+import { useActiveCourseTitles } from "@/hooks/useActiveCourseTitles";
 // three.js + @react-three/fiber are large — code-split out of the initial
 // bundle instead of a static import, since this rendered on every page.
 const Hero3DBackground = dynamic(() => import("@/components/three/Hero3DBackground"), { ssr: false });
@@ -33,6 +33,7 @@ const techBadges = [
 ];
 
 export default function HeroSection() {
+  const courseTitles = useActiveCourseTitles();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -295,7 +296,7 @@ export default function HeroSection() {
                       className="w-full px-4 py-3 rounded-lg border border-border bg-background text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all appearance-none cursor-pointer"
                     >
                       <option value="">Select Course</option>
-                      {siteConfig.courses.map((course) => (
+                      {courseTitles.map((course) => (
                         <option key={course} value={course}>
                           {course}
                         </option>

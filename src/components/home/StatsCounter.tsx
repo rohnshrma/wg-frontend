@@ -4,12 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { GraduationCap, BookOpen, Award } from "lucide-react";
 import { siteConfig } from "@/config/site";
-
-const stats = [
-  { icon: GraduationCap, value: siteConfig.stats.batchesCompleted, suffix: "+", label: "Batches Completed" },
-  { icon: BookOpen, value: siteConfig.stats.courses, suffix: "+", label: "Courses Offered" },
-  { icon: Award, value: siteConfig.stats.yearsExperience, suffix: "+", label: "Years Experience" },
-];
+import { useActiveCourseTitles } from "@/hooks/useActiveCourseTitles";
 
 function AnimatedNumber({ value, suffix }: { value: number; suffix: string }) {
   const [count, setCount] = useState(0);
@@ -52,6 +47,16 @@ function AnimatedNumber({ value, suffix }: { value: number; suffix: string }) {
 }
 
 export default function StatsCounter() {
+  // Courses Offered is derived from the real, live-fetched course count
+  // (see useActiveCourseTitles) rather than a hardcoded number that drifts
+  // as courses are added/removed via the admin CMS.
+  const courseTitles = useActiveCourseTitles();
+  const stats = [
+    { icon: GraduationCap, value: siteConfig.stats.batchesCompleted, suffix: "+", label: "Batches Completed" },
+    { icon: BookOpen, value: courseTitles.length, suffix: "+", label: "Courses Offered" },
+    { icon: Award, value: siteConfig.stats.yearsExperience, suffix: "+", label: "Years Experience" },
+  ];
+
   return (
     <section className="py-16 gradient-primary relative overflow-hidden">
       <div className="absolute inset-0 opacity-10">

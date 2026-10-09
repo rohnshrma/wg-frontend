@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import TestimonialsContent from "./TestimonialsContent";
 import { getTestimonials } from "@/lib/testimonials";
 import { pageMetadata } from "@/lib/seo";
+import { testimonialsReviewSchema } from "@/lib/schema";
+import JsonLd from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = pageMetadata({
   title: "Testimonials",
@@ -11,5 +13,11 @@ export const metadata: Metadata = pageMetadata({
 
 export default async function TestimonialsPage() {
   const testimonials = await getTestimonials();
-  return <TestimonialsContent testimonials={testimonials} />;
+  const reviewSchema = testimonialsReviewSchema(testimonials);
+  return (
+    <>
+      {reviewSchema && <JsonLd data={reviewSchema} />}
+      <TestimonialsContent testimonials={testimonials} />
+    </>
+  );
 }

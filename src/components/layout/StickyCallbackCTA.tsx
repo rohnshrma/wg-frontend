@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Phone, X, Send, User, Mail, CheckCircle2 } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { API_BASE_URL } from "@/lib/apiBaseUrl";
+import { useActiveCourseTitles } from "@/hooks/useActiveCourseTitles";
 
 // Routes that bring their own conversion UI and don't want the global
 // bottom-centre pill competing with it.
@@ -13,6 +14,7 @@ const HIDDEN_ON: string[] = ["/mern-course-gurugram"];
 
 export default function StickyCallbackCTA() {
   const pathname = usePathname();
+  const courseTitles = useActiveCourseTitles();
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -167,7 +169,7 @@ export default function StickyCallbackCTA() {
                         className="w-full px-4 py-2.5 rounded-lg border border-border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary appearance-none"
                       >
                         <option value="">Select Course</option>
-                        {siteConfig.courses.map((c) => (
+                        {courseTitles.map((c) => (
                           <option key={c} value={c}>
                             {c}
                           </option>
